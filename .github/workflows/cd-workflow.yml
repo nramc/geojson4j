@@ -1,0 +1,79 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      releaseVersion:
+        description: 'Release Version'
+        default: '0.0.0'
+        type: string
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - name: Set up Java & Maven
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          server-id: ossrh
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+          gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+          gpg-passphrase: GPG_PASSPHRASE
+
+      - name: setup git properties for preparation
+        run: |
+          git config --global user.email "ramachandrannellai@gmail.com"
+          git config --global user.name "Deploy Bot"
+
+      - name: Prepare Release with specified version
+        run: mvn --batch-mode --no-transfer-progress -Pgithub -DpushChanges=true release:prepare release:perform -DscmCommentPrefix='chore:' -DreleaseVersion=${{ inputs.releaseVersion }} -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+        if: inputs.releaseVersion != '0.0.0' && inputs.releaseVersion != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          GPG_PRIVATE_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+
+      - name: Prepare Release with default minor version increment
+        run: mvn -B --batch-mode --no-transfer-progress -Pgithub -DpushChanges=true release:prepare release:perform -DscmCommentPrefix='chore:' -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+        if: inputs.releaseVersion == '0.0.0' || inputs.releaseVersion == ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          GPG_PRIVATE_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+
+      - name: Get Released version
+        run: |
+          echo "RELEASE_VERSION=$(git describe --tags $(git rev-list --tags --max-count=1))" >> "$GITHUB_ENV"
+          echo "Released Version: $RELEASE_VERSION"
+
+      - name: Create Release with Notes
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{env.RELEASE_VERSION}}
+          name: ${{env.RELEASE_VERSION}}
+          commit: main
+          generateReleaseNotes: true
+          draft: false
+          prerelease: false
+          token: ${{ secrets.DEPLOY_TOKEN }}
+
