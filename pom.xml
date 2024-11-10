@@ -6,6 +6,7 @@
     <artifactId>geojson4j</artifactId>
     <version>0.3.1-SNAPSHOT</version>
 
+    <name>geojson4j</name>
     <description>
         A lightweight Java library for working with GeoJSON data, compliant with RFC 7946. geojson4j provides
         easy-to-use classes and utilities for creating, parsing, and serializing GeoJSON objects, such as Points,
@@ -38,6 +39,10 @@
             <id>nramc</id>
             <name>Ramachandran Nellaiyappan</name>
             <email>ramachandrannellai@gmail.com</email>
+            <url>https://github.com/nramc</url>
+            <roles>
+                <role>Maintainer</role>
+            </roles>
         </developer>
     </developers>
 
