@@ -4,7 +4,7 @@
 
     <groupId>io.github.nramc</groupId>
     <artifactId>geojson4j</artifactId>
-    <version>0.1.0</version>
+    <version>0.3.0-SNAPSHOT</version>
 
     <description>
         A lightweight Java library for working with GeoJSON data, compliant with RFC 7946. geojson4j provides
@@ -17,7 +17,7 @@
         <url>https://github.com/nramc/geojson4j</url>
         <connection>scm:git:https://github.com/nramc/geojson4j.git</connection>
         <developerConnection>scm:git:https://github.com/nramc/geojson4j.git</developerConnection>
-        <tag>v0.1.0</tag>
+        <tag>HEAD</tag>
     </scm>
     <distributionManagement>
         <repository>
