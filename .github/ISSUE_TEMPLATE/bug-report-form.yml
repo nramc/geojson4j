@@ -19,7 +19,7 @@ body:
       required: true
 
   - type: dropdown
-    id: Build Type
+    id: build-type
     attributes:
       label: What's your build type?
       multiple: true
@@ -27,8 +27,8 @@ body:
         - Maven
         - Gradle
 
-  - type: text
-    id: Java Version
+  - type: input
+    id: java-version
     attributes:
       label: What's your Java version?
 
