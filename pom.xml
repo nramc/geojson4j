@@ -69,7 +69,7 @@
         <rewrite-recommendations.version>1.12.0</rewrite-recommendations.version>
         <rewrite-static-analysis.version>1.19.0</rewrite-static-analysis.version>
         <rewrite-testing-frameworks.version>2.21.0</rewrite-testing-frameworks.version>
-        <maven-surefire-plugin.version>3.5.1</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
     </properties>
 
     <dependencyManagement>
