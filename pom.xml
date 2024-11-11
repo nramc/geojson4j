@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.nramc</groupId>
@@ -13,19 +14,6 @@
         LineStrings, Polygons, and FeatureCollections, following the official GeoJSON specification.
     </description>
     <url>https://github.com/nramc/geojson4j</url>
-
-    <scm>
-        <url>https://github.com/nramc/geojson4j</url>
-        <connection>scm:git:https://github.com/nramc/geojson4j.git</connection>
-        <developerConnection>scm:git:https://github.com/nramc/geojson4j.git</developerConnection>
-        <tag>HEAD</tag>
-    </scm>
-    <distributionManagement>
-        <repository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
 
     <licenses>
         <license>
@@ -46,6 +34,19 @@
         </developer>
     </developers>
 
+    <scm>
+        <url>https://github.com/nramc/geojson4j</url>
+        <connection>scm:git:https://github.com/nramc/geojson4j.git</connection>
+        <developerConnection>scm:git:https://github.com/nramc/geojson4j.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+    <distributionManagement>
+        <repository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
     <properties>
         <java.version>21</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -54,17 +55,77 @@
         <sonar.organization>nramc</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
+        <central-publishing-maven-plugin.version>0.6.0</central-publishing-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
+        <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
+        <maven-javadoc-plugin.version>3.11.1</maven-javadoc-plugin.version>
         <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
-        <maven-javadoc-plugin.version>3.11.1</maven-javadoc-plugin.version>
-        <central-publishing-maven-plugin.version>0.6.0</central-publishing-maven-plugin.version>
-        <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
+        <rewrite-java-security.version>2.14.1</rewrite-java-security.version>
+        <rewrite-maven-plugin.skip.run-execution>false</rewrite-maven-plugin.skip.run-execution>
+        <rewrite-maven-plugin.skip.dry-run-execution>false</rewrite-maven-plugin.skip.dry-run-execution>
+        <rewrite-logging-frameworks.version>2.15.1</rewrite-logging-frameworks.version>
+        <rewrite-maven-plugin.version>5.44.0</rewrite-maven-plugin.version>
+        <rewrite-recommendations.version>1.12.0</rewrite-recommendations.version>
+        <rewrite-static-analysis.version>1.19.0</rewrite-static-analysis.version>
+        <rewrite-testing-frameworks.version>2.21.0</rewrite-testing-frameworks.version>
+        <maven-surefire-plugin.version>3.5.1</maven-surefire-plugin.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- JUnit 5 BOM -->
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>5.11.3</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- logging framework dependencies -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.16</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.5.11</version>
+        </dependency>
+
+        <!--  testing framework dependencies  -->
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
 
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
@@ -180,6 +241,90 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+            <id>open-rewrite</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.openrewrite.maven</groupId>
+                        <artifactId>rewrite-maven-plugin</artifactId>
+                        <version>${rewrite-maven-plugin.version}</version>
+                        <executions>
+
+                            <execution>
+                                <id>run-open-rewrite-execution</id>
+                                <goals>
+                                    <goal>runNoFork</goal>
+                                </goals>
+                                <phase>process-sources</phase>
+                                <configuration>
+                                    <rewriteSkip>${rewrite-maven-plugin.skip.run-execution}</rewriteSkip>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>dry-run-open-rewrite-execution</id>
+                                <goals>
+                                    <goal>dryRunNoFork</goal>
+                                </goals>
+                                <phase>prepare-package</phase>
+                                <configuration>
+                                    <rewriteSkip>${rewrite-maven-plugin.skip.dry-run-execution}</rewriteSkip>
+                                </configuration>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <failOnDryRunResults>true</failOnDryRunResults>
+                            <activeRecipes>
+                                <recipe>com.github.nramc.recipes.sources</recipe>
+                                <recipe>com.github.nramc.recipes.testing</recipe>
+                            </activeRecipes>
+                            <activeStyles>
+                                <style>org.openrewrite.java.IntelliJ</style>
+                            </activeStyles>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.openrewrite.recipe</groupId>
+                                <artifactId>rewrite-static-analysis</artifactId>
+                                <version>${rewrite-static-analysis.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.openrewrite.recipe</groupId>
+                                <artifactId>rewrite-recommendations</artifactId>
+                                <version>${rewrite-recommendations.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.openrewrite.recipe</groupId>
+                                <artifactId>rewrite-testing-frameworks</artifactId>
+                                <version>${rewrite-testing-frameworks.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.openrewrite.recipe</groupId>
+                                <artifactId>rewrite-java-security</artifactId>
+                                <version>${rewrite-java-security.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.openrewrite.recipe</groupId>
+                                <artifactId>rewrite-logging-frameworks</artifactId>
+                                <version>${rewrite-logging-frameworks.version}</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>ci-profile</id>
+            <properties>
+                <rewrite-maven-plugin.skip.run-execution>true</rewrite-maven-plugin.skip.run-execution>
+            </properties>
+            <activation>
+                <property>
+                    <name>env.CI</name>
+                    <value>true</value>
+                </property>
+            </activation>
         </profile>
     </profiles>
 

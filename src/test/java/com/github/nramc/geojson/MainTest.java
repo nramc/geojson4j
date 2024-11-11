@@ -15,23 +15,14 @@
  */
 package com.github.nramc.geojson;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.junit.jupiter.api.Test;
 
-/**
- * The Main class serves as the entry point for the geojson4j library.
- * It provides examples and demonstrations of how to use the library to
- * create, parse, and serialize GeoJSON objects compliant with RFC 7946.
- */
-public class Main {
-    private static final Logger log = LoggerFactory.getLogger(Main.class);
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-    /**
-     * The main method is the entry point of the geojson4j library.
-     *
-     * @param args Command-line arguments passed to the program (currently not used).
-     */
-    public static void main(String[] args) {
-        log.debug("Hello and welcome to geojson4j!");
+class MainTest {
+
+    @Test
+    void mainMethodRunsWithoutException() {
+        assertDoesNotThrow(() -> Main.main(new String[]{}));
     }
 }
