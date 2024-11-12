@@ -2,14 +2,18 @@ package com.github.nramc.geojson.domain;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Assertions;
+import com.github.nramc.geojson.validator.GeoJsonValidationException;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PositionTest {
     private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -58,7 +62,52 @@ class PositionTest {
     @ParameterizedTest
     @ValueSource(strings = {"[invalid]", "0", "c", "", " "})
     void deserialization_withInvalidValues_shouldBeDeserializable_withInvalidStatus(String jsonString) {
-        Assertions.assertThrows(JsonProcessingException.class, () -> objectMapper.readValue(jsonString, Position.class));
+        assertThrows(JsonProcessingException.class, () -> objectMapper.readValue(jsonString, Position.class));
+    }
+
+    @ParameterizedTest
+    @CsvSource(quoteCharacter = '"', textBlock = """
+            # longitude,    latitude,    altitude
+            181,            180,         11000
+            180,            181,         10000
+            181,            181,         -11000
+            """)
+    void eagerValidation_whenValuesInvalid_shouldThrowValidationError(double longitude, double latitude, double altitude) {
+        GeoJsonValidationException validationException = assertThrows(GeoJsonValidationException.class, () -> Position.of(longitude, latitude, altitude));
+        assertThat(validationException).isNotNull()
+                .extracting(GeoJsonValidationException::getErrors).asInstanceOf(InstanceOfAssertFactories.SET)
+                .isNotEmpty();
+    }
+
+    @ParameterizedTest
+    @CsvSource(quoteCharacter = '"', textBlock = """
+            # longitude,    latitude
+            181,            180
+            180,            181
+            181,            181
+            """)
+    void eagerValidationWithMandatoryValues_whenValuesInvalid_shouldThrowValidationError(double longitude, double latitude) {
+        GeoJsonValidationException validationException = assertThrows(GeoJsonValidationException.class, () -> Position.of(longitude, latitude));
+        assertThat(validationException).isNotNull()
+                .extracting(GeoJsonValidationException::getErrors).asInstanceOf(InstanceOfAssertFactories.SET)
+                .isNotEmpty();
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "181,180,11000",
+            "180,181,10000",
+            "181,181,-11000",
+            "181,180",
+            "180,181",
+            "181,181"
+    })
+    void eagerValidation_asArray_whenValuesInvalid_shouldThrowValidationError(String value) {
+        double[] coordinates = Arrays.stream(value.split(",")).mapToDouble(Double::parseDouble).toArray();
+        GeoJsonValidationException validationException = assertThrows(GeoJsonValidationException.class, () -> Position.of(coordinates));
+        assertThat(validationException).isNotNull()
+                .extracting(GeoJsonValidationException::getErrors).asInstanceOf(InstanceOfAssertFactories.SET)
+                .isNotEmpty();
     }
 
 }
