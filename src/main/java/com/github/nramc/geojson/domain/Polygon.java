@@ -134,4 +134,14 @@ public final class Polygon extends Geometry {
         }
         return new ValidationResult(errors);
     }
+
+    /**
+     * Gets the type of the GeoJson.
+     *
+     * @return The type of the GeoJson, which is "Polygon".
+     */
+    @Override
+    public String getType() {
+        return type;
+    }
 }
