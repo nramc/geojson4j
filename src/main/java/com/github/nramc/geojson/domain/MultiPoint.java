@@ -1,6 +1,7 @@
 package com.github.nramc.geojson.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.github.nramc.geojson.validator.Validatable;
 import com.github.nramc.geojson.validator.ValidationError;
 import com.github.nramc.geojson.validator.ValidationResult;
 import org.apache.commons.collections4.CollectionUtils;
@@ -26,6 +27,18 @@ public final class MultiPoint extends Geometry {
     private final List<Position> coordinates;
 
     /**
+     * No-argument constructor required for certain frameworks (e.g., ORM frameworks)
+     * and serialization mechanisms that need to instantiate objects without arguments.
+     * <p>
+     * This constructor does not perform any validation. After using this constructor,
+     * it is recommended to call the {@link #validate()} or {@link #isValid()} method to ensure the object is in a valid state.
+     * </p>
+     */
+    public MultiPoint() {
+        this(null, null);
+    }
+
+    /**
      * Creates a MultiPoint object with the specified type and coordinates.
      * <p>
      * The coordinates list is wrapped in an unmodifiable list to ensure immutability.
@@ -48,7 +61,7 @@ public final class MultiPoint extends Geometry {
      * @throws com.github.nramc.geojson.validator.GeoJsonValidationException if the provided coordinates are invalid.
      */
     public static MultiPoint of(List<Position> coordinates) {
-        return new MultiPoint(MULTI_POINT, coordinates);
+        return Validatable.validateAndThrowErrorIfInvalid(new MultiPoint(MULTI_POINT, coordinates));
     }
 
     /**
@@ -59,7 +72,7 @@ public final class MultiPoint extends Geometry {
      * @throws com.github.nramc.geojson.validator.GeoJsonValidationException if the provided coordinates are invalid.
      */
     public static MultiPoint of(Position... positions) {
-        return new MultiPoint(MULTI_POINT, Arrays.stream(positions).toList());
+        return Validatable.validateAndThrowErrorIfInvalid(new MultiPoint(MULTI_POINT, Arrays.stream(positions).toList()));
     }
 
     /**
@@ -98,7 +111,7 @@ public final class MultiPoint extends Geometry {
     public ValidationResult validate() {
         Set<ValidationError> errors = new HashSet<>();
         if (StringUtils.isBlank(type) || !StringUtils.equals(type, MULTI_POINT)) {
-            errors.add(ValidationError.of("type", "type '%s' iss not valid. expected '%s'".formatted(type, MULTI_POINT), "type.invalid"));
+            errors.add(ValidationError.of("type", "type '%s' is not valid. expected '%s'".formatted(type, MULTI_POINT), "type.invalid"));
         }
         if (CollectionUtils.isEmpty(coordinates)) {
             errors.add(ValidationError.of("coordinates", "coordinates should not be empty/blank", "coordinates.invalid.empty"));
@@ -114,4 +127,6 @@ public final class MultiPoint extends Geometry {
 
         return new ValidationResult(errors);
     }
+
+
 }
