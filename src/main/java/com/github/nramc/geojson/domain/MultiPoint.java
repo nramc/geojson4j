@@ -1,9 +1,9 @@
 package com.github.nramc.geojson.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.github.nramc.geojson.validator.Validatable;
 import com.github.nramc.geojson.validator.ValidationError;
 import com.github.nramc.geojson.validator.ValidationResult;
+import com.github.nramc.geojson.validator.ValidationUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -61,7 +61,7 @@ public final class MultiPoint extends Geometry {
      * @throws com.github.nramc.geojson.validator.GeoJsonValidationException if the provided coordinates are invalid.
      */
     public static MultiPoint of(List<Position> coordinates) {
-        return Validatable.validateAndThrowErrorIfInvalid(new MultiPoint(MULTI_POINT, coordinates));
+        return ValidationUtils.validateAndThrowErrorIfInvalid(new MultiPoint(MULTI_POINT, coordinates));
     }
 
     /**
@@ -72,7 +72,7 @@ public final class MultiPoint extends Geometry {
      * @throws com.github.nramc.geojson.validator.GeoJsonValidationException if the provided coordinates are invalid.
      */
     public static MultiPoint of(Position... positions) {
-        return Validatable.validateAndThrowErrorIfInvalid(new MultiPoint(MULTI_POINT, Arrays.stream(positions).toList()));
+        return ValidationUtils.validateAndThrowErrorIfInvalid(new MultiPoint(MULTI_POINT, Arrays.stream(positions).toList()));
     }
 
     /**

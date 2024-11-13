@@ -3,9 +3,9 @@ package com.github.nramc.geojson.domain;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.github.nramc.geojson.constant.GeoJsonType;
 import com.github.nramc.geojson.validator.GeoJsonValidationException;
-import com.github.nramc.geojson.validator.Validatable;
 import com.github.nramc.geojson.validator.ValidationError;
 import com.github.nramc.geojson.validator.ValidationResult;
+import com.github.nramc.geojson.validator.ValidationUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashSet;
@@ -73,7 +73,7 @@ public final class Point extends Geometry {
      * @throws GeoJsonValidationException if the provided coordinates are invalid.
      */
     public static Point of(Position coordinates) {
-        return Validatable.validateAndThrowErrorIfInvalid(new Point(GeoJsonType.POINT, coordinates));
+        return ValidationUtils.validateAndThrowErrorIfInvalid(new Point(GeoJsonType.POINT, coordinates));
     }
 
     /**
@@ -85,7 +85,7 @@ public final class Point extends Geometry {
      * @throws GeoJsonValidationException if the provided longitude or latitude are invalid.
      */
     public static Point of(long longitude, long latitude) {
-        return Validatable.validateAndThrowErrorIfInvalid(new Point(GeoJsonType.POINT, Position.of(longitude, latitude)));
+        return ValidationUtils.validateAndThrowErrorIfInvalid(new Point(GeoJsonType.POINT, Position.of(longitude, latitude)));
     }
 
     /**
@@ -98,7 +98,7 @@ public final class Point extends Geometry {
      * @throws GeoJsonValidationException if the provided values are invalid.
      */
     public static Point of(long longitude, long latitude, long altitude) {
-        return Validatable.validateAndThrowErrorIfInvalid(new Point(GeoJsonType.POINT, Position.of(longitude, latitude, altitude)));
+        return ValidationUtils.validateAndThrowErrorIfInvalid(new Point(GeoJsonType.POINT, Position.of(longitude, latitude, altitude)));
     }
 
     /**

@@ -7,6 +7,7 @@ import com.github.nramc.geojson.validator.GeoJsonValidationException;
 import com.github.nramc.geojson.validator.Validatable;
 import com.github.nramc.geojson.validator.ValidationError;
 import com.github.nramc.geojson.validator.ValidationResult;
+import com.github.nramc.geojson.validator.ValidationUtils;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -67,7 +68,7 @@ public class Position implements Validatable, Serializable {
      * @throws GeoJsonValidationException with validation errors
      */
     public static Position of(double[] coordinates) {
-        return validateAndThrowErrorIfInvalid(new Position(coordinates));
+        return ValidationUtils.validateAndThrowErrorIfInvalid(new Position(coordinates));
     }
 
     /**
@@ -79,7 +80,7 @@ public class Position implements Validatable, Serializable {
      * @throws GeoJsonValidationException with validation errors
      */
     public static Position of(double longitude, double latitude) {
-        return validateAndThrowErrorIfInvalid(new Position(new double[]{longitude, latitude}));
+        return ValidationUtils.validateAndThrowErrorIfInvalid(new Position(new double[]{longitude, latitude}));
     }
 
     /**
@@ -92,7 +93,7 @@ public class Position implements Validatable, Serializable {
      * @throws GeoJsonValidationException with validation errors
      */
     public static Position of(double longitude, double latitude, double altitude) {
-        return validateAndThrowErrorIfInvalid(new Position(new double[]{longitude, latitude, altitude}));
+        return ValidationUtils.validateAndThrowErrorIfInvalid(new Position(new double[]{longitude, latitude, altitude}));
     }
 
     /**
@@ -180,11 +181,4 @@ public class Position implements Validatable, Serializable {
         return new ValidationResult(errors);
     }
 
-    private static Position validateAndThrowErrorIfInvalid(Position position) {
-        ValidationResult validationResult = position.validate();
-        if (validationResult.hasErrors()) {
-            throw new GeoJsonValidationException("GeoJson Invalid", validationResult.getErrors());
-        }
-        return position;
-    }
 }
