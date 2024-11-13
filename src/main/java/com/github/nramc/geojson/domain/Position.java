@@ -35,8 +35,8 @@ public class Position implements Validatable, Serializable {
     private final double[] coordinates;
 
     /**
-     * Constructs a Point with empty latitude, longitude and altitude.
-     * Mainly useful for An Object-Relational Mapping(ORM) tools which does not support parameterized constructor to persist object into repository.
+     * No-argument constructor required for certain frameworks (e.g., ORM frameworks)
+     * and serialization mechanisms that need to instantiate objects without arguments.
      */
     public Position() {
         this.coordinates = new double[2];

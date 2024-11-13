@@ -34,6 +34,19 @@ public final class Point extends Geometry {
     private final Position coordinates;
 
     /**
+     * No-argument constructor required for certain frameworks (e.g., ORM frameworks)
+     * and serialization mechanisms that need to instantiate objects without arguments.
+     * <p>
+     * This constructor does not perform any validation. After using this constructor,
+     * it is recommended to call the {@link #validate()} or {@link #isValid()} method to ensure the object is in a valid state.
+     * </p>
+     */
+    public Point() {
+        this.type = GeoJsonType.POINT;
+        this.coordinates = null;
+    }
+
+    /**
      * Constructs a new {@code Point} with the specified type and coordinates.
      * <p>If object created using constructor directly, then validation does not performed eagerly.
      * To perform validation, use below options,
