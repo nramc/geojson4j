@@ -125,4 +125,13 @@ public final class Point extends Geometry {
         return new ValidationResult(errors);
     }
 
+    /**
+     * Gets the type of the GeoJson.
+     *
+     * @return The type of the GeoJson, which is "Point".
+     */
+    @Override
+    public String getType() {
+        return type;
+    }
 }

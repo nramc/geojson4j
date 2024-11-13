@@ -99,4 +99,14 @@ public final class LineString extends Geometry {
 
         return new ValidationResult(errors);
     }
+
+    /**
+     * Gets the type of the GeoJson.
+     *
+     * @return The type of the GeoJson, which is "LineString".
+     */
+    @Override
+    public String getType() {
+        return type;
+    }
 }
