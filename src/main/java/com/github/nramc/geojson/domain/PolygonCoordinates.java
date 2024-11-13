@@ -2,9 +2,11 @@ package com.github.nramc.geojson.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.github.nramc.geojson.validator.GeoJsonValidationException;
 import com.github.nramc.geojson.validator.Validatable;
 import com.github.nramc.geojson.validator.ValidationError;
 import com.github.nramc.geojson.validator.ValidationResult;
+import com.github.nramc.geojson.validator.ValidationUtils;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.io.Serializable;
@@ -90,27 +92,70 @@ public class PolygonCoordinates implements Validatable, Serializable {
     }
 
     /**
-     * Creates a PolygonCoordinates instance using a varargs of Position lists.
+     * Creates and validates a new {@link PolygonCoordinates} instance from the specified varargs of linear rings.
      * <p>
-     * The first list in the varargs is the exterior ring, and the remaining lists are treated as holes.
+     * This method constructs a {@link PolygonCoordinates} object using a varargs parameter, where each provided
+     * {@link List} of {@link Position} objects represents a linear ring of the polygon. The first linear ring
+     * is the exterior ring, and any additional rings are treated as interior holes. The created instance is
+     * immediately validated to ensure it adheres to GeoJSON specifications. If the validation fails, an exception
+     * is thrown.
      * </p>
      *
-     * @param positions The position lists to construct the polygon coordinates.
-     * @return A new PolygonCoordinates instance.
+     * @param positions A varargs of {@link List} objects, each containing {@link Position} objects that form
+     *                  a linear ring. The first {@link List} represents the exterior ring, while any additional
+     *                  lists are interior rings (holes). Each linear ring must be closed and have at least 4 positions,
+     *                  with the first and last positions being identical.
+     * @return A validated {@link PolygonCoordinates} object constructed from the given linear rings.
+     * @throws GeoJsonValidationException If the created {@link PolygonCoordinates} object is invalid according
+     *                                    to GeoJSON specifications, such as having an insufficient number of positions
+     *                                    or a non-closed linear ring.
+     * @see PolygonCoordinates
      */
     @SafeVarargs
     public static PolygonCoordinates of(List<Position>... positions) {
-        return new PolygonCoordinates(Arrays.asList(positions));
+        return ValidationUtils.validateAndThrowErrorIfInvalid(new PolygonCoordinates(Arrays.asList(positions)));
     }
 
     /**
-     * Creates a PolygonCoordinates instance from a list of linear rings.
+     * Creates and validates a new {@link PolygonCoordinates} instance from the specified linear rings.
+     * <p>
+     * This method constructs a {@link PolygonCoordinates} object using the given list of linear rings,
+     * which includes an exterior ring and optional interior rings (holes). The created instance is immediately
+     * validated to ensure compliance with GeoJSON specifications. If the validation fails, an exception is thrown.
+     * </p>
      *
-     * @param linearRings List of linear rings to be used as the coordinates.
-     * @return A new PolygonCoordinates instance.
+     * @param linearRings A list of lists of {@link Position} objects, where the first list represents
+     *                    the exterior linear ring of the polygon, and the subsequent lists represent
+     *                    the interior rings (holes). Each linear ring must be closed and contain at least
+     *                    4 positions, with the first and last positions being the same.
+     * @return A validated {@link PolygonCoordinates} object constructed from the given linear rings.
+     * @throws GeoJsonValidationException If the created {@link PolygonCoordinates} object is invalid according
+     *                                    to GeoJSON specifications, such as an insufficient number of positions
+     *                                    or a non-closed linear ring.
      */
     public static PolygonCoordinates of(List<List<Position>> linearRings) {
-        return new PolygonCoordinates(linearRings);
+        return ValidationUtils.validateAndThrowErrorIfInvalid(new PolygonCoordinates(linearRings));
+    }
+
+    /**
+     * Creates and validates a new {@link PolygonCoordinates} instance with the specified exterior and holes.
+     * <p>
+     * This method constructs a {@link PolygonCoordinates} object using the given exterior and holes,
+     * and immediately validates the created instance. If the validation fails, an exception is thrown.
+     * </p>
+     *
+     * @param exterior The list of {@link Position} objects representing the exterior linear ring of the polygon.
+     *                 The exterior must be a closed linear ring with at least 4 positions.
+     * @param holes    A list of lists of {@link Position} objects, where each inner list represents a hole
+     *                 (interior linear ring) of the polygon. Each hole must also be a closed linear ring,
+     *                 or this parameter can be an empty list if no holes exist.
+     * @return A validated {@link PolygonCoordinates} object constructed with the given exterior and holes.
+     * @throws GeoJsonValidationException If the created {@link PolygonCoordinates} object is invalid according
+     *                                    to GeoJSON specifications, such as an insufficient number of positions
+     *                                    or a non-closed ring.
+     */
+    public static PolygonCoordinates of(final List<Position> exterior, final List<List<Position>> holes) {
+        return ValidationUtils.validateAndThrowErrorIfInvalid(new PolygonCoordinates(exterior, holes));
     }
 
     /**
