@@ -3,6 +3,7 @@ package com.github.nramc.geojson.domain;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.github.nramc.geojson.validator.ValidationError;
 import com.github.nramc.geojson.validator.ValidationResult;
+import com.github.nramc.geojson.validator.ValidationUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -71,7 +72,7 @@ public final class Polygon extends Geometry {
      * @return A validated {@link Polygon} object.
      */
     public static Polygon of(final List<Position> exterior, final List<List<Position>> holes) {
-        return new Polygon(POLYGON, PolygonCoordinates.of(exterior, holes));
+        return ValidationUtils.validateAndThrowErrorIfInvalid(new Polygon(POLYGON, PolygonCoordinates.of(exterior, holes)));
     }
 
     /**
@@ -83,7 +84,7 @@ public final class Polygon extends Geometry {
      */
     @SafeVarargs
     public final Polygon of(final List<Position> exterior, final List<Position>... holes) {
-        return new Polygon(POLYGON, PolygonCoordinates.of(exterior, List.of(holes)));
+        return ValidationUtils.validateAndThrowErrorIfInvalid(new Polygon(POLYGON, PolygonCoordinates.of(exterior, List.of(holes))));
     }
 
     /**
@@ -93,7 +94,7 @@ public final class Polygon extends Geometry {
      * @return A validated {@link Polygon} object.
      */
     public static Polygon of(PolygonCoordinates coordinates) {
-        return new Polygon(POLYGON, coordinates);
+        return ValidationUtils.validateAndThrowErrorIfInvalid(new Polygon(POLYGON, coordinates));
     }
 
     /**
@@ -103,7 +104,7 @@ public final class Polygon extends Geometry {
      * @return A validated {@link Polygon} object.
      */
     public static Polygon of(List<List<Position>> coordinates) {
-        return new Polygon(POLYGON, PolygonCoordinates.of(coordinates));
+        return ValidationUtils.validateAndThrowErrorIfInvalid(new Polygon(POLYGON, PolygonCoordinates.of(coordinates)));
     }
 
     /**
