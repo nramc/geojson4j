@@ -48,6 +48,7 @@ public final class Point extends Geometry {
 
     /**
      * Constructs a new {@code Point} with the specified type and coordinates.
+     * This constructor is typically used for deserialization of JSON data.
      * <p>If object created using constructor directly, then validation does not performed eagerly.
      * To perform validation, use below options,
      * <ol>

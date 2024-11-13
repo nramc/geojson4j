@@ -40,6 +40,7 @@ public final class MultiPoint extends Geometry {
 
     /**
      * Creates a MultiPoint object with the specified type and coordinates.
+     * This constructor is typically used for deserialization of JSON data.
      * <p>
      * The coordinates list is wrapped in an unmodifiable list to ensure immutability.
      * </p>

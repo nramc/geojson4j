@@ -46,6 +46,7 @@ public class Position implements Validatable, Serializable {
     /**
      * Constructs a Point with the given latitude, longitude and optional altitude.
      * Does not perform validation eagerly.
+     * This constructor is typically used for deserialization of JSON data.
      *
      * <p>If object created using constructor directly, then use below option for validation,</p>
      * <ol>
