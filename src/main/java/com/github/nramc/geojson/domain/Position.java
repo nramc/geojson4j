@@ -186,14 +186,15 @@ public class Position implements Validatable, Serializable {
      * @see ValidationError
      */
     @Override
+    @SuppressWarnings("java:S1192") // String literals should not be duplicated
     public ValidationResult validate() {
         Set<ValidationError> errors = new HashSet<>();
         if (!isLengthValid(getCoordinates())) {
             errors.add(ValidationError.of("coordinates", "coordinates length is not valid", "coordinates.length.invalid"));
         } else if (!isLongitudeValid(getLongitude())) {
-            errors.add(ValidationError.of("longitude", "longitude is not valid", "coordinates.longitude.invalid"));
+            errors.add(ValidationError.of("coordinates", "longitude is not valid", "coordinates.longitude.invalid"));
         } else if (!isLatitudeValid(getLatitude())) {
-            errors.add(ValidationError.of("latitude", "latitude is not valid", "coordinates.latitude.invalid"));
+            errors.add(ValidationError.of("coordinates", "latitude is not valid", "coordinates.latitude.invalid"));
         }
         return new ValidationResult(errors);
     }

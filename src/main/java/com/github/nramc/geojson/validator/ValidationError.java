@@ -16,6 +16,7 @@
 package com.github.nramc.geojson.validator;
 
 import java.io.Serializable;
+import java.text.MessageFormat;
 import java.util.Objects;
 
 /**
@@ -92,5 +93,30 @@ public class ValidationError implements Serializable {
      */
     public String getKey() {
         return key;
+    }
+
+    /**
+     * Returns a string representation of the {@link ValidationError} object.
+     * <p>
+     * The string representation follows the format:
+     * <pre>
+     * ValidationError{field='fieldName', message='errorMessage', key='errorKey'}
+     * </pre>
+     * where:
+     * <ul>
+     *     <li><b>field</b> is the name of the field associated with the validation error.</li>
+     *     <li><b>message</b> is a descriptive message explaining the validation error.</li>
+     *     <li><b>key</b> is a key that can be used to identify the specific type of validation error.</li>
+     * </ul>
+     * <p>
+     * This method is particularly useful for logging or debugging purposes as it provides a human-readable
+     * representation of the validation error details.
+     *
+     * @return A string representation of the {@link ValidationError} in the format:
+     * {@code ValidationError{field='fieldName', message='errorMessage', key='errorKey'}}
+     */
+    @Override
+    public String toString() {
+        return MessageFormat.format("ValidationError'{'field=''{0}'', message=''{1}'', key=''{2}'''}'", field, message, key);
     }
 }

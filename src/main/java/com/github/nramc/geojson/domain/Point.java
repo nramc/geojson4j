@@ -16,6 +16,7 @@
 package com.github.nramc.geojson.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.nramc.geojson.constant.GeoJsonType;
 import com.github.nramc.geojson.validator.GeoJsonValidationException;
 import com.github.nramc.geojson.validator.ValidationError;
@@ -23,6 +24,7 @@ import com.github.nramc.geojson.validator.ValidationResult;
 import com.github.nramc.geojson.validator.ValidationUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -76,7 +78,7 @@ public final class Point extends Geometry {
      * @param coordinates The {@link Position} representing the coordinates of the point.
      */
     @JsonCreator
-    public Point(String type, Position coordinates) {
+    public Point(@JsonProperty("type") String type, @JsonProperty("coordinates") Position coordinates) {
         this.type = type;
         this.coordinates = coordinates;
     }
@@ -148,5 +150,27 @@ public final class Point extends Geometry {
     @Override
     public String getType() {
         return type;
+    }
+
+    /**
+     * Gets the coordinates of the Point.
+     *
+     * @return The {@link Position} object representing the coordinates of the Point.
+     */
+    public Position getCoordinates() {
+        return coordinates;
+    }
+
+    /**
+     * Returns a string representation of the {@link Point} object in the format:
+     * <pre>
+     * Point{type='Point', coordinates=[longitude, latitude, altitude(optional)]}
+     * </pre>
+     *
+     * @return A formatted string with the type and coordinates of the point.
+     */
+    @Override
+    public String toString() {
+        return MessageFormat.format("Point'{'type=''{0}'', coordinates={1}'}'", type, coordinates.getCoordinates());
     }
 }
