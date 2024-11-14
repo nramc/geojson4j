@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.github.nramc.geojson.constant.GeoJsonType;
+import com.github.nramc.geojson.validator.Validatable;
 
 import java.io.Serializable;
 
@@ -43,7 +44,7 @@ import java.io.Serializable;
         @JsonSubTypes.Type(value = Feature.class, name = GeoJsonType.FEATURE),
         @JsonSubTypes.Type(value = FeatureCollection.class, name = GeoJsonType.FEATURE_COLLECTION)
 })
-public abstract sealed class GeoJson implements Serializable permits Feature, FeatureCollection, Geometry {
+public abstract sealed class GeoJson implements Serializable, Validatable permits Feature, FeatureCollection, Geometry {
 
     /**
      * Gets the type of the GeoJSON object. This method is abstract, meaning that
