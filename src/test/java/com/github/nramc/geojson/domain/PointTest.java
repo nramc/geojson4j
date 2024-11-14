@@ -43,11 +43,40 @@ class PointTest {
     }
 
     @Test
+    void deserialization_withValidLongitudeAndLatitude_withGeoJsonBaseType_shouldCreateValidObject() throws IOException {
+        String jsonString = """
+                { "type": "Point", "coordinates": [60.8, 20.5] }""";
+        GeoJson geoJson = objectMapper.readValue(jsonString, GeoJson.class);
+        assertThat(geoJson).isNotNull().satisfies(point -> assertThat(point.getType()).isEqualTo("Point"));
+        assertThat((Point) geoJson).satisfies(point -> assertThat(point.getCoordinates()).isNotNull()
+                        .extracting(Position::getCoordinates).isEqualTo(new double[]{60.8, 20.5}))
+                .satisfies(point -> assertThat(point.isValid()).isTrue())
+                .satisfies(point -> assertThat(point.validate())
+                        .satisfies(validationResult -> assertThat(validationResult.hasErrors()).isFalse())
+                        .satisfies(validationResult -> assertThat(validationResult.getErrors()).isEmpty()));
+    }
+
+    @Test
     void deserialization_withValidLongitudeAndLatitudeAndAltitude_shouldCreateValidObject() throws IOException {
         String jsonString = """
                 { "type": "Point", "coordinates": [60.8, 20.5, 54.7] }""";
         assertThat(objectMapper.readValue(jsonString, Point.class))
                 .satisfies(point -> assertThat(point.getType()).isEqualTo("Point"))
+                .satisfies(point -> assertThat(point.getCoordinates()).isNotNull()
+                        .extracting(Position::getCoordinates).isEqualTo(new double[]{60.8, 20.5, 54.7}))
+                .satisfies(point -> assertThat(point.isValid()).isTrue())
+                .satisfies(point -> assertThat(point.validate())
+                        .satisfies(validationResult -> assertThat(validationResult.hasErrors()).isFalse())
+                        .satisfies(validationResult -> assertThat(validationResult.getErrors()).isEmpty()));
+    }
+
+    @Test
+    void deserialization_withValidLongitudeAndLatitudeAndAltitude_withGeometryBaseType_shouldCreateValidObject() throws IOException {
+        String jsonString = """
+                { "type": "Point", "coordinates": [60.8, 20.5, 54.7] }""";
+        Geometry geometry = objectMapper.readValue(jsonString, Geometry.class);
+        assertThat(geometry).satisfies(point -> assertThat(point.getType()).isEqualTo("Point"));
+        assertThat((Point) geometry)
                 .satisfies(point -> assertThat(point.getCoordinates()).isNotNull()
                         .extracting(Position::getCoordinates).isEqualTo(new double[]{60.8, 20.5, 54.7}))
                 .satisfies(point -> assertThat(point.isValid()).isTrue())
