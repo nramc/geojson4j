@@ -28,6 +28,42 @@ import static com.github.nramc.geojson.constant.GeoJsonType.POINT;
 import static com.github.nramc.geojson.constant.GeoJsonType.POLYGON;
 
 
+/**
+ * The {@code Geometry} class is an abstract base class representing different geometric shapes
+ * that conform to the GeoJSON specification. This class is a direct subclass of {@link GeoJson}
+ * and serves as a parent for various specific geometry types like {@code Point}, {@code MultiPoint},
+ * {@code LineString}, {@code MultiLineString}, {@code Polygon}, {@code MultiPolygon}, and
+ * {@code GeometryCollection}.
+ *
+ * <p>Each subclass of {@code Geometry} represents a different type of geometric structure, and
+ * the polymorphic behavior is managed using Jackson annotations for seamless serialization and
+ * deserialization.</p>
+ *
+ * <p>Jackson Annotations:</p>
+ * <ul>
+ *   <li>{@code @JsonTypeInfo}: This annotation is used to specify how type information should be
+ *   included in the serialized JSON. The {@code property} parameter specifies that the
+ *   {@code "type"} field will be used to identify the specific subclass of {@code Geometry}
+ *   during deserialization.</li>
+ *   <li>{@code @JsonSubTypes}: This annotation lists all possible subclasses of {@code Geometry}
+ *   and maps them to their respective type names. This enables Jackson to correctly handle
+ *   polymorphic deserialization.</li>
+ * </ul>
+ *
+ * <p><strong>Inheritance:</strong></p>
+ * <p>This class is declared as a sealed class, meaning it explicitly defines which subclasses
+ * are permitted to extend it. This provides better control over the class hierarchy and ensures
+ * that only specific types of geometries can be represented.</p>
+ *
+ * @see GeoJson
+ * @see Point
+ * @see MultiPoint
+ * @see LineString
+ * @see MultiLineString
+ * @see Polygon
+ * @see MultiPolygon
+ * @see GeometryCollection
+ */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, visible = true, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Point.class, name = POINT),

@@ -15,6 +15,7 @@
  */
 package com.github.nramc.geojson.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.github.nramc.geojson.constant.GeoJsonType;
@@ -22,6 +23,14 @@ import com.github.nramc.geojson.constant.GeoJsonType;
 import java.io.Serializable;
 
 
+/**
+ * Abstract base class for all GeoJSON objects, such as Features, Feature Collections,
+ * and different Geometry types. This class provides a common interface and ensures
+ * consistent handling of GeoJSON properties.
+ *
+ * <p>By using a sealed class, we restrict which classes can extend this base class,
+ * improving the maintainability and clarity of the hierarchy.</p>
+ */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, visible = true, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Point.class, name = GeoJsonType.POINT),
@@ -36,6 +45,18 @@ import java.io.Serializable;
 })
 public abstract sealed class GeoJson implements Serializable permits Feature, FeatureCollection, Geometry {
 
-    public abstract String getType();
+    /**
+     * Gets the type of the GeoJSON object. This method is abstract, meaning that
+     * each subclass must implement it to specify the appropriate GeoJSON type,
+     * such as "Feature", "FeatureCollection", or specific geometry types like "Point" or "Polygon".
+     *
+     * <p>This method is marked with {@code @JsonIgnore} to exclude the type property
+     * from JSON serialization and deserialization at the base class level. The subclasses
+     * are responsible for including the type property as needed.</p>
+     *
+     * @return The type of the GeoJSON object.
+     */
+    @JsonIgnore // todo check GeoJson type polymorphism still working
+    protected abstract String getType();
 
 }
