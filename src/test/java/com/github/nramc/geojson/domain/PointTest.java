@@ -88,18 +88,18 @@ class PointTest {
     @ParameterizedTest
     @CsvSource(quoteCharacter = '"', delimiter = ';', textBlock = """
             # GeoJson,                                                          Expected Error
-            { "type": "Point", "coordinates": [60.8, 20.5, 54.7, 11.2] };        coordinates.length.invalid
-            { "type": "Point", "coordinates": [] };                              coordinates.length.invalid
-            { "type": "Point", "coordinates": [60.8, 20.5, 54.7, 10.4, 15.7] };  coordinates.length.invalid
-            { "type": "Point", "coordinates": [60.8] };                          coordinates.length.invalid
-            { "type": "Point", "coordinates": [-190.0, 20.5] };                  coordinates.longitude.invalid
-            { "type": "Point", "coordinates": [-190.0, 20.5, 54.7] };            coordinates.longitude.invalid
-            { "type": "Point", "coordinates": [60.8, -190.0] };                  coordinates.latitude.invalid
-            { "type": "Point", "coordinates": [60.8, -190.0, 54.7] };            coordinates.latitude.invalid
-            { "type": "Point", "coordinates": [60.8, -120.0] };                  coordinates.latitude.invalid
-            { "type": "Point", "coordinates": [60.8, -120.0, 54.7] };            coordinates.latitude.invalid
-            { "type": "Point", "coordinates": [54.7, 95.0] };                    coordinates.latitude.invalid
-            { "type": "Point", "coordinates": [54.7, 95.0, 54.7] };              coordinates.latitude.invalid
+            { "type": "Point", "coordinates": [60.8, 20.5, 54.7, 11.2] };       coordinates.length.invalid
+            { "type": "Point", "coordinates": [] };                             coordinates.length.invalid
+            { "type": "Point", "coordinates": [60.8, 20.5, 54.7, 10.4, 15.7] }; coordinates.length.invalid
+            { "type": "Point", "coordinates": [60.8] };                         coordinates.length.invalid
+            { "type": "Point", "coordinates": [-190.0, 20.5] };                 coordinates.longitude.invalid
+            { "type": "Point", "coordinates": [-190.0, 20.5, 54.7] };           coordinates.longitude.invalid
+            { "type": "Point", "coordinates": [60.8, -190.0] };                 coordinates.latitude.invalid
+            { "type": "Point", "coordinates": [60.8, -190.0, 54.7] };           coordinates.latitude.invalid
+            { "type": "Point", "coordinates": [60.8, -120.0] };                 coordinates.latitude.invalid
+            { "type": "Point", "coordinates": [60.8, -120.0, 54.7] };           coordinates.latitude.invalid
+            { "type": "Point", "coordinates": [54.7, 95.0] };                   coordinates.latitude.invalid
+            { "type": "Point", "coordinates": [54.7, 95.0, 54.7] };             coordinates.latitude.invalid
             """)
     void deserialization_withInvalidCoordinates_shouldCreateObject_withInvalidStatus(String geoJson, String expectedErrorKey) throws JsonProcessingException {
         assertThat(objectMapper.readValue(geoJson, Point.class))
