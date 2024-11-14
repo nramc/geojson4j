@@ -56,7 +56,7 @@ public abstract sealed class GeoJson implements Serializable permits Feature, Fe
      *
      * @return The type of the GeoJSON object.
      */
-    @JsonIgnore // todo check GeoJson type polymorphism still working
+    @JsonIgnore
     protected abstract String getType();
 
 }
