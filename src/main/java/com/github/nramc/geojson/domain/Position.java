@@ -199,8 +199,39 @@ public class Position implements Validatable, Serializable {
         return new ValidationResult(errors);
     }
 
+    /**
+     * Returns a string representation of the coordinates array.
+     * The format of the output is similar to the standard array representation,
+     * provided by {@link Arrays#toString(Object[])}.
+     *
+     * @return A string representation of the coordinates array.
+     */
     @Override
     public String toString() {
         return Arrays.toString(coordinates);
+    }
+
+    /**
+     * Checks if this {@code Position} is equal to the given object based on coordinate values.
+     *
+     * @param o The object to compare.
+     * @return {@code true} if both are {@code Position} objects with equal coordinates; otherwise, {@code false}.
+     */
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Position position)) return false;
+
+        return Arrays.equals(coordinates, position.coordinates);
+    }
+
+    /**
+     * Returns the hash code based on the coordinates.
+     *
+     * @return The hash code of the coordinates array.
+     */
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(coordinates);
     }
 }

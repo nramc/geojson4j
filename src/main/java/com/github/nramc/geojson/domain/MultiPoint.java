@@ -16,16 +16,19 @@
 package com.github.nramc.geojson.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.nramc.geojson.validator.ValidationError;
 import com.github.nramc.geojson.validator.ValidationResult;
 import com.github.nramc.geojson.validator.ValidationUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import static com.github.nramc.geojson.constant.GeoJsonType.MULTI_POINT;
@@ -64,7 +67,7 @@ public final class MultiPoint extends Geometry {
      * @param coordinates The list of positions that make up the MultiPoint.
      */
     @JsonCreator
-    public MultiPoint(String type, List<Position> coordinates) {
+    public MultiPoint(@JsonProperty("type") String type, @JsonProperty("coordinates") List<Position> coordinates) {
         this.type = type;
         this.coordinates = Collections.unmodifiableList(coordinates);
     }
@@ -144,5 +147,42 @@ public final class MultiPoint extends Geometry {
         return new ValidationResult(errors);
     }
 
+    /**
+     * Returns a string representation of the {@link MultiPoint} object in the format:
+     * <pre>
+     * MultiPoint{type='MultiPoint', coordinates=[...]}
+     * </pre>
+     *
+     * @return A formatted string with the type and coordinates of the MultiPoint.
+     */
+    @Override
+    public String toString() {
+        return MessageFormat.format("MultiPoint'{'type=''{0}'', coordinates=[...]'}'", type);
+    }
 
+    /**
+     * Checks if this MultiPoint is equal to another object.
+     *
+     * @param o The object to compare with this MultiPoint.
+     * @return true if the object is a MultiPoint with the same type and coordinates, false otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MultiPoint that)) return false;
+
+        return Objects.equals(type, that.type) && Objects.equals(coordinates, that.coordinates);
+    }
+
+    /**
+     * Computes the hash code for this MultiPoint.
+     *
+     * @return The hash code, based on the type and coordinates.
+     */
+    @Override
+    public int hashCode() {
+        int result = Objects.hashCode(type);
+        result = 31 * result + Objects.hashCode(coordinates);
+        return result;
+    }
 }

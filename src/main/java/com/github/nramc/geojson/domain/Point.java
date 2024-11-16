@@ -26,6 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.text.MessageFormat;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -172,5 +173,31 @@ public final class Point extends Geometry {
     @Override
     public String toString() {
         return MessageFormat.format("Point'{'type=''{0}'', coordinates={1}'}'", type, coordinates.getCoordinates());
+    }
+
+    /**
+     * Checks if this Point is equal to another object.
+     *
+     * @param o The object to compare with.
+     * @return {@code true} if both objects are of type Point and have equal type and coordinates, otherwise {@code false}.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Point point)) return false;
+
+        return Objects.equals(type, point.type) && Objects.equals(coordinates, point.coordinates);
+    }
+
+    /**
+     * Computes the hash code for this Point.
+     *
+     * @return The hash code, calculated using the type and coordinates.
+     */
+    @Override
+    public int hashCode() {
+        int result = Objects.hashCode(type);
+        result = 31 * result + Objects.hashCode(coordinates);
+        return result;
     }
 }
