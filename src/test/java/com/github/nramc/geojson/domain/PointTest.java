@@ -2,6 +2,7 @@ package com.github.nramc.geojson.domain;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.nramc.geojson.validator.GeoJsonValidationException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -9,6 +10,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PointTest {
     private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -115,6 +117,87 @@ class PointTest {
                                 )
                         )
                 );
+    }
+
+    @Test
+    void eagerValidation_whenStaticMethodUsed_withPosition() {
+        Position position = new Position();
+        GeoJsonValidationException validationException = assertThrows(GeoJsonValidationException.class, () -> Point.of(position));
+        assertThat(validationException).isNotNull().satisfies(validationResult ->
+                assertThat(validationResult.getErrors()).isNotEmpty().anySatisfy(error ->
+                        assertThat(error).satisfies(e -> assertThat(e.getField()).isEqualTo("coordinates"))
+                                .satisfies(e -> assertThat(e.getKey()).isEqualTo("coordinates.longitude.invalid"))
+                )
+        );
+    }
+
+    @ParameterizedTest
+    @CsvSource(quoteCharacter = '"', delimiter = ';', textBlock = """
+            # Longitude  Latitude     Expected Key
+            123.09872;   96.2345;     coordinates.latitude.invalid
+            123.09872;   -96.2345;    coordinates.latitude.invalid
+            250.09872;   90.2345;     coordinates.longitude.invalid
+            -340.09872;  90.2345;     coordinates.longitude.invalid
+            """)
+    void eagerValidation_whenStaticMethodUsed_withLongitudeAndLatitude(double longitude, double latitude, String expectedErrorKey) {
+        GeoJsonValidationException validationException = assertThrows(GeoJsonValidationException.class, () -> Point.of(longitude, latitude));
+        assertThat(validationException).isNotNull().satisfies(validationResult ->
+                assertThat(validationResult.getErrors()).isNotEmpty().anySatisfy(error ->
+                        assertThat(error).satisfies(e -> assertThat(e.getField()).isEqualTo("coordinates"))
+                                .satisfies(e -> assertThat(e.getKey()).isEqualTo(expectedErrorKey))
+                )
+        );
+    }
+
+    @ParameterizedTest
+    @CsvSource(quoteCharacter = '"', delimiter = ';', textBlock = """
+            # Longitude  Latitude   altitude    Expected Key
+            123.09872;   96.2345;   11000;      coordinates.latitude.invalid
+            123.09872;   -96.2345;  -11000;     coordinates.latitude.invalid
+            250.09872;   90.2345;   9000;       coordinates.longitude.invalid
+            -340.09872;  90.2345;   1000;       coordinates.longitude.invalid
+            """)
+    void eagerValidation_whenStaticMethodUsed_withLongitudeAndLatitudeAndAltitude(double longitude, double latitude, double altitude, String expectedErrorKey) {
+        GeoJsonValidationException validationException = assertThrows(GeoJsonValidationException.class, () -> Point.of(longitude, latitude, altitude));
+        assertThat(validationException).isNotNull().satisfies(validationResult ->
+                assertThat(validationResult.getErrors()).isNotEmpty().anySatisfy(error ->
+                        assertThat(error).satisfies(e -> assertThat(e.getField()).isEqualTo("coordinates"))
+                                .satisfies(e -> assertThat(e.getKey()).isEqualTo(expectedErrorKey))
+                )
+        );
+    }
+
+    @Test
+    void toString_shouldProvideFormatedStringWithAllArguments() {
+        Point point = Point.of(108.1134, 45.24567);
+        assertThat(point).hasToString("Point{type='Point', coordinates=[108.1134, 45.24567]}");
+    }
+
+    @Test
+    void equals_shouldConsiderEqualityBasedOnData() {
+        Point location1Variant1 = Point.of(108.1134, 45.24567);
+        Point location1Variant2 = Point.of(108.1134, 45.24567);
+
+        Point location2Variant1 = Point.of(25.1234, -54.1234);
+        Point location2Variant2 = Point.of(25.1234, -54.1234);
+
+        assertThat(location1Variant1).isEqualTo(location1Variant2);
+        assertThat(location2Variant1).isEqualTo(location2Variant2);
+
+        assertThat(location1Variant1).isNotEqualTo(location2Variant1);
+        assertThat(location1Variant2).isNotEqualTo(location2Variant2);
+    }
+
+    @Test
+    void hashCode_shouldConsiderHashCodeBasedOnData() {
+        Point location1Variant1 = Point.of(108.1134, 45.24567);
+        Point location1Variant2 = Point.of(108.1134, 45.24567);
+
+        Point location2Variant1 = Point.of(25.1234, -54.1234);
+        Point location2Variant2 = Point.of(25.1234, -54.1234);
+
+        assertThat(location1Variant1).hasSameHashCodeAs(location1Variant2);
+        assertThat(location2Variant1).hasSameHashCodeAs(location2Variant2);
     }
 
 }

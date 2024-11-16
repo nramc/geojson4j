@@ -103,7 +103,7 @@ public final class Point extends Geometry {
      * @return A validated {@code Point} object.
      * @throws GeoJsonValidationException if the provided longitude or latitude are invalid.
      */
-    public static Point of(long longitude, long latitude) {
+    public static Point of(double longitude, double latitude) {
         return ValidationUtils.validateAndThrowErrorIfInvalid(new Point(GeoJsonType.POINT, Position.of(longitude, latitude)));
     }
 
@@ -116,7 +116,7 @@ public final class Point extends Geometry {
      * @return A validated {@code Point} object.
      * @throws GeoJsonValidationException if the provided values are invalid.
      */
-    public static Point of(long longitude, long latitude, long altitude) {
+    public static Point of(double longitude, double latitude, double altitude) {
         return ValidationUtils.validateAndThrowErrorIfInvalid(new Point(GeoJsonType.POINT, Position.of(longitude, latitude, altitude)));
     }
 
@@ -172,7 +172,7 @@ public final class Point extends Geometry {
      */
     @Override
     public String toString() {
-        return MessageFormat.format("Point'{'type=''{0}'', coordinates={1}'}'", type, coordinates.getCoordinates());
+        return MessageFormat.format("Point'{'type=''{0}'', coordinates={1}'}'", type, coordinates);
     }
 
     /**

@@ -42,9 +42,12 @@ import java.util.Set;
  *     <li>The longitude of the point, ranging from -180 to 180 degrees.</li>
  *     <li>The latitude of the point, ranging from -90 to 90 degrees.</li>
  *     <li>The altitude of the point, there is no strict range validation, but usually ranging from -11000 to 11000 meters.</li>
- * </ol>>
+ * </ol>
  *
- * <p>Example: {@code new Point(37.7749, -122.4194)}</p>
+ * <p>Example usage:
+ * <pre>{@code
+ * Position position = Position.of(40.7128, -74.0060);
+ * }</pre></p>
  */
 public class Position implements Validatable, Serializable {
 
@@ -56,7 +59,7 @@ public class Position implements Validatable, Serializable {
      * and serialization mechanisms that need to instantiate objects without arguments.
      */
     public Position() {
-        this.coordinates = new double[2];
+        this.coordinates = new double[]{Double.NaN, Double.NaN};
     }
 
     /**
