@@ -21,6 +21,7 @@ import com.github.nramc.geojson.validator.ValidationError;
 import com.github.nramc.geojson.validator.ValidationResult;
 import com.github.nramc.geojson.validator.ValidationUtils;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.MessageFormat;
@@ -91,7 +92,8 @@ public final class MultiPoint extends Geometry {
      * @throws com.github.nramc.geojson.validator.GeoJsonValidationException if the provided coordinates are invalid.
      */
     public static MultiPoint of(Position... positions) {
-        return ValidationUtils.validateAndThrowErrorIfInvalid(new MultiPoint(MULTI_POINT, Arrays.stream(positions).toList()));
+        return ValidationUtils.validateAndThrowErrorIfInvalid(
+                new MultiPoint(MULTI_POINT, ArrayUtils.isNotEmpty(positions) ? Arrays.asList(positions) : List.of()));
     }
 
     /**
@@ -157,7 +159,7 @@ public final class MultiPoint extends Geometry {
      */
     @Override
     public String toString() {
-        return MessageFormat.format("MultiPoint'{'type=''{0}'', coordinates=[...]'}'", type);
+        return MessageFormat.format("Point'{'type=''{0}'', coordinates={1}'}'", type, coordinates);
     }
 
     /**
