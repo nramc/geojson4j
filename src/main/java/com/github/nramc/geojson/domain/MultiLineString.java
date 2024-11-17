@@ -16,6 +16,7 @@
 package com.github.nramc.geojson.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.nramc.geojson.validator.GeoJsonValidationException;
 import com.github.nramc.geojson.validator.ValidationError;
 import com.github.nramc.geojson.validator.ValidationResult;
@@ -23,6 +24,7 @@ import com.github.nramc.geojson.validator.ValidationUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -36,6 +38,19 @@ import static com.github.nramc.geojson.constant.GeoJsonType.MULTI_LINE_STRING;
  * A class representing a GeoJSON MultiLineString geometry object.
  * A MultiLineString is a collection of {@link LineString} objects, each of which consists of two or more {@link Position} coordinates.
  * The MultiLineString object allows for the representation of multiple lines.
+ *
+ * <p>Example usage:
+ * <pre>{@code
+ *  List<Position> line1 = List.of(Position.of(30, 10), Position.of(10, 30), Position.of(40, 40));
+ *  List<Position> line2 = List.of(Position.of(15, 5), Position.of(40, 10), Position.of(10, 20), Position.of(5, 10));
+ *  MultiLineString multiLineString = MultiLineString.of(List.of(line1, line2));
+ * }</pre></p>
+ *
+ * <p>GeoJSON Specification Reference:
+ * <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.1.5">RFC 7946 - Section 3.1.5</a></p>
+ *
+ * @see Position
+ * @see Geometry
  */
 public final class MultiLineString extends Geometry {
     private final String type;
@@ -61,7 +76,7 @@ public final class MultiLineString extends Geometry {
      * @param coordinates The list of coordinates, where each element is a list of {@link Position} objects representing a LineString.
      */
     @JsonCreator
-    public MultiLineString(String type, List<List<Position>> coordinates) {
+    public MultiLineString(@JsonProperty("type") String type, @JsonProperty("coordinates") List<List<Position>> coordinates) {
         this.type = type;
         this.coordinates = Collections.unmodifiableList(coordinates);
     }
@@ -133,5 +148,57 @@ public final class MultiLineString extends Geometry {
     @Override
     public String getType() {
         return type;
+    }
+
+    /**
+     * Retrieves the list of coordinate sequences for this geometry.
+     * Each inner list represents a sequence of {@link Position} objects, forming a line.
+     *
+     * @return A list of coordinate sequences, where each sequence is a list of {@link Position} objects.
+     */
+    public List<List<Position>> getCoordinates() {
+        return coordinates;
+    }
+
+    /**
+     * Returns a string representation of this {@link MultiLineString} object,
+     * including its type and the list of coordinates.
+     *
+     * @return A string representing the {@link MultiLineString}
+     */
+    @Override
+    public String toString() {
+        return MessageFormat.format("MultiLineString'{'type=''{0}'', coordinates={1}'}'", type, coordinates);
+    }
+
+    /**
+     * Compares this {@link MultiLineString} object with another object for equality.
+     * Two {@link MultiLineString} objects are considered equal if their type and coordinates are the same.
+     *
+     * @param o The object to compare with.
+     * @return {@code true} if this {@link MultiLineString} is equal to the specified object,
+     * {@code false} otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MultiLineString that)) return false;
+
+        return type.equals(that.type) && coordinates.equals(that.coordinates);
+    }
+
+    /**
+     * Computes the hash code for this {@link MultiLineString} object.
+     * The hash code is computed based on the {@link #type} and {@link #coordinates} fields.
+     * This method ensures that two {@link MultiLineString} objects with the same type and coordinates
+     * will produce the same hash code.
+     *
+     * @return the hash code value for this {@link MultiLineString}.
+     */
+    @Override
+    public int hashCode() {
+        int result = type.hashCode();
+        result = 31 * result + coordinates.hashCode();
+        return result;
     }
 }
