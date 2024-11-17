@@ -16,12 +16,15 @@
 package com.github.nramc.geojson.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.nramc.geojson.validator.ValidationError;
 import com.github.nramc.geojson.validator.ValidationResult;
 import com.github.nramc.geojson.validator.ValidationUtils;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -31,9 +34,25 @@ import java.util.Set;
 import static com.github.nramc.geojson.constant.GeoJsonType.LINE_STRING;
 
 /**
- * A class representing a GeoJSON LineString geometry object.
- * A LineString is a collection of two or more {@link Position} coordinates
- * that represent a line in a two-dimensional or three-dimensional space.
+ * Represents a GeoJSON LineString geometry, which is defined by an ordered list of two or more
+ * {@link Position} objects. A LineString describes a series of connected points, forming a
+ * continuous line.
+ *
+ * <p>The LineString class ensures the validity of the coordinates by enforcing that the list
+ * contains at least two positions. It provides methods to access the coordinates and validate
+ * the integrity of the LineString.</p>
+ *
+ * <p>Example usage:
+ * <pre>{@code
+ *   List<Position> positions = List.of(Position.of(100.0, 0.0), Position.of(101.0, 1.0));
+ *   LineString lineString = new LineString(positions);
+ * }</pre></p>
+ *
+ * <p>GeoJSON Specification Reference:
+ * <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.1.4">RFC 7946 - Section 3.1.4</a></p>
+ *
+ * @see Position
+ * @see Geometry
  */
 public final class LineString extends Geometry {
     private final String type;
@@ -59,7 +78,7 @@ public final class LineString extends Geometry {
      * @param coordinates The list of coordinates that make up the LineString, which must be a valid list of {@link Position}.
      */
     @JsonCreator
-    public LineString(String type, List<Position> coordinates) {
+    public LineString(@JsonProperty("type") String type, @JsonProperty("coordinates") List<Position> coordinates) {
         this.type = type;
         this.coordinates = Collections.unmodifiableList(coordinates);
     }
@@ -85,7 +104,8 @@ public final class LineString extends Geometry {
      * @throws com.github.nramc.geojson.validator.GeoJsonValidationException If validation of the coordinates fails.
      */
     public static LineString of(Position... coordinates) {
-        return ValidationUtils.validateAndThrowErrorIfInvalid(new LineString(LINE_STRING, Arrays.stream(coordinates).toList()));
+        return ValidationUtils.validateAndThrowErrorIfInvalid(new LineString(LINE_STRING,
+                ArrayUtils.isNotEmpty(coordinates) ? Arrays.asList(coordinates) : List.of()));
     }
 
     /**
@@ -123,5 +143,64 @@ public final class LineString extends Geometry {
     @Override
     public String getType() {
         return type;
+    }
+
+    /**
+     * Retrieves the list of coordinates that define this LineString.
+     *
+     * @return an unmodifiable list of {@link Position} objects representing the coordinates
+     * of the LineString. The list contains at least two positions.
+     */
+    public List<Position> getCoordinates() {
+        return coordinates;
+    }
+
+    /**
+     * Returns a string representation of the LineString.
+     *
+     * @return a formatted string containing the type and coordinates of the LineString.
+     */
+    @Override
+    public String toString() {
+        return MessageFormat.format("LineString'{'type=''{0}'', coordinates={1}'}'", type, coordinates);
+    }
+
+    /**
+     * Compares this {@code LineString} with the specified object for equality.
+     *
+     * @param o the object to compare with this {@code LineString}
+     * @return {@code true} if the specified object is equal to this {@code LineString}, otherwise {@code false}
+     * <p>
+     * The method checks:
+     * <ul>
+     *     <li>If the current instance is compared with itself, it returns {@code true}.</li>
+     *     <li>If the object is not an instance of {@code LineString}, it returns {@code false}.</li>
+     *     <li>If both objects have the same type and coordinates, it returns {@code true}; otherwise, it returns {@code false}.</li>
+     * </ul>
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LineString that)) return false;
+
+        return type.equals(that.type) && coordinates.equals(that.coordinates);
+    }
+
+    /**
+     * Returns the hash code value for this {@code LineString}.
+     *
+     * @return the hash code value, computed based on the {@code type} and {@code coordinates} fields
+     * <p>
+     * The method generates a hash code using the following logic:
+     * - Initializes the result with the hash code of the {@code type}.
+     * - Updates the result by multiplying it by 31 and adding the hash code of the {@code coordinates}.
+     * This approach ensures a well-distributed hash code for the object.
+     * </p>
+     */
+    @Override
+    public int hashCode() {
+        int result = type.hashCode();
+        result = 31 * result + coordinates.hashCode();
+        return result;
     }
 }

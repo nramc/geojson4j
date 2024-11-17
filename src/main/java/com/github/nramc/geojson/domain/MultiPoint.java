@@ -40,6 +40,17 @@ import static com.github.nramc.geojson.constant.GeoJsonType.MULTI_POINT;
  * A MultiPoint object contains multiple Position objects, which represent individual points in 2D or 3D space.
  * The MultiPoint class validates the coordinates and ensures they meet the expected criteria for GeoJSON format.
  * </p>
+ * <p>Example usage:
+ * <pre>{@code
+ * Point point = Point.of(40.7128, -74.0060);
+ * }
+ * </pre>
+ * </p>
+ *
+ * <p>GeoJSON Specification Reference:
+ * <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.1.3">RFC 7946 - Section 3.1.3</a></p>
+ * @see Position
+ * @see Geometry
  */
 public final class MultiPoint extends Geometry {
     private final String type;
@@ -159,7 +170,7 @@ public final class MultiPoint extends Geometry {
      */
     @Override
     public String toString() {
-        return MessageFormat.format("Point'{'type=''{0}'', coordinates={1}'}'", type, coordinates);
+        return MessageFormat.format("MultiPoint'{'type=''{0}'', coordinates={1}'}'", type, coordinates);
     }
 
     /**

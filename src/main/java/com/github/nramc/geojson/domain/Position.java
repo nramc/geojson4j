@@ -48,6 +48,9 @@ import java.util.Set;
  * <pre>{@code
  * Position position = Position.of(40.7128, -74.0060);
  * }</pre></p>
+ *
+ * <p>GeoJSON Specification Reference:
+ * <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.1.1">RFC 7946 - Section 3.1.1</a></p>
  */
 public class Position implements Validatable, Serializable {
 

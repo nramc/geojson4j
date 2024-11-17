@@ -47,6 +47,11 @@ import java.util.Set;
  * <pre>{@code
  * Point point = Point.of(40.7128, -74.0060);
  * }</pre></p>
+ *
+ * <p>GeoJSON Specification Reference:
+ * <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.1.2">RFC 7946 - Section 3.1.2</a></p>
+ * @see Position
+ * @see Geometry
  */
 public final class Point extends Geometry {
     private final String type;

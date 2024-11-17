@@ -262,7 +262,7 @@ class MultiPointTest {
     @Test
     void toString_shouldProvideFormatedStringWithAllArguments() {
         MultiPoint multiPoint = MultiPoint.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0));
-        assertThat(multiPoint).hasToString("Point{type='MultiPoint', coordinates=[[100.012, 45.123456], [45.0, 65.0]]}");
+        assertThat(multiPoint).hasToString("MultiPoint{type='MultiPoint', coordinates=[[100.012, 45.123456], [45.0, 65.0]]}");
     }
 
     @Test
