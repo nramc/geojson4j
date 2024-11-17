@@ -17,6 +17,7 @@ package com.github.nramc.geojson.validator;
 
 import org.apache.commons.collections4.CollectionUtils;
 
+import java.text.MessageFormat;
 import java.util.Set;
 
 
@@ -71,5 +72,8 @@ public class ValidationResult {
         return CollectionUtils.isNotEmpty(errors);
     }
 
-
+    @Override
+    public String toString() {
+        return MessageFormat.format("ValidationResult'{'errors={0}'}'", errors);
+    }
 }
