@@ -73,6 +73,8 @@ class PolygonCoordinatesTest {
             coordinates.ring.circle.invalid;    [ [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [180.0, 0.0] ] ]
             coordinates.ring.length.invalid;    [ [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ], [ [100.8, 0.8], [100.8, 0.2], [100.8, 0.8] ] ]
             coordinates.ring.circle.invalid;    [ [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ], [ [100.8, 0.8], [100.8, 0.2], [100.2, 0.2], [100.2, 0.8], [180.8, 0.8] ] ]
+            coordinates.longitude.invalid;    [ [ [100.0, 0.0], [200.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ], [ [100.8, 0.8], [100.8, 0.2], [100.2, 0.2], [100.2, 0.8], [100.8, 0.8] ] ]
+            coordinates.latitude.invalid;    [ [ [100.0, 0.0], [101.0, 200.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ], [ [100.8, 0.8], [100.8, 0.2], [100.2, 0.2], [100.2, 0.8], [100.8, 0.8] ] ]
             """)
     void deserialization_withInvalidJson_shouldCreateObjectWithInvalidState(String expectedErrorKey, String json) throws JsonProcessingException {
         assertThat(objectMapper.readValue(json, PolygonCoordinates.class)).isNotNull()
@@ -214,7 +216,7 @@ class PolygonCoordinatesTest {
         );
 
         PolygonCoordinates polygonCoordinates = PolygonCoordinates.of(exteriorRing, hole);
-        assertThat(polygonCoordinates).hasToString("PolygonCoordinates{exterior=[[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0]], holes=[[[100.8, 0.8], [100.8, 0.2], [100.2, 0.2], [100.2, 0.8], [100.8, 0.8]]]}");
+        assertThat(polygonCoordinates).hasToString("[[[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0]], [[100.8, 0.8], [100.8, 0.2], [100.2, 0.2], [100.2, 0.8], [100.8, 0.8]]]");
     }
 
     @Test

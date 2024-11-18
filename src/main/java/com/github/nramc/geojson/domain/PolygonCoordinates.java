@@ -25,7 +25,6 @@ import com.github.nramc.geojson.validator.ValidationUtils;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.io.Serializable;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -220,6 +219,8 @@ public class PolygonCoordinates implements Validatable, Serializable {
         if (CollectionUtils.isNotEmpty(linearRing) && !linearRing.getFirst().equals(linearRing.getLast())) {
             errors.add(ValidationError.of("coordinates", "Ring '%s', first and last position must be the same.".formatted(linearRing), "coordinates.ring.circle.invalid"));
         }
+        CollectionUtils.emptyIfNull(linearRing).stream().map(Position::validate).filter(ValidationResult::hasErrors)
+                .map(ValidationResult::getErrors).forEach(errors::addAll);
         return errors;
     }
 
@@ -254,7 +255,9 @@ public class PolygonCoordinates implements Validatable, Serializable {
      */
     @Override
     public String toString() {
-        return MessageFormat.format("PolygonCoordinates'{'exterior={0}, holes={1}'}'", exterior, holes);
+        List<List<Position>> coordinates = new ArrayList<>(holes);
+        coordinates.addFirst(exterior);
+        return coordinates.toString();
     }
 
     /**
