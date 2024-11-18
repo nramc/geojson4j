@@ -172,7 +172,7 @@ class MultiLineStringTest {
 
     @ParameterizedTest
     @MethodSource("eagerValidation_whenPositionsAsList")
-    final void eagerValidation_withVarArg_whenValidationFails_shouldProvideExpectedError(String errorField, String errorKey, List<List<Position>> coordinates) {
+    final void eagerValidation_withList_whenValidationFails_shouldProvideExpectedError(String errorField, String errorKey, List<List<Position>> coordinates) {
 
         GeoJsonValidationException validationException = assertThrows(GeoJsonValidationException.class, () -> MultiLineString.of(coordinates));
 

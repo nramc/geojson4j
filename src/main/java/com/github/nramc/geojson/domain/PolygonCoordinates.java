@@ -25,11 +25,13 @@ import com.github.nramc.geojson.validator.ValidationUtils;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.io.Serializable;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -48,21 +50,21 @@ import java.util.Set;
  * </p>
  *
  * <p>Usage Example:</p>
- * <pre>
+ * <pre>{@code
  * List<Position> exterior = Arrays.asList(Position.of(0, 0), Position.of(0, 1), Position.of(1, 1), Position.of(1, 0), Position.of(0, 0));
  * List<Position> hole = Arrays.asList(Position.of(0.2, 0.2), Position.of(0.2, 0.8), Position.of(0.8, 0.8), Position.of(0.8, 0.2), Position.of(0.2, 0.2));
  * PolygonCoordinates polygon = PolygonCoordinates.of(exterior, List.of(hole));
- * </pre>
+ * }</pre>
  *
  * <p>
  * The `validate()` method can be called to check whether the polygon coordinates are valid:
  * </p>
- * <pre>
+ * <pre>{@code
  * ValidationResult validationResult = polygon.validate();
  * if (validationResult.hasErrors()) {
  *     // Handle validation errors
  * }
- * </pre>
+ * }</pre>
  */
 public class PolygonCoordinates implements Validatable, Serializable {
     private final List<Position> exterior;
@@ -92,7 +94,7 @@ public class PolygonCoordinates implements Validatable, Serializable {
     @JsonCreator
     public PolygonCoordinates(final List<List<Position>> linearRings) {
         this(CollectionUtils.isNotEmpty(linearRings) ? linearRings.getFirst() : List.of(),
-                linearRings.size() == 1 ? List.of() : linearRings.subList(1, linearRings.size()));
+                linearRings.size() <= 1 ? List.of() : linearRings.subList(1, linearRings.size()));
     }
 
     /**
@@ -188,14 +190,35 @@ public class PolygonCoordinates implements Validatable, Serializable {
         return coordinates;
     }
 
+    /**
+     * Returns the list of {@link Position} objects representing the exterior coordinates of the polygon.
+     *
+     * @return the exterior coordinates of the polygon
+     */
+    public List<Position> getExterior() {
+        return exterior;
+    }
 
+    /**
+     * Returns the list of holes, where each hole is represented by a list of {@link Position} objects.
+     *
+     * @return the list of holes, or an empty list if no holes are present
+     */
+    public List<List<Position>> getHoles() {
+        return holes;
+    }
+
+    @SuppressWarnings("java:S1192") // String literals should not be duplicated
     private static Set<ValidationError> validateLinerRing(List<Position> linearRing) {
         Set<ValidationError> errors = new HashSet<>();
-        if (CollectionUtils.isEmpty(linearRing) || linearRing.size() < 4) {
-            errors.add(ValidationError.of("coordinates", "Ring '%s' must contain at least four positions.".formatted(linearRing), "coordinates.length.invalid"));
+        if (CollectionUtils.isEmpty(linearRing)) {
+            errors.add(ValidationError.of("coordinates", "Exterior linear ring should not be blank/empty.", "coordinates.exterior.ring.empty"));
         }
-        if (!linearRing.getFirst().equals(linearRing.getLast())) {
-            errors.add(ValidationError.of("coordinates", "Ring '%s', first and last position must be the same.".formatted(linearRing), "coordinates.cycle.invalid"));
+        if (linearRing.size() < 4) {
+            errors.add(ValidationError.of("coordinates", "Ring '%s' must contain at least four positions.".formatted(linearRing), "coordinates.ring.length.invalid"));
+        }
+        if (CollectionUtils.isNotEmpty(linearRing) && !linearRing.getFirst().equals(linearRing.getLast())) {
+            errors.add(ValidationError.of("coordinates", "Ring '%s', first and last position must be the same.".formatted(linearRing), "coordinates.ring.circle.invalid"));
         }
         return errors;
     }
@@ -220,5 +243,47 @@ public class PolygonCoordinates implements Validatable, Serializable {
                 .filter(CollectionUtils::isNotEmpty).forEach(errors::addAll);
 
         return new ValidationResult(errors);
+    }
+
+    /**
+     * Returns a string representation of the {@link PolygonCoordinates} object.
+     * The string includes the {@code exterior} coordinates and any {@code holes}.
+     *
+     * @return a string representation of the {@link PolygonCoordinates} object,
+     * formatted as "PolygonCoordinates{exterior=[...], holes=[...]}".
+     */
+    @Override
+    public String toString() {
+        return MessageFormat.format("PolygonCoordinates'{'exterior={0}, holes={1}'}'", exterior, holes);
+    }
+
+    /**
+     * Compares this {@link PolygonCoordinates} object to another object for equality.
+     * Two {@code PolygonCoordinates} objects are considered equal if their {@code exterior}
+     * coordinates and {@code holes} are equal.
+     *
+     * @param o the object to compare this {@link PolygonCoordinates} to
+     * @return {@code true} if the objects are equal, {@code false} otherwise
+     */
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PolygonCoordinates that)) return false;
+
+        return exterior.equals(that.exterior) && Objects.equals(holes, that.holes);
+    }
+
+    /**
+     * Computes a hash code for this {@link PolygonCoordinates} object based on its {@code exterior}
+     * coordinates and {@code holes}. The hash code is computed using the {@link #exterior} hash code
+     * and the hash code of {@link #holes}.
+     *
+     * @return the hash code for this {@link PolygonCoordinates} object
+     */
+    @Override
+    public int hashCode() {
+        int result = exterior.hashCode();
+        result = 31 * result + Objects.hashCode(holes);
+        return result;
     }
 }
