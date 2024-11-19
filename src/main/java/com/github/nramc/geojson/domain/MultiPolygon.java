@@ -16,6 +16,7 @@
 package com.github.nramc.geojson.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.nramc.geojson.validator.GeoJsonValidationException;
 import com.github.nramc.geojson.validator.ValidationError;
 import com.github.nramc.geojson.validator.ValidationResult;
@@ -23,6 +24,7 @@ import com.github.nramc.geojson.validator.ValidationUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -43,6 +45,16 @@ import static com.github.nramc.geojson.constant.GeoJsonType.MULTI_POLYGON;
  * The class includes various factory methods to create instances of MultiPolygon and validation logic to
  * ensure the MultiPolygon conforms to the GeoJSON specification.
  * </p>
+ *
+ * <p>Usage Example:</p>
+ * <pre>{@code
+ * PolygonCoordinates PolygonCoordinate1 = PolygonCoordinates.of(Arrays.asList(Position.of(0, 0), Position.of(0, 1), Position.of(1, 1), Position.of(1, 0), Position.of(0, 0)));
+ * PolygonCoordinates PolygonCoordinate2 = PolygonCoordinates.of(Arrays.asList(Position.of(0.2, 0.2), Position.of(0.2, 0.8), Position.of(0.8, 0.8), Position.of(0.8, 0.2), Position.of(0.2, 0.2)));
+ * MultiPolygon multiPolygon = MultiPolygon.of(PolygonCoordinate1, PolygonCoordinate2);
+ * }</pre>
+ *
+ * <p>GeoJSON Specification Reference:
+ * <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.1.7">RFC 7946 - Section 3.1.7</a></p>
  *
  * @see Geometry
  * @see PolygonCoordinates
@@ -72,9 +84,9 @@ public final class MultiPolygon extends Geometry {
      * @param coordinates The list of {@link PolygonCoordinates} objects representing the individual polygons.
      */
     @JsonCreator
-    public MultiPolygon(final String type, final List<PolygonCoordinates> coordinates) {
+    public MultiPolygon(@JsonProperty("type") String type, @JsonProperty("coordinates") List<PolygonCoordinates> coordinates) {
         this.type = type;
-        this.coordinates = Collections.unmodifiableList(coordinates);
+        this.coordinates = CollectionUtils.isNotEmpty(coordinates) ? Collections.unmodifiableList(coordinates) : null;
     }
 
     /**
@@ -151,5 +163,59 @@ public final class MultiPolygon extends Geometry {
     @Override
     public String getType() {
         return type;
+    }
+
+    /**
+     * Retrieves the list of polygon coordinates that define the MultiPolygon geometry.
+     *
+     * @return A list of {@link PolygonCoordinates} objects representing the MultiPolygon's coordinates.
+     */
+    public List<PolygonCoordinates> getCoordinates() {
+        return coordinates;
+    }
+
+    /**
+     * Returns a string representation of the MultiPolygon object.
+     * The string is formatted as "MultiPolygon{type='typeValue', coordinates=coordinatesValue}"
+     * where "typeValue" is the type of the GeoJSON object, and "coordinatesValue"
+     * represents the MultiPolygon's coordinates.
+     *
+     * @return A formatted string representing the MultiPolygon object.
+     */
+    @Override
+    public String toString() {
+        return MessageFormat.format("MultiPolygon'{'type=''{0}'', coordinates={1}'}'", type, coordinates);
+    }
+
+    /**
+     * Compares this MultiPolygon object with another object for equality.
+     * <p>
+     * The comparison checks if both objects are of the same type and if their
+     * type and coordinates fields are equal.
+     *
+     * @param o The object to compare with this MultiPolygon.
+     * @return {@code true} if the specified object is equal to this MultiPolygon, {@code false} otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MultiPolygon that)) return false;
+
+        return type.equals(that.type) && coordinates.equals(that.coordinates);
+    }
+
+    /**
+     * Computes the hash code for this MultiPolygon.
+     * <p>
+     * The hash code is calculated based on the type and coordinates fields,
+     * ensuring consistent hashing for use in hash-based collections.
+     *
+     * @return The hash code value for this MultiPolygon.
+     */
+    @Override
+    public int hashCode() {
+        int result = type.hashCode();
+        result = 31 * result + coordinates.hashCode();
+        return result;
     }
 }
