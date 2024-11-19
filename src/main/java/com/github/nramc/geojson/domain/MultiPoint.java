@@ -42,13 +42,14 @@ import static com.github.nramc.geojson.constant.GeoJsonType.MULTI_POINT;
  * </p>
  * <p>Example usage:
  * <pre>{@code
- * Point point = Point.of(40.7128, -74.0060);
+ * MultiPoint multiPoint = MultiPoint.of(Position.of(100, 50),Position.of(110, 60),Position.of(150, 90));
  * }
  * </pre>
  * </p>
  *
  * <p>GeoJSON Specification Reference:
  * <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.1.3">RFC 7946 - Section 3.1.3</a></p>
+ *
  * @see Position
  * @see Geometry
  */

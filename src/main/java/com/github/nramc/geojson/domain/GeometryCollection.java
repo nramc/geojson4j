@@ -16,14 +16,18 @@
 package com.github.nramc.geojson.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.nramc.geojson.validator.GeoJsonValidationException;
 import com.github.nramc.geojson.validator.Validatable;
 import com.github.nramc.geojson.validator.ValidationError;
 import com.github.nramc.geojson.validator.ValidationResult;
 import com.github.nramc.geojson.validator.ValidationUtils;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -42,6 +46,17 @@ import static com.github.nramc.geojson.constant.GeoJsonType.GEOMETRY_COLLECTION;
  * </p>
  * <p>
  * Note: The class is immutable, and all collections are unmodifiable to ensure thread-safety and immutability.
+ *
+ * <p>Usage Example:</p>
+ * <pre>{@code
+ * Point point = Point.of(40.7128, -74.0060);
+ * MultiPoint multiPoint = MultiPoint.of(Position.of(100, 50),Position.of(110, 60),Position.of(150, 90));
+ *
+ * GeometryCollection geometryCollection = GeometryCollection.of(point, multiPoint);
+ * }</pre>
+ *
+ * <p>GeoJSON Specification Reference:
+ * <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.1.8">RFC 7946 - Section 3.1.8</a></p>
  * </p>
  */
 public final class GeometryCollection extends Geometry {
@@ -71,9 +86,9 @@ public final class GeometryCollection extends Geometry {
      *                   or nested GeometryCollections.
      */
     @JsonCreator
-    public GeometryCollection(String type, List<Geometry> geometries) {
+    public GeometryCollection(@JsonProperty("type") String type, @JsonProperty("geometries") List<Geometry> geometries) {
         this.type = type;
-        this.geometries = List.copyOf(geometries);
+        this.geometries = CollectionUtils.isNotEmpty(geometries) ? List.copyOf(geometries) : List.of();
     }
 
     /**
@@ -90,6 +105,23 @@ public final class GeometryCollection extends Geometry {
      */
     public static GeometryCollection of(List<Geometry> geometries) {
         return ValidationUtils.validateAndThrowErrorIfInvalid(new GeometryCollection(GEOMETRY_COLLECTION, geometries));
+    }
+
+    /**
+     * Factory method to create a {@link GeometryCollection} from the given array of {@link Geometry} objects.
+     * <p>
+     * If the provided array is not empty, the method creates a list from the geometries; otherwise,
+     * it uses an empty list. The method also validates the created {@code GeometryCollection}
+     * and throws an exception if validation fails.
+     *
+     * @param geometries an array of {@link Geometry} objects to include in the collection.
+     *                   If the array is empty or {@code null}, an empty collection is created.
+     * @return a validated {@code GeometryCollection} containing the provided geometries.
+     * @throws GeoJsonValidationException if the {@code GeometryCollection} is found to be invalid.
+     */
+    public static GeometryCollection of(Geometry... geometries) {
+        return ValidationUtils.validateAndThrowErrorIfInvalid(new GeometryCollection(GEOMETRY_COLLECTION,
+                ArrayUtils.isNotEmpty(geometries) ? Arrays.asList(geometries) : List.of()));
     }
 
     /**
@@ -141,5 +173,49 @@ public final class GeometryCollection extends Geometry {
                 .forEach(errors::addAll);
 
         return new ValidationResult(errors);
+    }
+
+    /**
+     * Returns a string representation of the {@code GeometryCollection} object.
+     * <p>
+     * The format includes the type of the geometry and the list of geometries it contains.
+     *
+     * @return a formatted string representing the {@code GeometryCollection}.
+     */
+    @Override
+    public String toString() {
+        return MessageFormat.format("GeometryCollection'{'type=''{0}'', geometries={1}'}'", type, geometries);
+    }
+
+    /**
+     * Compares this {@code GeometryCollection} to the specified object for equality.
+     * <p>
+     * Returns {@code true} if and only if the specified object is also a
+     * {@code GeometryCollection} with the same {@code type} and an equal list of {@code geometries}.
+     *
+     * @param o the object to compare with this {@code GeometryCollection}
+     * @return {@code true} if the specified object is equal to this {@code GeometryCollection}, otherwise {@code false}
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GeometryCollection that)) return false;
+
+        return type.equals(that.type) && geometries.equals(that.geometries);
+    }
+
+    /**
+     * Computes the hash code for this {@code GeometryCollection}.
+     * <p>
+     * The hash code is calculated using the hash codes of the {@code type}
+     * and the list of {@code geometries}, combined in a way to reduce hash collisions.
+     *
+     * @return the hash code value for this {@code GeometryCollection}
+     */
+    @Override
+    public int hashCode() {
+        int result = type.hashCode();
+        result = 31 * result + geometries.hashCode();
+        return result;
     }
 }

@@ -255,8 +255,9 @@ public class PolygonCoordinates implements Validatable, Serializable {
      */
     @Override
     public String toString() {
-        List<List<Position>> coordinates = new ArrayList<>(holes);
-        coordinates.addFirst(exterior);
+        List<List<Position>> coordinates = new ArrayList<>();
+        coordinates.add(CollectionUtils.isNotEmpty(exterior) ? exterior : Collections.emptyList());
+        coordinates.addAll(CollectionUtils.isNotEmpty(holes) ? holes : Collections.emptyList());
         return coordinates.toString();
     }
 
