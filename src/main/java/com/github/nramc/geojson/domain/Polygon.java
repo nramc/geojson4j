@@ -16,12 +16,14 @@
 package com.github.nramc.geojson.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.nramc.geojson.validator.ValidationError;
 import com.github.nramc.geojson.validator.ValidationResult;
 import com.github.nramc.geojson.validator.ValidationUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -43,9 +45,15 @@ import static com.github.nramc.geojson.constant.GeoJsonType.POLYGON;
  * The Polygon object supports various factory methods to construct instances from exterior and interior rings.
  * </p>
  *
- * <p>
- * This class provides validation logic to ensure the Polygon's structure adheres to the GeoJSON specification.
- * </p>
+ * <p>Usage Example:</p>
+ * <pre>{@code
+ * List<Position> exterior = Arrays.asList(Position.of(0, 0), Position.of(0, 1), Position.of(1, 1), Position.of(1, 0), Position.of(0, 0));
+ * List<Position> hole = Arrays.asList(Position.of(0.2, 0.2), Position.of(0.2, 0.8), Position.of(0.8, 0.8), Position.of(0.8, 0.2), Position.of(0.2, 0.2));
+ * Polygon polygon = Polygon.of(exterior, List.of(hole));
+ * }</pre>
+ *
+ * <p>GeoJSON Specification Reference:
+ * <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.1.6">RFC 7946 - Section 3.1.6</a></p>
  *
  * @see Geometry
  * @see PolygonCoordinates
@@ -74,7 +82,7 @@ public final class Polygon extends Geometry {
      * @param coordinates The {@link PolygonCoordinates} object representing the exterior and interior rings.
      */
     @JsonCreator
-    public Polygon(final String type, final PolygonCoordinates coordinates) {
+    public Polygon(@JsonProperty("type") final String type, @JsonProperty("coordinates") final PolygonCoordinates coordinates) {
         this.type = type;
         this.coordinates = coordinates;
     }
@@ -98,7 +106,7 @@ public final class Polygon extends Geometry {
      * @return A validated {@link Polygon} object.
      */
     @SafeVarargs
-    public final Polygon of(final List<Position> exterior, final List<Position>... holes) {
+    public static Polygon of(final List<Position> exterior, final List<Position>... holes) {
         return ValidationUtils.validateAndThrowErrorIfInvalid(new Polygon(POLYGON, PolygonCoordinates.of(exterior, List.of(holes))));
     }
 
@@ -139,14 +147,19 @@ public final class Polygon extends Geometry {
         if (StringUtils.isBlank(type) || !StringUtils.equals(type, POLYGON)) {
             errors.add(ValidationError.of("type", "type '%s' is not valid. expected '%s'".formatted(type, POLYGON), "type.invalid"));
         }
-
-        if (CollectionUtils.size(coordinates) < 1) {
+        if (coordinates == null) {
+            errors.add(ValidationError.of("coordinates", "coordinates should not be empty/blank", "coordinates.invalid.empty"));
+        }
+        if (coordinates != null && CollectionUtils.isEmpty(coordinates.getExterior())) {
             errors.add(ValidationError.of("coordinates", "coordinates is not valid, at least one position required", "coordinates.invalid.min.length"));
         }
-        ValidationResult coordinatesValidationResult = coordinates.validate();
-        if (coordinatesValidationResult.hasErrors()) {
-            errors.addAll(coordinatesValidationResult.getErrors());
+        if (coordinates != null) {
+            ValidationResult coordinatesValidationResult = coordinates.validate();
+            if (coordinatesValidationResult.hasErrors()) {
+                errors.addAll(coordinatesValidationResult.getErrors());
+            }
         }
+
         return new ValidationResult(errors);
     }
 
@@ -158,5 +171,54 @@ public final class Polygon extends Geometry {
     @Override
     public String getType() {
         return type;
+    }
+
+    /**
+     * Retrieves the coordinates of the polygon, which consist of an exterior boundary
+     * and optional interior holes.
+     *
+     * @return the {@link PolygonCoordinates} object representing the exterior and interior coordinates of the polygon.
+     */
+    public PolygonCoordinates getCoordinates() {
+        return coordinates;
+    }
+
+    /**
+     * Returns a string representation of the Polygon object, including its type
+     * and coordinates formatted in a human-readable way.
+     *
+     * @return a formatted string representing the Polygon, including type and coordinates.
+     */
+    @Override
+    public String toString() {
+        return MessageFormat.format("Polygon'{'type=''{0}'', coordinates={1}'}'", type, coordinates);
+    }
+
+    /**
+     * Compares this Polygon object to another object for equality.
+     * Two Polygons are considered equal if they have the same type and coordinates.
+     *
+     * @param o the object to compare with this Polygon
+     * @return true if the specified object is equal to this Polygon, otherwise false
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Polygon polygon)) return false;
+
+        return type.equals(polygon.type) && coordinates.equals(polygon.coordinates);
+    }
+
+    /**
+     * Returns the hash code value for this Polygon object.
+     * The hash code is computed using the hash codes of the type and coordinates fields.
+     *
+     * @return the hash code value of this Polygon
+     */
+    @Override
+    public int hashCode() {
+        int result = type.hashCode();
+        result = 31 * result + coordinates.hashCode();
+        return result;
     }
 }

@@ -103,7 +103,7 @@ public class PolygonCoordinates implements Validatable, Serializable {
      * @param holes    The hole rings inside the polygon.
      */
     public PolygonCoordinates(final List<Position> exterior, final List<List<Position>> holes) {
-        this.exterior = Collections.unmodifiableList(exterior);
+        this.exterior = CollectionUtils.isNotEmpty(exterior) ? Collections.unmodifiableList(exterior) : null;
         this.holes = CollectionUtils.isNotEmpty(holes) ? Collections.unmodifiableList(holes) : null;
     }
 
@@ -213,7 +213,7 @@ public class PolygonCoordinates implements Validatable, Serializable {
         if (CollectionUtils.isEmpty(linearRing)) {
             errors.add(ValidationError.of("coordinates", "Exterior linear ring should not be blank/empty.", "coordinates.exterior.ring.empty"));
         }
-        if (linearRing.size() < 4) {
+        if (CollectionUtils.size(linearRing) < 4) {
             errors.add(ValidationError.of("coordinates", "Ring '%s' must contain at least four positions.".formatted(linearRing), "coordinates.ring.length.invalid"));
         }
         if (CollectionUtils.isNotEmpty(linearRing) && !linearRing.getFirst().equals(linearRing.getLast())) {
