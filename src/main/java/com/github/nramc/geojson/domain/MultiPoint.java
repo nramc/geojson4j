@@ -182,8 +182,12 @@ public final class MultiPoint extends Geometry {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof MultiPoint that)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MultiPoint that)) {
+            return false;
+        }
 
         return Objects.equals(type, that.type) && Objects.equals(coordinates, that.coordinates);
     }

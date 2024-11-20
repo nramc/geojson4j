@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PositionTest {
@@ -127,35 +128,41 @@ class PositionTest {
 
     @Test
     void toString_shouldProvideFormatedStringWithAllArguments() {
-        Position position = Position.of(108.1134, 45.24567);
-        assertThat(position).hasToString("[108.1134, 45.24567]");
+        assertDoesNotThrow(() -> {
+            Position position = Position.of(108.1134, 45.24567);
+            assertThat(position).hasToString("[108.1134, 45.24567]");
+        });
     }
 
     @Test
     void equals_shouldConsiderEqualityBasedOnData() {
-        Position location1Variant1 = Position.of(108.1134, 45.24567);
-        Position location1Variant2 = Position.of(108.1134, 45.24567);
+        assertDoesNotThrow(() -> {
+            Position location1Variant1 = Position.of(108.1134, 45.24567);
+            Position location1Variant2 = Position.of(108.1134, 45.24567);
 
-        Position location2Variant1 = Position.of(25.1234, -54.1234);
-        Position location2Variant2 = Position.of(25.1234, -54.1234);
+            Position location2Variant1 = Position.of(25.1234, -54.1234);
+            Position location2Variant2 = Position.of(25.1234, -54.1234);
 
-        assertThat(location1Variant1).isEqualTo(location1Variant2);
-        assertThat(location2Variant1).isEqualTo(location2Variant2);
+            assertThat(location1Variant1).isEqualTo(location1Variant2);
+            assertThat(location2Variant1).isEqualTo(location2Variant2);
 
-        assertThat(location1Variant1).isNotEqualTo(location2Variant1);
-        assertThat(location1Variant2).isNotEqualTo(location2Variant2);
+            assertThat(location1Variant1).isNotEqualTo(location2Variant1);
+            assertThat(location1Variant2).isNotEqualTo(location2Variant2);
+        });
     }
 
     @Test
     void hashCode_shouldConsiderHashCodeBasedOnData() {
-        Position location1Variant1 = Position.of(108.1134, 45.24567);
-        Position location1Variant2 = Position.of(108.1134, 45.24567);
+        assertDoesNotThrow(() -> {
+            Position location1Variant1 = Position.of(108.1134, 45.24567);
+            Position location1Variant2 = Position.of(108.1134, 45.24567);
 
-        Position location2Variant1 = Position.of(25.1234, -54.1234);
-        Position location2Variant2 = Position.of(25.1234, -54.1234);
+            Position location2Variant1 = Position.of(25.1234, -54.1234);
+            Position location2Variant2 = Position.of(25.1234, -54.1234);
 
-        assertThat(location1Variant1).hasSameHashCodeAs(location1Variant2);
-        assertThat(location2Variant1).hasSameHashCodeAs(location2Variant2);
+            assertThat(location1Variant1).hasSameHashCodeAs(location1Variant2);
+            assertThat(location2Variant1).hasSameHashCodeAs(location2Variant2);
+        });
     }
 
 }

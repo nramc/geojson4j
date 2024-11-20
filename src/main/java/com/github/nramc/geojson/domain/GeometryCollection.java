@@ -198,8 +198,12 @@ public final class GeometryCollection extends Geometry {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof GeometryCollection that)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof GeometryCollection that)) {
+            return false;
+        }
 
         return type.equals(that.type) && geometries.equals(that.geometries);
     }

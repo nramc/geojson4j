@@ -225,8 +225,12 @@ public class Position implements Validatable, Serializable {
      */
     @Override
     public final boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Position position)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Position position)) {
+            return false;
+        }
 
         return Arrays.equals(coordinates, position.coordinates);
     }

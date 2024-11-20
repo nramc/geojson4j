@@ -188,8 +188,12 @@ public final class FeatureCollection extends GeoJson implements Validatable {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof FeatureCollection that)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof FeatureCollection that)) {
+            return false;
+        }
 
         return Objects.equals(type, that.type) && Objects.equals(features, that.features);
     }

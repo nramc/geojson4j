@@ -203,8 +203,12 @@ public final class Polygon extends Geometry {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Polygon polygon)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Polygon polygon)) {
+            return false;
+        }
 
         return type.equals(polygon.type) && coordinates.equals(polygon.coordinates);
     }

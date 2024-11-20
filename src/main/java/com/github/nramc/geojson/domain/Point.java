@@ -188,8 +188,12 @@ public final class Point extends Geometry {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Point point)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Point point)) {
+            return false;
+        }
 
         return Objects.equals(type, point.type) && Objects.equals(coordinates, point.coordinates);
     }

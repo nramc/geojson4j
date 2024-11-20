@@ -181,8 +181,12 @@ public final class MultiLineString extends Geometry {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof MultiLineString that)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MultiLineString that)) {
+            return false;
+        }
 
         return type.equals(that.type) && coordinates.equals(that.coordinates);
     }

@@ -1,3 +1,18 @@
+/*
+ * Copyright 2023 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * https://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.github.nramc.geojson.domain;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -16,6 +31,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MultiPointTest {
@@ -261,35 +277,41 @@ class MultiPointTest {
 
     @Test
     void toString_shouldProvideFormatedStringWithAllArguments() {
-        MultiPoint multiPoint = MultiPoint.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0));
-        assertThat(multiPoint).hasToString("MultiPoint{type='MultiPoint', coordinates=[[100.012, 45.123456], [45.0, 65.0]]}");
+        assertDoesNotThrow(() -> {
+            MultiPoint multiPoint = MultiPoint.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0));
+            assertThat(multiPoint).hasToString("MultiPoint{type='MultiPoint', coordinates=[[100.012, 45.123456], [45.0, 65.0]]}");
+        });
     }
 
     @Test
     void equals_shouldConsiderEqualityBasedOnData() {
-        MultiPoint location1Variant1 = MultiPoint.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0));
-        MultiPoint location1Variant2 = MultiPoint.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0));
+        assertDoesNotThrow(() -> {
+            MultiPoint location1Variant1 = MultiPoint.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0));
+            MultiPoint location1Variant2 = MultiPoint.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0));
 
-        MultiPoint location2Variant1 = MultiPoint.of(Position.of(25.1234, -54.1234), Position.of(45.0, 65.0));
-        MultiPoint location2Variant2 = MultiPoint.of(Position.of(25.1234, -54.1234), Position.of(45.0, 65.0));
+            MultiPoint location2Variant1 = MultiPoint.of(Position.of(25.1234, -54.1234), Position.of(45.0, 65.0));
+            MultiPoint location2Variant2 = MultiPoint.of(Position.of(25.1234, -54.1234), Position.of(45.0, 65.0));
 
-        assertThat(location1Variant1).isEqualTo(location1Variant2);
-        assertThat(location2Variant1).isEqualTo(location2Variant2);
+            assertThat(location1Variant1).isEqualTo(location1Variant2);
+            assertThat(location2Variant1).isEqualTo(location2Variant2);
 
-        assertThat(location1Variant1).isNotEqualTo(location2Variant1);
-        assertThat(location1Variant2).isNotEqualTo(location2Variant2);
+            assertThat(location1Variant1).isNotEqualTo(location2Variant1);
+            assertThat(location1Variant2).isNotEqualTo(location2Variant2);
+        });
     }
 
     @Test
     void hashCode_shouldConsiderHashCodeBasedOnData() {
-        MultiPoint location1Variant1 = MultiPoint.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0));
-        MultiPoint location1Variant2 = MultiPoint.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0));
+        assertDoesNotThrow(() -> {
+            MultiPoint location1Variant1 = MultiPoint.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0));
+            MultiPoint location1Variant2 = MultiPoint.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0));
 
-        MultiPoint location2Variant1 = MultiPoint.of(Position.of(25.1234, -54.1234), Position.of(45.0, 65.0));
-        MultiPoint location2Variant2 = MultiPoint.of(Position.of(25.1234, -54.1234), Position.of(45.0, 65.0));
+            MultiPoint location2Variant1 = MultiPoint.of(Position.of(25.1234, -54.1234), Position.of(45.0, 65.0));
+            MultiPoint location2Variant2 = MultiPoint.of(Position.of(25.1234, -54.1234), Position.of(45.0, 65.0));
 
-        assertThat(location1Variant1).hasSameHashCodeAs(location1Variant2);
-        assertThat(location2Variant1).hasSameHashCodeAs(location2Variant2);
+            assertThat(location1Variant1).hasSameHashCodeAs(location1Variant2);
+            assertThat(location2Variant1).hasSameHashCodeAs(location2Variant2);
+        });
     }
 
 }

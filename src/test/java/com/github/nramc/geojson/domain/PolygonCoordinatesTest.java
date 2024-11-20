@@ -1,3 +1,18 @@
+/*
+ * Copyright 2023 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * https://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.github.nramc.geojson.domain;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -15,6 +30,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PolygonCoordinatesTest {
@@ -200,80 +216,86 @@ class PolygonCoordinatesTest {
 
     @Test
     void toString_shouldProvideFormatedStringWithAllArguments() {
-        List<Position> exteriorRing = List.of(
-                Position.of(100, 0),
-                Position.of(101, 0),
-                Position.of(101, 1),
-                Position.of(100, 1),
-                Position.of(100, 0)
-        );
-        List<Position> hole = List.of(
-                Position.of(100.8, 0.8),
-                Position.of(100.8, 0.2),
-                Position.of(100.2, 0.2),
-                Position.of(100.2, 0.8),
-                Position.of(100.8, 0.8)
-        );
+        assertDoesNotThrow(() -> {
+            List<Position> exteriorRing = List.of(
+                    Position.of(100, 0),
+                    Position.of(101, 0),
+                    Position.of(101, 1),
+                    Position.of(100, 1),
+                    Position.of(100, 0)
+            );
+            List<Position> hole = List.of(
+                    Position.of(100.8, 0.8),
+                    Position.of(100.8, 0.2),
+                    Position.of(100.2, 0.2),
+                    Position.of(100.2, 0.8),
+                    Position.of(100.8, 0.8)
+            );
 
-        PolygonCoordinates polygonCoordinates = PolygonCoordinates.of(exteriorRing, hole);
-        assertThat(polygonCoordinates).hasToString("[[[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0]], [[100.8, 0.8], [100.8, 0.2], [100.2, 0.2], [100.2, 0.8], [100.8, 0.8]]]");
+            PolygonCoordinates polygonCoordinates = PolygonCoordinates.of(exteriorRing, hole);
+            assertThat(polygonCoordinates).hasToString("[[[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0]], [[100.8, 0.8], [100.8, 0.2], [100.2, 0.2], [100.2, 0.8], [100.8, 0.8]]]");
+        });
     }
 
     @Test
     void equals_shouldConsiderEqualityBasedOnData() {
-        List<Position> exteriorRing = List.of(
-                Position.of(100, 0),
-                Position.of(101, 0),
-                Position.of(101, 1),
-                Position.of(100, 1),
-                Position.of(100, 0)
-        );
-        List<Position> hole = List.of(
-                Position.of(100.8, 0.8),
-                Position.of(100.8, 0.2),
-                Position.of(100.2, 0.2),
-                Position.of(100.2, 0.8),
-                Position.of(100.8, 0.8)
-        );
+        assertDoesNotThrow(() -> {
+            List<Position> exteriorRing = List.of(
+                    Position.of(100, 0),
+                    Position.of(101, 0),
+                    Position.of(101, 1),
+                    Position.of(100, 1),
+                    Position.of(100, 0)
+            );
+            List<Position> hole = List.of(
+                    Position.of(100.8, 0.8),
+                    Position.of(100.8, 0.2),
+                    Position.of(100.2, 0.2),
+                    Position.of(100.2, 0.8),
+                    Position.of(100.8, 0.8)
+            );
 
-        PolygonCoordinates location1Variant1 = PolygonCoordinates.of(exteriorRing, hole);
-        PolygonCoordinates location1Variant2 = PolygonCoordinates.of(exteriorRing, hole);
+            PolygonCoordinates location1Variant1 = PolygonCoordinates.of(exteriorRing, hole);
+            PolygonCoordinates location1Variant2 = PolygonCoordinates.of(exteriorRing, hole);
 
-        PolygonCoordinates location2Variant1 = PolygonCoordinates.of(hole, exteriorRing);
-        PolygonCoordinates location2Variant2 = PolygonCoordinates.of(hole, exteriorRing);
+            PolygonCoordinates location2Variant1 = PolygonCoordinates.of(hole, exteriorRing);
+            PolygonCoordinates location2Variant2 = PolygonCoordinates.of(hole, exteriorRing);
 
-        assertThat(location1Variant1).isEqualTo(location1Variant2);
-        assertThat(location2Variant1).isEqualTo(location2Variant2);
+            assertThat(location1Variant1).isEqualTo(location1Variant2);
+            assertThat(location2Variant1).isEqualTo(location2Variant2);
 
-        assertThat(location1Variant1).isNotEqualTo(location2Variant1);
-        assertThat(location1Variant2).isNotEqualTo(location2Variant2);
+            assertThat(location1Variant1).isNotEqualTo(location2Variant1);
+            assertThat(location1Variant2).isNotEqualTo(location2Variant2);
+        });
     }
 
     @Test
     void hashCode_shouldConsiderHashCodeBasedOnData() {
-        List<Position> exteriorRing = List.of(
-                Position.of(100, 0),
-                Position.of(101, 0),
-                Position.of(101, 1),
-                Position.of(100, 1),
-                Position.of(100, 0)
-        );
-        List<Position> hole = List.of(
-                Position.of(100.8, 0.8),
-                Position.of(100.8, 0.2),
-                Position.of(100.2, 0.2),
-                Position.of(100.2, 0.8),
-                Position.of(100.8, 0.8)
-        );
+        assertDoesNotThrow(() -> {
+            List<Position> exteriorRing = List.of(
+                    Position.of(100, 0),
+                    Position.of(101, 0),
+                    Position.of(101, 1),
+                    Position.of(100, 1),
+                    Position.of(100, 0)
+            );
+            List<Position> hole = List.of(
+                    Position.of(100.8, 0.8),
+                    Position.of(100.8, 0.2),
+                    Position.of(100.2, 0.2),
+                    Position.of(100.2, 0.8),
+                    Position.of(100.8, 0.8)
+            );
 
-        PolygonCoordinates location1Variant1 = PolygonCoordinates.of(exteriorRing, hole);
-        PolygonCoordinates location1Variant2 = PolygonCoordinates.of(exteriorRing, hole);
+            PolygonCoordinates location1Variant1 = PolygonCoordinates.of(exteriorRing, hole);
+            PolygonCoordinates location1Variant2 = PolygonCoordinates.of(exteriorRing, hole);
 
-        PolygonCoordinates location2Variant1 = PolygonCoordinates.of(hole, exteriorRing);
-        PolygonCoordinates location2Variant2 = PolygonCoordinates.of(hole, exteriorRing);
+            PolygonCoordinates location2Variant1 = PolygonCoordinates.of(hole, exteriorRing);
+            PolygonCoordinates location2Variant2 = PolygonCoordinates.of(hole, exteriorRing);
 
-        assertThat(location1Variant1).hasSameHashCodeAs(location1Variant2);
-        assertThat(location2Variant1).hasSameHashCodeAs(location2Variant2);
+            assertThat(location1Variant1).hasSameHashCodeAs(location1Variant2);
+            assertThat(location2Variant1).hasSameHashCodeAs(location2Variant2);
+        });
     }
 
 }

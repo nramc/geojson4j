@@ -271,8 +271,12 @@ public class PolygonCoordinates implements Validatable, Serializable {
      */
     @Override
     public final boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof PolygonCoordinates that)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof PolygonCoordinates that)) {
+            return false;
+        }
 
         return exterior.equals(that.exterior) && Objects.equals(holes, that.holes);
     }

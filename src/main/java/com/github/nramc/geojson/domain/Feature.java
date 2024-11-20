@@ -239,8 +239,12 @@ public non-sealed class Feature extends GeoJson implements Validatable, Serializ
      */
     @Override
     public final boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Feature feature)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Feature feature)) {
+            return false;
+        }
 
         return type.equals(feature.type) && Objects.equals(id, feature.id) && geometry.equals(feature.geometry) && properties.equals(feature.properties);
     }
