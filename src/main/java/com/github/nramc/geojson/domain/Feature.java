@@ -16,6 +16,7 @@
 package com.github.nramc.geojson.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.nramc.geojson.constant.GeoJsonType;
 import com.github.nramc.geojson.validator.GeoJsonValidationException;
 import com.github.nramc.geojson.validator.Validatable;
@@ -26,8 +27,10 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
+import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -44,6 +47,10 @@ import static com.github.nramc.geojson.constant.GeoJsonType.FEATURE;
  * </p>
  * <p>
  * This class is immutable and thread-safe. All collections are unmodifiable.
+ * </p>
+ *
+ * <p>GeoJSON Specification Reference:
+ * <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.2">RFC 7946 - Section 3.2</a>
  * </p>
  */
 public non-sealed class Feature extends GeoJson implements Validatable, Serializable {
@@ -77,7 +84,11 @@ public non-sealed class Feature extends GeoJson implements Validatable, Serializ
      * @param properties A map of properties associated with the feature. Can be empty or null.
      */
     @JsonCreator
-    public Feature(String type, String id, Geometry geometry, Map<String, Serializable> properties) {
+    public Feature(
+            @JsonProperty("type") String type,
+            @JsonProperty("id") String id,
+            @JsonProperty("geometry") Geometry geometry,
+            @JsonProperty("properties") Map<String, Serializable> properties) {
         this.type = type;
         this.id = id;
         this.geometry = geometry;
@@ -199,5 +210,56 @@ public non-sealed class Feature extends GeoJson implements Validatable, Serializ
                 .ifPresent(errors::addAll);
 
         return new ValidationResult(errors);
+    }
+
+    /**
+     * Returns a string representation of the Feature object.
+     *
+     * <p>The returned string includes the type, id, geometry, and properties
+     * of the feature in a formatted manner. This can be useful for debugging
+     * or logging purposes.</p>
+     *
+     * @return a string representation of the Feature object, including its
+     * type, id, geometry, and properties.
+     */
+    @Override
+    public String toString() {
+        return MessageFormat.format("Feature'{'type=''{0}'', id=''{1}'', geometry={2}, properties={3}'}'", type, id, geometry, properties);
+    }
+
+    /**
+     * Compares this Feature object with another for equality.
+     *
+     * <p>The comparison checks if the given object is also a Feature and
+     * verifies that the {@code type}, {@code id}, {@code geometry}, and
+     * {@code properties} fields are equal.</p>
+     *
+     * @param o the object to compare with this Feature.
+     * @return {@code true} if the objects are equal, {@code false} otherwise.
+     */
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Feature feature)) return false;
+
+        return type.equals(feature.type) && Objects.equals(id, feature.id) && geometry.equals(feature.geometry) && properties.equals(feature.properties);
+    }
+
+    /**
+     * Computes the hash code for this Feature object.
+     *
+     * <p>The hash code is calculated using the {@code type}, {@code id},
+     * {@code geometry}, and {@code properties} fields, ensuring consistency
+     * with the {@link #equals(Object)} method.</p>
+     *
+     * @return the computed hash code for this Feature object.
+     */
+    @Override
+    public int hashCode() {
+        int result = type.hashCode();
+        result = 31 * result + Objects.hashCode(id);
+        result = 31 * result + geometry.hashCode();
+        result = 31 * result + properties.hashCode();
+        return result;
     }
 }

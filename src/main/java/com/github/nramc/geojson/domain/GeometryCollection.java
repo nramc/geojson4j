@@ -56,7 +56,7 @@ import static com.github.nramc.geojson.constant.GeoJsonType.GEOMETRY_COLLECTION;
  * }</pre>
  *
  * <p>GeoJSON Specification Reference:
- * <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.1.8">RFC 7946 - Section 3.1.8</a></p>
+ * <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.1.8">RFC 7946 - Section 3.1.8</a>
  * </p>
  */
 public final class GeometryCollection extends Geometry {

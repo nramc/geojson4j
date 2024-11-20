@@ -31,6 +31,10 @@ import java.io.Serializable;
  *
  * <p>By using a sealed class, we restrict which classes can extend this base class,
  * improving the maintainability and clarity of the hierarchy.</p>
+ *
+ * <p>GeoJSON Specification Reference:
+ * <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3">RFC 7946 - Section 3</a>
+ * </p>
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, visible = true, property = "type")
 @JsonSubTypes({

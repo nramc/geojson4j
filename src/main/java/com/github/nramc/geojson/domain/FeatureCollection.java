@@ -42,6 +42,10 @@ import static com.github.nramc.geojson.constant.GeoJsonType.FEATURE_COLLECTION;
  * This class implements the {@link Validatable} interface to support validation of the feature collection
  * according to the GeoJSON specification. It is immutable and thread-safe.
  * </p>
+ *
+ * <p>GeoJSON Specification Reference:
+ * <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.3">RFC 7946 - Section 3.3</a>
+ * </p>
  */
 public final class FeatureCollection extends GeoJson implements Validatable {
     private final String type;

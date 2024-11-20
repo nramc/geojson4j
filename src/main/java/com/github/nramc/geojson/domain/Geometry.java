@@ -55,6 +55,10 @@ import static com.github.nramc.geojson.constant.GeoJsonType.POLYGON;
  * are permitted to extend it. This provides better control over the class hierarchy and ensures
  * that only specific types of geometries can be represented.</p>
  *
+ * <p>GeoJSON Specification Reference:
+ * <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.1">RFC 7946 - Section 3.1</a>
+ * </p>
+ *
  * @see GeoJson
  * @see Point
  * @see MultiPoint
