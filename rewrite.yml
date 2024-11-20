@@ -18,7 +18,7 @@ type: specs.openrewrite.org/v1beta/recipe
 name: com.github.nramc.recipes.testing
 recipeList:
   - org.openrewrite.java.testing.mockito.MockitoBestPractices
-  - org.openrewrite.java.testing.junit5.JUnit5BestPractices
+#  - org.openrewrite.java.testing.junit5.JUnit5BestPractices
   - org.openrewrite.java.testing.cleanup.BestPractices
   - org.openrewrite.recipes.RecipeTestingBestPractices
   - org.openrewrite.java.testing.testcontainers.TestContainersBestPractices
