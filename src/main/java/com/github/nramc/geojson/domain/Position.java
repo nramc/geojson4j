@@ -178,7 +178,7 @@ public class Position implements Validatable, Serializable {
      * Validates the coordinates of the current GeoJSON object and checks if they conform to
      * the expected ranges and lengths. The method performs several checks:
      * <ul>
-     *     <li>Ensures that the length of the coordinates array is either 2(longitude & latitude) or 3(longitude, latitude & altitude).</li>
+     *     <li>Ensures that the length of the coordinates array is either 2(longitude and latitude) or 3(longitude, latitude and altitude).</li>
      *     <li>Validates the longitude value to ensure it is within the acceptable range between -180 and 180, both inclusive.</li>
      *     <li>Validates the latitude value to ensure it is within the acceptable range between -90 and 90, both inclusive.</li>
      * </ul>
