@@ -16,6 +16,7 @@
 package com.github.nramc.geojson.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.nramc.geojson.validator.GeoJsonValidationException;
 import com.github.nramc.geojson.validator.Validatable;
 import com.github.nramc.geojson.validator.ValidationError;
@@ -24,8 +25,10 @@ import com.github.nramc.geojson.validator.ValidationUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import static com.github.nramc.geojson.constant.GeoJsonType.FEATURE_COLLECTION;
@@ -73,7 +76,7 @@ public final class FeatureCollection extends GeoJson implements Validatable {
      *                 The list can be empty, but it cannot be null.
      */
     @JsonCreator
-    public FeatureCollection(String type, List<Feature> features) {
+    public FeatureCollection(@JsonProperty("type") String type, @JsonProperty("features") List<Feature> features) {
         this.type = type;
         this.features = CollectionUtils.emptyIfNull(features).stream().toList();
     }
@@ -159,5 +162,51 @@ public final class FeatureCollection extends GeoJson implements Validatable {
                 .forEach(errors::addAll);
 
         return new ValidationResult(errors);
+    }
+
+    /**
+     * Returns a string representation of this FeatureCollection.
+     *
+     * <p>The string includes the {@code type} and {@code features} fields,
+     * formatted in a readable manner for debugging and logging purposes.</p>
+     *
+     * @return a string representation of this FeatureCollection.
+     */
+    @Override
+    public String toString() {
+        return MessageFormat.format("FeatureCollection'{'type=''{0}'', features={1}'}'", type, features);
+    }
+
+    /**
+     * Compares this FeatureCollection to the specified object for equality.
+     *
+     * <p>The comparison checks whether the {@code type} and {@code features}
+     * fields are equal between this FeatureCollection and the specified object.</p>
+     *
+     * @param o the object to compare with this FeatureCollection.
+     * @return {@code true} if the specified object is equal to this FeatureCollection; {@code false} otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof FeatureCollection that)) return false;
+
+        return Objects.equals(type, that.type) && Objects.equals(features, that.features);
+    }
+
+    /**
+     * Computes the hash code for this FeatureCollection.
+     *
+     * <p>The hash code is calculated using the {@code type} and {@code features}
+     * fields. It ensures consistent hashing for objects that are equal according
+     * to the {@link #equals(Object)} method.</p>
+     *
+     * @return the hash code value for this FeatureCollection.
+     */
+    @Override
+    public int hashCode() {
+        int result = Objects.hashCode(type);
+        result = 31 * result + Objects.hashCode(features);
+        return result;
     }
 }
