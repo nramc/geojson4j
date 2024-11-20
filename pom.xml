@@ -66,7 +66,7 @@
         <rewrite-maven-plugin.skip.dry-run-execution>false</rewrite-maven-plugin.skip.dry-run-execution>
         <rewrite-logging-frameworks.version>2.16.1</rewrite-logging-frameworks.version>
         <rewrite-maven-plugin.version>5.45.1</rewrite-maven-plugin.version>
-        <rewrite-recommendations.version>1.12.0</rewrite-recommendations.version>
+        <rewrite-recommendations.version>1.13.0</rewrite-recommendations.version>
         <rewrite-static-analysis.version>1.20.0</rewrite-static-analysis.version>
         <rewrite-testing-frameworks.version>2.22.0</rewrite-testing-frameworks.version>
         <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
