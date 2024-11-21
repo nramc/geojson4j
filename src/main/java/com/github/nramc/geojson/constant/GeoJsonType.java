@@ -15,6 +15,8 @@
  */
 package com.github.nramc.geojson.constant;
 
+import com.github.nramc.geojson.internal.utils.Generated;
+
 /**
  * A utility class that provides constant string values representing different
  * GeoJSON types as defined in the GeoJSON specification (RFC 7946).
@@ -24,6 +26,7 @@ package com.github.nramc.geojson.constant;
  * be instantiated and is intended for use as a source of constant values.
  * </p>
  */
+@Generated("since utility class with constants excluded from code coverage")
 public final class GeoJsonType {
 
     /**
