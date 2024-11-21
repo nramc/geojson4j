@@ -1,0 +1,33 @@
+### Validate with valid GeoJson[Point]
+GET http://localhost:8080/rest/validate
+Content-Type: application/json
+
+{
+  "type": "Point",
+  "coordinates": [100.0, 0.0]
+}
+
+### Validate with invalid GeoJson[Point] - latitude exceeded valid range betweenn -90.0 and +0.0
+GET http://localhost:8080/rest/validate
+Content-Type: application/json
+
+{
+  "type": "Point",
+  "coordinates": [100.0, 100.0]
+}
+
+
+### Validate with valid GeoJson[Feature]
+GET http://localhost:8080/rest/validate
+Content-Type: application/json
+
+{
+  "id": "ID_001",
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [[[11.539417624693925, 48.17613313877797], [11.538077298468238, 48.168150074081154], [11.561556116500725, 48.1685970352552], [11.558505718881861, 48.1759482169781], [11.539417624693925, 48.17613313877797]]]
+  },
+  "properties": {"name": "Olympic Park", "size": 85}
+}
+
