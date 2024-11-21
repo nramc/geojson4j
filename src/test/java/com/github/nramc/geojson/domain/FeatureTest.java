@@ -68,6 +68,21 @@ class FeatureTest {
     }
 
     @Test
+    void checkFeatureProperties_shouldSatisfyAsExpected() {
+        Feature feature = Feature.of("a9fa1f6a-b1b2-4030-b02f-b3d451558656", Point.of(45.0, 45.0), Map.of("name", "Park"));
+        assertThat(feature).isNotNull()
+                .satisfies(obj -> assertThat(obj.getType()).isEqualTo(FEATURE))
+                .satisfies(obj -> assertThat(obj.getId()).isEqualTo("a9fa1f6a-b1b2-4030-b02f-b3d451558656"))
+                .satisfies(obj -> assertThat(obj.getProperties()).containsExactly(entry("name", "Park")))
+                .satisfies(obj -> assertThat(obj.getProperty("name")).isEqualTo("Park"))
+                .satisfies(obj -> assertThat(obj.getProperty("size")).isNull())
+                .satisfies(obj -> assertThat(obj.getPropertyIfExists("name")).hasValue("Park"))
+                .satisfies(obj -> assertThat(obj.getPropertyIfExists("size")).isEmpty())
+                .satisfies(obj -> assertThat(obj.getGeometry()).isEqualTo(Point.of(45.0, 45.0)))
+                .satisfies(obj -> assertThat(obj.isValid()).isTrue());
+    }
+
+    @Test
     void toString_shouldProvideFormatedStringWithAllArguments() {
         assertDoesNotThrow(() -> {
             Feature feature = Feature.of("a9fa1f6a-b1b2-4030-b02f-b3d451558656", Point.of(45.0, 45.0), Map.of("name", "Park"));
