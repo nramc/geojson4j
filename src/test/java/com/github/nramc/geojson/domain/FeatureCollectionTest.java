@@ -23,6 +23,7 @@ import java.util.Map;
 
 import static com.github.nramc.geojson.constant.GeoJsonType.FEATURE_COLLECTION;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class FeatureCollectionTest {
     private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -48,42 +49,49 @@ class FeatureCollectionTest {
 
     @Test
     void toString_shouldProvideFormatedStringWithAllArguments() {
-        Feature feature = Feature.of("a9fa1f6a-b1b2-4030-b02f-b3d451558656", Point.of(45.0, 45.0), Map.of("name", "Park"));
-        FeatureCollection featureCollection = FeatureCollection.of(feature);
-        assertThat(featureCollection)
-                .isNotNull()
-                .hasToString("FeatureCollection{type='FeatureCollection', features=[Feature{type='Feature', id='a9fa1f6a-b1b2-4030-b02f-b3d451558656', geometry=Point{type='Point', coordinates=[45.0, 45.0]}, properties={name=Park}}]}");
+        assertDoesNotThrow(() -> {
+            Feature feature = Feature.of("a9fa1f6a-b1b2-4030-b02f-b3d451558656", Point.of(45.0, 45.0), Map.of("name", "Park"));
+            FeatureCollection featureCollection = FeatureCollection.of(feature);
+            assertThat(featureCollection)
+                    .isNotNull()
+                    .hasToString("FeatureCollection{type='FeatureCollection', features=[Feature{type='Feature', id='a9fa1f6a-b1b2-4030-b02f-b3d451558656', geometry=Point{type='Point', coordinates=[45.0, 45.0]}, properties={name=Park}}]}");
+        });
     }
 
     @Test
     void equals_shouldConsiderEqualityBasedOnData() {
-        Feature featurePark = Feature.of("a9fa1f6a-b1b2-4030-b02f-b3d451558656", Point.of(45.0, 45.0), Map.of("name", "Park"));
-        FeatureCollection location1Variant1 = FeatureCollection.of(featurePark);
-        FeatureCollection location1Variant2 = FeatureCollection.of(featurePark);
+        assertDoesNotThrow(() -> {
+            Feature featurePark = Feature.of("a9fa1f6a-b1b2-4030-b02f-b3d451558656", Point.of(45.0, 45.0), Map.of("name", "Park"));
+            FeatureCollection location1Variant1 = FeatureCollection.of(featurePark);
+            FeatureCollection location1Variant2 = FeatureCollection.of(featurePark);
 
-        Feature featureTemple = Feature.of("1e4b1fa0-b3f6-48cd-a9d5-78ffa9e5ac42", Point.of(95.0, 10.0), Map.of("name", "Temple"));
-        FeatureCollection location2Variant1 = FeatureCollection.of(featureTemple);
-        FeatureCollection location2Variant2 = FeatureCollection.of(featureTemple);
+            Feature featureTemple = Feature.of("1e4b1fa0-b3f6-48cd-a9d5-78ffa9e5ac42", Point.of(95.0, 10.0), Map.of("name", "Temple"));
+            FeatureCollection location2Variant1 = FeatureCollection.of(featureTemple);
+            FeatureCollection location2Variant2 = FeatureCollection.of(featureTemple);
 
-        assertThat(location1Variant1).isEqualTo(location1Variant2);
-        assertThat(location2Variant1).isEqualTo(location2Variant2);
+            assertThat(location1Variant1).isEqualTo(location1Variant2);
+            assertThat(location2Variant1).isEqualTo(location2Variant2);
 
-        assertThat(location1Variant1).isNotEqualTo(location2Variant1);
-        assertThat(location1Variant2).isNotEqualTo(location2Variant2);
+            assertThat(location1Variant1).isNotEqualTo(location2Variant1);
+            assertThat(location1Variant2).isNotEqualTo(location2Variant2);
+        });
     }
 
     @Test
     void hashCode_shouldConsiderHashCodeBasedOnData() {
-        Feature featurePark = Feature.of("a9fa1f6a-b1b2-4030-b02f-b3d451558656", Point.of(45.0, 45.0), Map.of("name", "Park"));
-        FeatureCollection location1Variant1 = FeatureCollection.of(featurePark);
-        FeatureCollection location1Variant2 = FeatureCollection.of(featurePark);
+        assertDoesNotThrow(() -> {
+            Feature featurePark = Feature.of("a9fa1f6a-b1b2-4030-b02f-b3d451558656", Point.of(45.0, 45.0), Map.of("name", "Park"));
+            FeatureCollection location1Variant1 = FeatureCollection.of(featurePark);
+            FeatureCollection location1Variant2 = FeatureCollection.of(featurePark);
 
-        Feature featureTemple = Feature.of("1e4b1fa0-b3f6-48cd-a9d5-78ffa9e5ac42", Point.of(95.0, 10.0), Map.of("name", "Temple"));
-        FeatureCollection location2Variant1 = FeatureCollection.of(featureTemple);
-        FeatureCollection location2Variant2 = FeatureCollection.of(featureTemple);
+            Feature featureTemple = Feature.of("1e4b1fa0-b3f6-48cd-a9d5-78ffa9e5ac42", Point.of(95.0, 10.0), Map.of("name", "Temple"));
+            FeatureCollection location2Variant1 = FeatureCollection.of(featureTemple);
+            FeatureCollection location2Variant2 = FeatureCollection.of(featureTemple);
 
-        assertThat(location1Variant1).hasSameHashCodeAs(location1Variant2);
-        assertThat(location2Variant1).hasSameHashCodeAs(location2Variant2);
+            assertThat(location1Variant1).hasSameHashCodeAs(location1Variant2);
+            assertThat(location2Variant1).hasSameHashCodeAs(location2Variant2);
+
+        });
 
     }
 
