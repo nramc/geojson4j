@@ -15,8 +15,12 @@
  */
 package com.github.nramc.geojson.examples;
 
-public class Main {
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SpringMvcExampleApplication {
     public static void main(String[] args) {
-        // main method implementation goes here
+        SpringApplication.run(SpringMvcExampleApplication.class, args);
     }
 }
