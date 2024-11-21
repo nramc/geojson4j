@@ -1,7 +1,7 @@
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nramc/geojson4j/ci-workflow.yml?branch=main&style=flat&logoColor=ff0)](https://github.com/nramc/geojson4j/actions/workflows/ci-workflow.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nramc_geojson4j&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=nramc_geojson4j)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=nramc_geojson4j&metric=coverage)](https://sonarcloud.io/summary/new_code?id=nramc_geojson4j)
-[![Maven Central Version](https://img.shields.io/maven-central/v/io.github.nramc/geojson4j?style=flat&logo=apachemaven&logoColor=%23C71A36&labelColor=rgba(204%2C%20204%2C%20204%2C%200.8)&color=%2303C75A)](https://mvnrepository.com/artifact/io.github.nramc/geojson4j)
+[![Maven Central Version](https://img.shields.io/maven-central/v/io.github.nramc/geojson4j?style=flat&logo=apachemaven&logoColor=%23C71A36&color=%2303C75A)](https://mvnrepository.com/artifact/io.github.nramc/geojson4j)
 [![Badge](https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=159&style=flat)](https://www.linkedin.com/in/ramachandran-nellaiyappan/)
 
 # geojson4j [GeoJSON for Java]
