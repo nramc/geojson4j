@@ -139,6 +139,35 @@ public class GeoJsonExample {
 
 ```
 
+### Validations
+```java
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.nramc.geojson.domain.GeoJson;
+
+
+public class Main {
+
+    public static void main(String[] args) throws JsonProcessingException {
+
+        String geoJsonContent = "{ \"type\": \"Point\", \"coordinates\": [102.0, 0.5] }";
+
+        // Deserialize the GeoJSON string to Point object
+        ObjectMapper mapper = new ObjectMapper();
+        GeoJson geoJson = mapper.readValue(geoJsonContent, GeoJson.class);
+
+        // check whether the geoJson valid or not
+        System.out.printf("is it valid geojson ? %s", geoJson.isValid() ? "Yes" : "No");
+
+        // to get detailed information about validation failure 
+        ValidationResult validationResult = geoJson.validate();
+        System.out.printf("is it valid geojson ? %s%n", !validationResult.hasErrors() ? "Yes" : "No");
+        validationResult.getErrors().forEach(error -> System.out.printf("Error Field:[%s] Error Key:[%s] Error Message:[%s]%n", error.getField(), error.getKey(), error.getMessage()));
+    }
+}
+
+```
+
 ## Documentation
 
 - Full API documentation is available in `todo`.
