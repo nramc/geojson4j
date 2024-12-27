@@ -23,7 +23,6 @@ import com.github.nramc.geojson.validator.ValidationResult;
 import com.github.nramc.geojson.validator.ValidationUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.annotation.TypeAlias;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -53,7 +52,6 @@ import static com.github.nramc.geojson.constant.GeoJsonType.MULTI_LINE_STRING;
  * @see Position
  * @see Geometry
  */
-@TypeAlias(MULTI_LINE_STRING)
 public final class MultiLineString extends Geometry {
     private final List<List<Position>> coordinates;
 

@@ -24,7 +24,6 @@ import com.github.nramc.geojson.validator.ValidationResult;
 import com.github.nramc.geojson.validator.ValidationUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.annotation.TypeAlias;
 
 import java.text.MessageFormat;
 import java.util.HashSet;
@@ -51,7 +50,6 @@ import static com.github.nramc.geojson.constant.GeoJsonType.FEATURE_COLLECTION;
  * <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.3">RFC 7946 - Section 3.3</a>
  * </p>
  */
-@TypeAlias(FEATURE_COLLECTION)
 public final class FeatureCollection extends GeoJson implements Validatable {
     private final List<Feature> features;
 

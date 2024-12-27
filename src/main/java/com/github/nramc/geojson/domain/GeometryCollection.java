@@ -25,7 +25,6 @@ import com.github.nramc.geojson.validator.ValidationUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.annotation.TypeAlias;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -60,7 +59,6 @@ import static com.github.nramc.geojson.constant.GeoJsonType.GEOMETRY_COLLECTION;
  * <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.1.8">RFC 7946 - Section 3.1.8</a>
  * </p>
  */
-@TypeAlias(GEOMETRY_COLLECTION)
 public final class GeometryCollection extends Geometry {
     private final List<Geometry> geometries;
 

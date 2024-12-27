@@ -25,7 +25,6 @@ import com.github.nramc.geojson.validator.ValidationResult;
 import com.github.nramc.geojson.validator.ValidationUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.annotation.TypeAlias;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
@@ -54,7 +53,6 @@ import static com.github.nramc.geojson.constant.GeoJsonType.FEATURE;
  * <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.2">RFC 7946 - Section 3.2</a>
  * </p>
  */
-@TypeAlias(FEATURE)
 public non-sealed class Feature extends GeoJson implements Validatable, Serializable {
     private final String id;
     private final Geometry geometry;

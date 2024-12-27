@@ -22,7 +22,6 @@ import com.github.nramc.geojson.validator.ValidationError;
 import com.github.nramc.geojson.validator.ValidationResult;
 import com.github.nramc.geojson.validator.ValidationUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.annotation.TypeAlias;
 
 import java.text.MessageFormat;
 import java.util.HashSet;
@@ -56,7 +55,6 @@ import static com.github.nramc.geojson.constant.GeoJsonType.POINT;
  * @see Position
  * @see Geometry
  */
-@TypeAlias(POINT)
 public final class Point extends Geometry {
     private final Position coordinates;
 
