@@ -81,4 +81,11 @@ import static com.github.nramc.geojson.constant.GeoJsonType.POLYGON;
 public abstract sealed class Geometry extends GeoJson implements Validatable permits
         Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection {
 
+    protected Geometry() {
+        super();
+    }
+
+    protected Geometry(String type) {
+        super(type);
+    }
 }

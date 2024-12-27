@@ -54,7 +54,6 @@ import static com.github.nramc.geojson.constant.GeoJsonType.MULTI_POINT;
  * @see Geometry
  */
 public final class MultiPoint extends Geometry {
-    private final String type;
     private final List<Position> coordinates;
 
     /**
@@ -66,7 +65,7 @@ public final class MultiPoint extends Geometry {
      * </p>
      */
     public MultiPoint() {
-        this(null, null);
+        this(MULTI_POINT, null);
     }
 
     /**
@@ -81,7 +80,7 @@ public final class MultiPoint extends Geometry {
      */
     @JsonCreator
     public MultiPoint(@JsonProperty("type") String type, @JsonProperty("coordinates") List<Position> coordinates) {
-        this.type = type;
+        super(type);
         this.coordinates = Collections.unmodifiableList(coordinates);
     }
 

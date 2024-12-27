@@ -55,7 +55,6 @@ import static com.github.nramc.geojson.constant.GeoJsonType.LINE_STRING;
  * @see Geometry
  */
 public final class LineString extends Geometry {
-    private final String type;
     private final List<Position> coordinates;
 
     /**
@@ -67,7 +66,7 @@ public final class LineString extends Geometry {
      * </p>
      */
     public LineString() {
-        this(null, null);
+        this(LINE_STRING, null);
     }
 
     /**
@@ -79,7 +78,7 @@ public final class LineString extends Geometry {
      */
     @JsonCreator
     public LineString(@JsonProperty("type") String type, @JsonProperty("coordinates") List<Position> coordinates) {
-        this.type = type;
+        super(type);
         this.coordinates = Collections.unmodifiableList(coordinates);
     }
 

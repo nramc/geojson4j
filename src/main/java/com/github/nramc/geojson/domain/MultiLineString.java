@@ -53,7 +53,6 @@ import static com.github.nramc.geojson.constant.GeoJsonType.MULTI_LINE_STRING;
  * @see Geometry
  */
 public final class MultiLineString extends Geometry {
-    private final String type;
     private final List<List<Position>> coordinates;
 
     /**
@@ -65,7 +64,7 @@ public final class MultiLineString extends Geometry {
      * </p>
      */
     public MultiLineString() {
-        this(null, null);
+        this(MULTI_LINE_STRING, null);
     }
 
     /**
@@ -77,7 +76,7 @@ public final class MultiLineString extends Geometry {
      */
     @JsonCreator
     public MultiLineString(@JsonProperty("type") String type, @JsonProperty("coordinates") List<List<Position>> coordinates) {
-        this.type = type;
+        super(type);
         this.coordinates = Collections.unmodifiableList(coordinates);
     }
 

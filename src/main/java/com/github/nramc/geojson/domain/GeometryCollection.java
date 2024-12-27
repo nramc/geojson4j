@@ -60,7 +60,6 @@ import static com.github.nramc.geojson.constant.GeoJsonType.GEOMETRY_COLLECTION;
  * </p>
  */
 public final class GeometryCollection extends Geometry {
-    private final String type;
     private final List<Geometry> geometries;
 
     /**
@@ -71,7 +70,7 @@ public final class GeometryCollection extends Geometry {
      * </p>
      */
     public GeometryCollection() {
-        this(null, null);
+        this(GEOMETRY_COLLECTION, null);
     }
 
     /**
@@ -87,7 +86,7 @@ public final class GeometryCollection extends Geometry {
      */
     @JsonCreator
     public GeometryCollection(@JsonProperty("type") String type, @JsonProperty("geometries") List<Geometry> geometries) {
-        this.type = type;
+        super(type);
         this.geometries = CollectionUtils.isNotEmpty(geometries) ? List.copyOf(geometries) : List.of();
     }
 

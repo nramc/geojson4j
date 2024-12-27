@@ -51,7 +51,6 @@ import static com.github.nramc.geojson.constant.GeoJsonType.FEATURE_COLLECTION;
  * </p>
  */
 public final class FeatureCollection extends GeoJson implements Validatable {
-    private final String type;
     private final List<Feature> features;
 
     /**
@@ -62,7 +61,7 @@ public final class FeatureCollection extends GeoJson implements Validatable {
      * </p>
      */
     public FeatureCollection() {
-        this(null, null);
+        this(FEATURE_COLLECTION, null);
     }
 
     /**
@@ -77,7 +76,7 @@ public final class FeatureCollection extends GeoJson implements Validatable {
      */
     @JsonCreator
     public FeatureCollection(@JsonProperty("type") String type, @JsonProperty("features") List<Feature> features) {
-        this.type = type;
+        super(type);
         this.features = CollectionUtils.emptyIfNull(features).stream().toList();
     }
 

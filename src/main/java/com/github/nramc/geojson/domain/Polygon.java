@@ -60,7 +60,6 @@ import static com.github.nramc.geojson.constant.GeoJsonType.POLYGON;
  * @see Position
  */
 public final class Polygon extends Geometry {
-    private final String type;
     private final PolygonCoordinates coordinates;
 
     /**
@@ -68,7 +67,7 @@ public final class Polygon extends Geometry {
      * serialization mechanisms that need to instantiate objects without arguments.
      */
     public Polygon() {
-        this(null, null);
+        this(POLYGON, null);
     }
 
     /**
@@ -83,7 +82,7 @@ public final class Polygon extends Geometry {
      */
     @JsonCreator
     public Polygon(@JsonProperty("type") final String type, @JsonProperty("coordinates") final PolygonCoordinates coordinates) {
-        this.type = type;
+        super(type);
         this.coordinates = coordinates;
     }
 
