@@ -54,7 +54,6 @@ import static com.github.nramc.geojson.constant.GeoJsonType.FEATURE;
  * </p>
  */
 public non-sealed class Feature extends GeoJson implements Validatable, Serializable {
-    private final String type;
     private final String id;
     private final Geometry geometry;
     private final Map<String, Serializable> properties;
@@ -68,7 +67,7 @@ public non-sealed class Feature extends GeoJson implements Validatable, Serializ
      * </p>
      */
     public Feature() {
-        this(null, null, null, null);
+        this(FEATURE, null, null, null);
     }
 
     /**
@@ -89,7 +88,7 @@ public non-sealed class Feature extends GeoJson implements Validatable, Serializ
             @JsonProperty("id") String id,
             @JsonProperty("geometry") Geometry geometry,
             @JsonProperty("properties") Map<String, Serializable> properties) {
-        this.type = type;
+        super(type);
         this.id = id;
         this.geometry = geometry;
         this.properties = Map.copyOf(properties);

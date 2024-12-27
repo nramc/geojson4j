@@ -17,7 +17,6 @@ package com.github.nramc.geojson.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.nramc.geojson.constant.GeoJsonType;
 import com.github.nramc.geojson.validator.GeoJsonValidationException;
 import com.github.nramc.geojson.validator.ValidationError;
 import com.github.nramc.geojson.validator.ValidationResult;
@@ -28,6 +27,8 @@ import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
+import static com.github.nramc.geojson.constant.GeoJsonType.POINT;
 
 /**
  * Represents a GeoJSON Point geometry.
@@ -50,11 +51,11 @@ import java.util.Set;
  *
  * <p>GeoJSON Specification Reference:
  * <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.1.2">RFC 7946 - Section 3.1.2</a></p>
+ *
  * @see Position
  * @see Geometry
  */
 public final class Point extends Geometry {
-    private final String type;
     private final Position coordinates;
 
     /**
@@ -66,7 +67,7 @@ public final class Point extends Geometry {
      * </p>
      */
     public Point() {
-        this(null, null);
+        this(POINT, null);
     }
 
     /**
@@ -85,7 +86,7 @@ public final class Point extends Geometry {
      */
     @JsonCreator
     public Point(@JsonProperty("type") String type, @JsonProperty("coordinates") Position coordinates) {
-        this.type = type;
+        super(type);
         this.coordinates = coordinates;
     }
 
@@ -97,7 +98,7 @@ public final class Point extends Geometry {
      * @throws GeoJsonValidationException if the provided coordinates are invalid.
      */
     public static Point of(Position coordinates) {
-        return ValidationUtils.validateAndThrowErrorIfInvalid(new Point(GeoJsonType.POINT, coordinates));
+        return ValidationUtils.validateAndThrowErrorIfInvalid(new Point(POINT, coordinates));
     }
 
     /**
@@ -109,7 +110,7 @@ public final class Point extends Geometry {
      * @throws GeoJsonValidationException if the provided longitude or latitude are invalid.
      */
     public static Point of(double longitude, double latitude) {
-        return ValidationUtils.validateAndThrowErrorIfInvalid(new Point(GeoJsonType.POINT, Position.of(longitude, latitude)));
+        return ValidationUtils.validateAndThrowErrorIfInvalid(new Point(POINT, Position.of(longitude, latitude)));
     }
 
     /**
@@ -122,7 +123,7 @@ public final class Point extends Geometry {
      * @throws GeoJsonValidationException if the provided values are invalid.
      */
     public static Point of(double longitude, double latitude, double altitude) {
-        return ValidationUtils.validateAndThrowErrorIfInvalid(new Point(GeoJsonType.POINT, Position.of(longitude, latitude, altitude)));
+        return ValidationUtils.validateAndThrowErrorIfInvalid(new Point(POINT, Position.of(longitude, latitude, altitude)));
     }
 
     /**
@@ -133,8 +134,8 @@ public final class Point extends Geometry {
     @Override
     public ValidationResult validate() {
         Set<ValidationError> errors = new HashSet<>();
-        if (StringUtils.isBlank(type) || !StringUtils.equals(type, GeoJsonType.POINT)) {
-            errors.add(ValidationError.of("type", "type '%s' is not valid. expected '%s'".formatted(type, GeoJsonType.POINT), "type.invalid"));
+        if (StringUtils.isBlank(type) || !StringUtils.equals(type, POINT)) {
+            errors.add(ValidationError.of("type", "type '%s' is not valid. expected '%s'".formatted(type, POINT), "type.invalid"));
         }
         if (coordinates == null) {
             errors.add(ValidationError.of("coordinates", "coordinates should not be empty/blank", "coordinates.invalid.empty"));

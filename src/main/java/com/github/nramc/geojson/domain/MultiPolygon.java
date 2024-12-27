@@ -60,7 +60,6 @@ import static com.github.nramc.geojson.constant.GeoJsonType.MULTI_POLYGON;
  * @see PolygonCoordinates
  */
 public final class MultiPolygon extends Geometry {
-    private final String type;
     private final List<PolygonCoordinates> coordinates;
 
     /**
@@ -72,7 +71,7 @@ public final class MultiPolygon extends Geometry {
      * </p>
      */
     public MultiPolygon() {
-        this(null, null);
+        this(MULTI_POLYGON, null);
     }
 
     /**
@@ -85,7 +84,7 @@ public final class MultiPolygon extends Geometry {
      */
     @JsonCreator
     public MultiPolygon(@JsonProperty("type") String type, @JsonProperty("coordinates") List<PolygonCoordinates> coordinates) {
-        this.type = type;
+        super(type);
         this.coordinates = CollectionUtils.isNotEmpty(coordinates) ? Collections.unmodifiableList(coordinates) : null;
     }
 

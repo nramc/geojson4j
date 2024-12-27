@@ -50,6 +50,16 @@ import java.io.Serializable;
 })
 public abstract sealed class GeoJson implements Serializable, Validatable permits Feature, FeatureCollection, Geometry {
 
+    protected final String type;
+
+    protected GeoJson() {
+        this(GeoJsonType.POINT);
+    }
+
+    protected GeoJson(String type) {
+        this.type = type;
+    }
+
     /**
      * Gets the type of the GeoJSON object. This method is abstract, meaning that
      * each subclass must implement it to specify the appropriate GeoJSON type,
