@@ -74,6 +74,7 @@
         <assertj-core.version>3.27.0</assertj-core.version>
         <maven-site-plugin.version>3.21.0</maven-site-plugin.version>
         <asciidoctor-converter-doxia-module.version>3.1.1</asciidoctor-converter-doxia-module.version>
+        <spring-boot-starter-data-mongodb.version>3.4.1</spring-boot-starter-data-mongodb.version>
     </properties>
 
     <dependencyManagement>
@@ -126,6 +127,15 @@
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+            <version>${spring-boot-starter-data-mongodb.version}</version>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+
 
         <!--  utility dependencies  -->
         <dependency>

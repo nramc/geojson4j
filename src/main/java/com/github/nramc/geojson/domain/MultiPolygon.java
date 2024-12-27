@@ -23,6 +23,7 @@ import com.github.nramc.geojson.validator.ValidationResult;
 import com.github.nramc.geojson.validator.ValidationUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.annotation.TypeAlias;
 
 import java.text.MessageFormat;
 import java.util.Collections;
@@ -59,6 +60,7 @@ import static com.github.nramc.geojson.constant.GeoJsonType.MULTI_POLYGON;
  * @see Geometry
  * @see PolygonCoordinates
  */
+@TypeAlias(MULTI_POLYGON)
 public final class MultiPolygon extends Geometry {
     private final List<PolygonCoordinates> coordinates;
 

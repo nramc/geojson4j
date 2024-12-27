@@ -22,6 +22,7 @@ import com.github.nramc.geojson.validator.ValidationResult;
 import com.github.nramc.geojson.validator.ValidationUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.annotation.TypeAlias;
 
 import java.text.MessageFormat;
 import java.util.HashSet;
@@ -59,6 +60,7 @@ import static com.github.nramc.geojson.constant.GeoJsonType.POLYGON;
  * @see PolygonCoordinates
  * @see Position
  */
+@TypeAlias(POLYGON)
 public final class Polygon extends Geometry {
     private final PolygonCoordinates coordinates;
 
