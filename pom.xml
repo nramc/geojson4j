@@ -4,7 +4,7 @@
 
     <groupId>io.github.nramc</groupId>
     <artifactId>geojson4j</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
 
     <name>geojson4j</name>
     <description>
@@ -37,7 +37,7 @@
         <url>https://github.com/nramc/geojson4j</url>
         <connection>scm:git:https://github.com/nramc/geojson4j.git</connection>
         <developerConnection>scm:git:https://github.com/nramc/geojson4j.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>v1.0.1</tag>
     </scm>
     <distributionManagement>
         <repository>
