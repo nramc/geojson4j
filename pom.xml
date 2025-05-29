@@ -63,7 +63,7 @@
         <rewrite-java-security.version>3.11.0</rewrite-java-security.version>
         <rewrite-maven-plugin.skip.run-execution>false</rewrite-maven-plugin.skip.run-execution>
         <rewrite-maven-plugin.skip.dry-run-execution>false</rewrite-maven-plugin.skip.dry-run-execution>
-        <rewrite-logging-frameworks.version>3.8.0</rewrite-logging-frameworks.version>
+        <rewrite-logging-frameworks.version>3.9.0</rewrite-logging-frameworks.version>
         <rewrite-maven-plugin.version>6.10.0</rewrite-maven-plugin.version>
         <rewrite-recommendations.version>1.15.0</rewrite-recommendations.version>
         <rewrite-static-analysis.version>2.10.0</rewrite-static-analysis.version>
