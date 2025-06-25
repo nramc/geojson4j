@@ -60,7 +60,7 @@
         <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
         <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
-        <rewrite-java-security.version>3.12.0</rewrite-java-security.version>
+        <rewrite-java-security.version>3.13.0</rewrite-java-security.version>
         <rewrite-maven-plugin.skip.run-execution>false</rewrite-maven-plugin.skip.run-execution>
         <rewrite-maven-plugin.skip.dry-run-execution>false</rewrite-maven-plugin.skip.dry-run-execution>
         <rewrite-logging-frameworks.version>3.9.0</rewrite-logging-frameworks.version>
