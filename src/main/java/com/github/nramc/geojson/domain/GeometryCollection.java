@@ -158,7 +158,7 @@ public final class GeometryCollection extends Geometry {
     @Override
     public ValidationResult validate() {
         Set<ValidationError> errors = new HashSet<>();
-        if (StringUtils.isBlank(type) || !StringUtils.equals(type, GEOMETRY_COLLECTION)) {
+        if (StringUtils.isBlank(type) || !Objects.equals(type, GEOMETRY_COLLECTION)) {
             errors.add(ValidationError.of("type", "type '%s' is not valid. expected '%s'".formatted(type, GEOMETRY_COLLECTION), "type.invalid"));
         }
         if (CollectionUtils.emptyIfNull(geometries).stream().anyMatch(geometry -> Objects.equals(geometry.getType(), GEOMETRY_COLLECTION))) {
@@ -218,7 +218,6 @@ public final class GeometryCollection extends Geometry {
     @Override
     public int hashCode() {
         int result = type.hashCode();
-        result = 31 * result + geometries.hashCode();
-        return result;
+        return 31 * result + geometries.hashCode();
     }
 }

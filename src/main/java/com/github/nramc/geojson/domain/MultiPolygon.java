@@ -28,6 +28,7 @@ import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import static com.github.nramc.geojson.constant.GeoJsonType.MULTI_POLYGON;
@@ -137,7 +138,7 @@ public final class MultiPolygon extends Geometry {
     @Override
     public ValidationResult validate() {
         Set<ValidationError> errors = new HashSet<>();
-        if (StringUtils.isBlank(type) || !StringUtils.equals(type, MULTI_POLYGON)) {
+        if (StringUtils.isBlank(type) || !Objects.equals(type, MULTI_POLYGON)) {
             errors.add(ValidationError.of("type", "type '%s' is not valid. expected '%s'".formatted(type, MULTI_POLYGON), "type.invalid"));
         }
 
@@ -218,7 +219,6 @@ public final class MultiPolygon extends Geometry {
     @Override
     public int hashCode() {
         int result = type.hashCode();
-        result = 31 * result + coordinates.hashCode();
-        return result;
+        return 31 * result + coordinates.hashCode();
     }
 }
