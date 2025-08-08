@@ -30,6 +30,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import static com.github.nramc.geojson.constant.GeoJsonType.MULTI_LINE_STRING;
@@ -116,7 +117,7 @@ public final class MultiLineString extends Geometry {
     public ValidationResult validate() {
         Set<ValidationError> errors = new HashSet<>();
         // Validate type
-        if (StringUtils.isBlank(type) || !StringUtils.equals(type, MULTI_LINE_STRING)) {
+        if (StringUtils.isBlank(type) || !Objects.equals(type, MULTI_LINE_STRING)) {
             errors.add(ValidationError.of("type", "type '%s' is not valid. expected '%s'".formatted(type, MULTI_LINE_STRING), "type.invalid"));
         }
 
@@ -201,7 +202,6 @@ public final class MultiLineString extends Geometry {
     @Override
     public int hashCode() {
         int result = type.hashCode();
-        result = 31 * result + coordinates.hashCode();
-        return result;
+        return 31 * result + coordinates.hashCode();
     }
 }

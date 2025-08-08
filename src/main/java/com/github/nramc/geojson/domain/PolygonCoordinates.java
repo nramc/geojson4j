@@ -291,7 +291,6 @@ public class PolygonCoordinates implements Validatable, Serializable {
     @Override
     public int hashCode() {
         int result = exterior.hashCode();
-        result = 31 * result + Objects.hashCode(holes);
-        return result;
+        return 31 * result + Objects.hashCode(holes);
     }
 }

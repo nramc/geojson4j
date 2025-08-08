@@ -197,7 +197,7 @@ public non-sealed class Feature extends GeoJson implements Validatable, Serializ
     @Override
     public ValidationResult validate() {
         Set<ValidationError> errors = new HashSet<>();
-        if (StringUtils.isBlank(type) || !StringUtils.equals(type, FEATURE)) {
+        if (StringUtils.isBlank(type) || !Objects.equals(type, FEATURE)) {
             errors.add(ValidationError.of("type", "type '%s' is not valid. expected '%s'".formatted(type, FEATURE), "type.invalid"));
         }
         if (geometry == null) {
@@ -262,7 +262,6 @@ public non-sealed class Feature extends GeoJson implements Validatable, Serializ
         int result = type.hashCode();
         result = 31 * result + Objects.hashCode(id);
         result = 31 * result + geometry.hashCode();
-        result = 31 * result + properties.hashCode();
-        return result;
+        return 31 * result + properties.hashCode();
     }
 }
