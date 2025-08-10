@@ -10,7 +10,6 @@ recipeList:
   - org.openrewrite.java.logging.slf4j.Slf4jBestPractices
   - org.openrewrite.recommendations.DependencyManagement
   - org.openrewrite.maven.BestPractices
-  - org.openrewrite.recipes.JavaRecipeBestPractices
   - org.openrewrite.java.AddApache2LicenseHeader
 
 ---
@@ -20,5 +19,4 @@ recipeList:
   - org.openrewrite.java.testing.mockito.MockitoBestPractices
 #  - org.openrewrite.java.testing.junit5.JUnit5BestPractices
   - org.openrewrite.java.testing.cleanup.BestPractices
-  - org.openrewrite.recipes.RecipeTestingBestPractices
   - org.openrewrite.java.testing.testcontainers.TestContainersBestPractices
