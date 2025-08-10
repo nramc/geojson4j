@@ -200,7 +200,7 @@ class FeatureTest {
     }
 
     @Test
-    void testJsonSerialization_VerifyJsonStructure() throws IOException {
+    void verifyJsonSerialization_VerifyJsonStructure() throws IOException {
         Feature feature = Feature.of(
                 "test-id-789",
                 Point.of(35.0, -75.0),
@@ -304,7 +304,7 @@ class FeatureTest {
     }
 
     @Test
-    void testImmutabilityOfProperties() {
+    void verifyImmutabilityOfProperties() {
         Map<String, Serializable> mutableProps = new HashMap<>();
         mutableProps.put("key", "value");
 
