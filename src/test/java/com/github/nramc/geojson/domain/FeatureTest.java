@@ -25,7 +25,6 @@ import static com.github.nramc.geojson.constant.GeoJsonType.FEATURE;
 import static com.github.nramc.geojson.constant.GeoJsonType.POLYGON;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class FeatureTest {
     private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -84,43 +83,37 @@ class FeatureTest {
 
     @Test
     void toString_shouldProvideFormatedStringWithAllArguments() {
-        assertDoesNotThrow(() -> {
-            Feature feature = Feature.of("a9fa1f6a-b1b2-4030-b02f-b3d451558656", Point.of(45.0, 45.0), Map.of("name", "Park"));
-            assertThat(feature).isNotNull()
-                    .hasToString("Feature{type='Feature', id='a9fa1f6a-b1b2-4030-b02f-b3d451558656', geometry=Point{type='Point', coordinates=[45.0, 45.0]}, properties={name=Park}}");
-        });
+        Feature feature = Feature.of("a9fa1f6a-b1b2-4030-b02f-b3d451558656", Point.of(45.0, 45.0), Map.of("name", "Park"));
+        assertThat(feature).isNotNull()
+                .hasToString("Feature{type='Feature', id='a9fa1f6a-b1b2-4030-b02f-b3d451558656', geometry=Point{type='Point', coordinates=[45.0, 45.0]}, properties={name=Park}}");
     }
 
     @Test
     void equals_shouldConsiderEqualityBasedOnData() {
-        assertDoesNotThrow(() -> {
-            Feature location1Variant1 = Feature.of("a9fa1f6a-b1b2-4030-b02f-b3d451558656", Point.of(45.0, 45.0), Map.of("name", "Park"));
-            Feature location1Variant2 = Feature.of("a9fa1f6a-b1b2-4030-b02f-b3d451558656", Point.of(45.0, 45.0), Map.of("name", "Park"));
+        Feature location1Variant1 = Feature.of("a9fa1f6a-b1b2-4030-b02f-b3d451558656", Point.of(45.0, 45.0), Map.of("name", "Park"));
+        Feature location1Variant2 = Feature.of("a9fa1f6a-b1b2-4030-b02f-b3d451558656", Point.of(45.0, 45.0), Map.of("name", "Park"));
 
-            Feature location2Variant1 = Feature.of("1e4b1fa0-b3f6-48cd-a9d5-78ffa9e5ac42", Point.of(95.0, 10.0), Map.of("name", "Temple"));
-            Feature location2Variant2 = Feature.of("1e4b1fa0-b3f6-48cd-a9d5-78ffa9e5ac42", Point.of(95.0, 10.0), Map.of("name", "Temple"));
+        Feature location2Variant1 = Feature.of("1e4b1fa0-b3f6-48cd-a9d5-78ffa9e5ac42", Point.of(95.0, 10.0), Map.of("name", "Temple"));
+        Feature location2Variant2 = Feature.of("1e4b1fa0-b3f6-48cd-a9d5-78ffa9e5ac42", Point.of(95.0, 10.0), Map.of("name", "Temple"));
 
-            assertThat(location1Variant1).isEqualTo(location1Variant2);
-            assertThat(location2Variant1).isEqualTo(location2Variant2);
+        assertThat(location1Variant1).isEqualTo(location1Variant2);
+        assertThat(location2Variant1).isEqualTo(location2Variant2);
 
-            assertThat(location1Variant1).isNotEqualTo(location2Variant1);
-            assertThat(location1Variant2).isNotEqualTo(location2Variant2);
-        });
+        assertThat(location1Variant1).isNotEqualTo(location2Variant1);
+        assertThat(location1Variant2).isNotEqualTo(location2Variant2);
     }
 
     @Test
     void hashCode_shouldConsiderHashCodeBasedOnData() {
-        assertDoesNotThrow(() -> {
-            Feature location1Variant1 = Feature.of("a9fa1f6a-b1b2-4030-b02f-b3d451558656", Point.of(45.0, 45.0), Map.of("name", "Park"));
-            Feature location1Variant2 = Feature.of("a9fa1f6a-b1b2-4030-b02f-b3d451558656", Point.of(45.0, 45.0), Map.of("name", "Park"));
+        Feature location1Variant1 = Feature.of("a9fa1f6a-b1b2-4030-b02f-b3d451558656", Point.of(45.0, 45.0), Map.of("name", "Park"));
+        Feature location1Variant2 = Feature.of("a9fa1f6a-b1b2-4030-b02f-b3d451558656", Point.of(45.0, 45.0), Map.of("name", "Park"));
 
-            Feature location2Variant1 = Feature.of("1e4b1fa0-b3f6-48cd-a9d5-78ffa9e5ac42", Point.of(95.0, 10.0), Map.of("name", "Temple"));
-            Feature location2Variant2 = Feature.of("1e4b1fa0-b3f6-48cd-a9d5-78ffa9e5ac42", Point.of(95.0, 10.0), Map.of("name", "Temple"));
+        Feature location2Variant1 = Feature.of("1e4b1fa0-b3f6-48cd-a9d5-78ffa9e5ac42", Point.of(95.0, 10.0), Map.of("name", "Temple"));
+        Feature location2Variant2 = Feature.of("1e4b1fa0-b3f6-48cd-a9d5-78ffa9e5ac42", Point.of(95.0, 10.0), Map.of("name", "Temple"));
 
-            assertThat(location1Variant1).hasSameHashCodeAs(location1Variant2);
-            assertThat(location2Variant1).hasSameHashCodeAs(location2Variant2);
+        assertThat(location1Variant1).hasSameHashCodeAs(location1Variant2);
+        assertThat(location2Variant1).hasSameHashCodeAs(location2Variant2);
 
-        });
     }
 
 }

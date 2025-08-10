@@ -30,7 +30,6 @@ import java.util.stream.Stream;
 
 import static com.github.nramc.geojson.constant.GeoJsonType.MULTI_POLYGON;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MultiPolygonTest {
@@ -219,86 +218,80 @@ class MultiPolygonTest {
 
     @Test
     void toString_shouldProvideFormatedStringWithAllArguments() {
-        assertDoesNotThrow(() -> {
-            List<Position> exteriorRing = List.of(
-                    Position.of(100, 0),
-                    Position.of(101, 0),
-                    Position.of(101, 1),
-                    Position.of(100, 1),
-                    Position.of(100, 0)
-            );
-            List<Position> hole = List.of(
-                    Position.of(100.8, 0.8),
-                    Position.of(100.8, 0.2),
-                    Position.of(100.2, 0.2),
-                    Position.of(100.2, 0.8),
-                    Position.of(100.8, 0.8)
-            );
+        List<Position> exteriorRing = List.of(
+                Position.of(100, 0),
+                Position.of(101, 0),
+                Position.of(101, 1),
+                Position.of(100, 1),
+                Position.of(100, 0)
+        );
+        List<Position> hole = List.of(
+                Position.of(100.8, 0.8),
+                Position.of(100.8, 0.2),
+                Position.of(100.2, 0.2),
+                Position.of(100.2, 0.8),
+                Position.of(100.8, 0.8)
+        );
 
-            MultiPolygon multiPolygon = MultiPolygon.of(PolygonCoordinates.of(exteriorRing, hole));
-            assertThat(multiPolygon).hasToString("MultiPolygon{type='MultiPolygon', coordinates=[[[[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0]], [[100.8, 0.8], [100.8, 0.2], [100.2, 0.2], [100.2, 0.8], [100.8, 0.8]]]]}");
-        });
+        MultiPolygon multiPolygon = MultiPolygon.of(PolygonCoordinates.of(exteriorRing, hole));
+        assertThat(multiPolygon).hasToString("MultiPolygon{type='MultiPolygon', coordinates=[[[[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0]], [[100.8, 0.8], [100.8, 0.2], [100.2, 0.2], [100.2, 0.8], [100.8, 0.8]]]]}");
     }
 
     @Test
     void equals_shouldConsiderEqualityBasedOnData() {
-        assertDoesNotThrow(() -> {
-            List<Position> exteriorRing = List.of(
-                    Position.of(100, 0),
-                    Position.of(101, 0),
-                    Position.of(101, 1),
-                    Position.of(100, 1),
-                    Position.of(100, 0)
-            );
-            List<Position> hole = List.of(
-                    Position.of(100.8, 0.8),
-                    Position.of(100.8, 0.2),
-                    Position.of(100.2, 0.2),
-                    Position.of(100.2, 0.8),
-                    Position.of(100.8, 0.8)
-            );
+        List<Position> exteriorRing = List.of(
+                Position.of(100, 0),
+                Position.of(101, 0),
+                Position.of(101, 1),
+                Position.of(100, 1),
+                Position.of(100, 0)
+        );
+        List<Position> hole = List.of(
+                Position.of(100.8, 0.8),
+                Position.of(100.8, 0.2),
+                Position.of(100.2, 0.2),
+                Position.of(100.2, 0.8),
+                Position.of(100.8, 0.8)
+        );
 
-            MultiPolygon location1Variant1 = MultiPolygon.of(PolygonCoordinates.of(exteriorRing, hole));
-            MultiPolygon location1Variant2 = MultiPolygon.of(PolygonCoordinates.of(exteriorRing, hole));
+        MultiPolygon location1Variant1 = MultiPolygon.of(PolygonCoordinates.of(exteriorRing, hole));
+        MultiPolygon location1Variant2 = MultiPolygon.of(PolygonCoordinates.of(exteriorRing, hole));
 
-            MultiPolygon location2Variant1 = MultiPolygon.of(PolygonCoordinates.of(hole, exteriorRing));
-            MultiPolygon location2Variant2 = MultiPolygon.of(PolygonCoordinates.of(hole, exteriorRing));
+        MultiPolygon location2Variant1 = MultiPolygon.of(PolygonCoordinates.of(hole, exteriorRing));
+        MultiPolygon location2Variant2 = MultiPolygon.of(PolygonCoordinates.of(hole, exteriorRing));
 
-            assertThat(location1Variant1).isEqualTo(location1Variant2);
-            assertThat(location2Variant1).isEqualTo(location2Variant2);
+        assertThat(location1Variant1).isEqualTo(location1Variant2);
+        assertThat(location2Variant1).isEqualTo(location2Variant2);
 
-            assertThat(location1Variant1).isNotEqualTo(location2Variant1);
-            assertThat(location1Variant2).isNotEqualTo(location2Variant2);
-        });
+        assertThat(location1Variant1).isNotEqualTo(location2Variant1);
+        assertThat(location1Variant2).isNotEqualTo(location2Variant2);
     }
 
     @Test
     void hashCode_shouldConsiderHashCodeBasedOnData() {
-        assertDoesNotThrow(() -> {
-            List<Position> exteriorRing = List.of(
-                    Position.of(100, 0),
-                    Position.of(101, 0),
-                    Position.of(101, 1),
-                    Position.of(100, 1),
-                    Position.of(100, 0)
-            );
-            List<Position> hole = List.of(
-                    Position.of(100.8, 0.8),
-                    Position.of(100.8, 0.2),
-                    Position.of(100.2, 0.2),
-                    Position.of(100.2, 0.8),
-                    Position.of(100.8, 0.8)
-            );
+        List<Position> exteriorRing = List.of(
+                Position.of(100, 0),
+                Position.of(101, 0),
+                Position.of(101, 1),
+                Position.of(100, 1),
+                Position.of(100, 0)
+        );
+        List<Position> hole = List.of(
+                Position.of(100.8, 0.8),
+                Position.of(100.8, 0.2),
+                Position.of(100.2, 0.2),
+                Position.of(100.2, 0.8),
+                Position.of(100.8, 0.8)
+        );
 
-            MultiPolygon location1Variant1 = MultiPolygon.of(PolygonCoordinates.of(exteriorRing, hole));
-            MultiPolygon location1Variant2 = MultiPolygon.of(PolygonCoordinates.of(exteriorRing, hole));
+        MultiPolygon location1Variant1 = MultiPolygon.of(PolygonCoordinates.of(exteriorRing, hole));
+        MultiPolygon location1Variant2 = MultiPolygon.of(PolygonCoordinates.of(exteriorRing, hole));
 
-            MultiPolygon location2Variant1 = MultiPolygon.of(PolygonCoordinates.of(hole, exteriorRing));
-            MultiPolygon location2Variant2 = MultiPolygon.of(PolygonCoordinates.of(hole, exteriorRing));
+        MultiPolygon location2Variant1 = MultiPolygon.of(PolygonCoordinates.of(hole, exteriorRing));
+        MultiPolygon location2Variant2 = MultiPolygon.of(PolygonCoordinates.of(hole, exteriorRing));
 
-            assertThat(location1Variant1).hasSameHashCodeAs(location1Variant2);
-            assertThat(location2Variant1).hasSameHashCodeAs(location2Variant2);
-        });
+        assertThat(location1Variant1).hasSameHashCodeAs(location1Variant2);
+        assertThat(location2Variant1).hasSameHashCodeAs(location2Variant2);
     }
 
 }

@@ -31,7 +31,6 @@ import java.util.stream.Stream;
 
 import static com.github.nramc.geojson.constant.GeoJsonType.LINE_STRING;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class LineStringTest {
@@ -228,41 +227,35 @@ class LineStringTest {
 
     @Test
     void toString_shouldProvideFormatedStringWithAllArguments() {
-        assertDoesNotThrow(() -> {
-            LineString lineString = LineString.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0));
-            assertThat(lineString).hasToString("LineString{type='LineString', coordinates=[[100.012, 45.123456], [45.0, 65.0]]}");
-        });
+        LineString lineString = LineString.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0));
+        assertThat(lineString).hasToString("LineString{type='LineString', coordinates=[[100.012, 45.123456], [45.0, 65.0]]}");
     }
 
     @Test
     void equals_shouldConsiderEqualityBasedOnData() {
-        assertDoesNotThrow(() -> {
-            LineString location1Variant1 = LineString.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0));
-            LineString location1Variant2 = LineString.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0));
+        LineString location1Variant1 = LineString.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0));
+        LineString location1Variant2 = LineString.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0));
 
-            LineString location2Variant1 = LineString.of(Position.of(25.1234, -54.1234), Position.of(45.0, 65.0));
-            LineString location2Variant2 = LineString.of(Position.of(25.1234, -54.1234), Position.of(45.0, 65.0));
+        LineString location2Variant1 = LineString.of(Position.of(25.1234, -54.1234), Position.of(45.0, 65.0));
+        LineString location2Variant2 = LineString.of(Position.of(25.1234, -54.1234), Position.of(45.0, 65.0));
 
-            assertThat(location1Variant1).isEqualTo(location1Variant2);
-            assertThat(location2Variant1).isEqualTo(location2Variant2);
+        assertThat(location1Variant1).isEqualTo(location1Variant2);
+        assertThat(location2Variant1).isEqualTo(location2Variant2);
 
-            assertThat(location1Variant1).isNotEqualTo(location2Variant1);
-            assertThat(location1Variant2).isNotEqualTo(location2Variant2);
-        });
+        assertThat(location1Variant1).isNotEqualTo(location2Variant1);
+        assertThat(location1Variant2).isNotEqualTo(location2Variant2);
     }
 
     @Test
     void hashCode_shouldConsiderHashCodeBasedOnData() {
-        assertDoesNotThrow(() -> {
-            LineString location1Variant1 = LineString.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0));
-            LineString location1Variant2 = LineString.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0));
+        LineString location1Variant1 = LineString.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0));
+        LineString location1Variant2 = LineString.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0));
 
-            LineString location2Variant1 = LineString.of(Position.of(25.1234, -54.1234), Position.of(45.0, 65.0));
-            LineString location2Variant2 = LineString.of(Position.of(25.1234, -54.1234), Position.of(45.0, 65.0));
+        LineString location2Variant1 = LineString.of(Position.of(25.1234, -54.1234), Position.of(45.0, 65.0));
+        LineString location2Variant2 = LineString.of(Position.of(25.1234, -54.1234), Position.of(45.0, 65.0));
 
-            assertThat(location1Variant1).hasSameHashCodeAs(location1Variant2);
-            assertThat(location2Variant1).hasSameHashCodeAs(location2Variant2);
-        });
+        assertThat(location1Variant1).hasSameHashCodeAs(location1Variant2);
+        assertThat(location2Variant1).hasSameHashCodeAs(location2Variant2);
     }
 
 

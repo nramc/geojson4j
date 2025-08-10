@@ -30,7 +30,6 @@ import java.util.stream.Stream;
 
 import static com.github.nramc.geojson.constant.GeoJsonType.POLYGON;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PolygonTest {
@@ -279,86 +278,80 @@ class PolygonTest {
 
     @Test
     void toString_shouldProvideFormatedStringWithAllArguments() {
-        assertDoesNotThrow(() -> {
-            List<Position> exteriorRing = List.of(
-                    Position.of(100, 0),
-                    Position.of(101, 0),
-                    Position.of(101, 1),
-                    Position.of(100, 1),
-                    Position.of(100, 0)
-            );
-            List<Position> hole = List.of(
-                    Position.of(100.8, 0.8),
-                    Position.of(100.8, 0.2),
-                    Position.of(100.2, 0.2),
-                    Position.of(100.2, 0.8),
-                    Position.of(100.8, 0.8)
-            );
+        List<Position> exteriorRing = List.of(
+                Position.of(100, 0),
+                Position.of(101, 0),
+                Position.of(101, 1),
+                Position.of(100, 1),
+                Position.of(100, 0)
+        );
+        List<Position> hole = List.of(
+                Position.of(100.8, 0.8),
+                Position.of(100.8, 0.2),
+                Position.of(100.2, 0.2),
+                Position.of(100.2, 0.8),
+                Position.of(100.8, 0.8)
+        );
 
-            Polygon polygon = Polygon.of(exteriorRing, hole);
-            assertThat(polygon).hasToString("Polygon{type='Polygon', coordinates=[[[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0]], [[100.8, 0.8], [100.8, 0.2], [100.2, 0.2], [100.2, 0.8], [100.8, 0.8]]]}");
-        });
+        Polygon polygon = Polygon.of(exteriorRing, hole);
+        assertThat(polygon).hasToString("Polygon{type='Polygon', coordinates=[[[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0]], [[100.8, 0.8], [100.8, 0.2], [100.2, 0.2], [100.2, 0.8], [100.8, 0.8]]]}");
     }
 
     @Test
     void equals_shouldConsiderEqualityBasedOnData() {
-        assertDoesNotThrow(() -> {
-            List<Position> exteriorRing = List.of(
-                    Position.of(100, 0),
-                    Position.of(101, 0),
-                    Position.of(101, 1),
-                    Position.of(100, 1),
-                    Position.of(100, 0)
-            );
-            List<Position> hole = List.of(
-                    Position.of(100.8, 0.8),
-                    Position.of(100.8, 0.2),
-                    Position.of(100.2, 0.2),
-                    Position.of(100.2, 0.8),
-                    Position.of(100.8, 0.8)
-            );
+        List<Position> exteriorRing = List.of(
+                Position.of(100, 0),
+                Position.of(101, 0),
+                Position.of(101, 1),
+                Position.of(100, 1),
+                Position.of(100, 0)
+        );
+        List<Position> hole = List.of(
+                Position.of(100.8, 0.8),
+                Position.of(100.8, 0.2),
+                Position.of(100.2, 0.2),
+                Position.of(100.2, 0.8),
+                Position.of(100.8, 0.8)
+        );
 
-            Polygon location1Variant1 = Polygon.of(exteriorRing, hole);
-            Polygon location1Variant2 = Polygon.of(exteriorRing, hole);
+        Polygon location1Variant1 = Polygon.of(exteriorRing, hole);
+        Polygon location1Variant2 = Polygon.of(exteriorRing, hole);
 
-            Polygon location2Variant1 = Polygon.of(hole, exteriorRing);
-            Polygon location2Variant2 = Polygon.of(hole, exteriorRing);
+        Polygon location2Variant1 = Polygon.of(hole, exteriorRing);
+        Polygon location2Variant2 = Polygon.of(hole, exteriorRing);
 
-            assertThat(location1Variant1).isEqualTo(location1Variant2);
-            assertThat(location2Variant1).isEqualTo(location2Variant2);
+        assertThat(location1Variant1).isEqualTo(location1Variant2);
+        assertThat(location2Variant1).isEqualTo(location2Variant2);
 
-            assertThat(location1Variant1).isNotEqualTo(location2Variant1);
-            assertThat(location1Variant2).isNotEqualTo(location2Variant2);
-        });
+        assertThat(location1Variant1).isNotEqualTo(location2Variant1);
+        assertThat(location1Variant2).isNotEqualTo(location2Variant2);
     }
 
     @Test
     void hashCode_shouldConsiderHashCodeBasedOnData() {
-        assertDoesNotThrow(() -> {
-            List<Position> exteriorRing = List.of(
-                    Position.of(100, 0),
-                    Position.of(101, 0),
-                    Position.of(101, 1),
-                    Position.of(100, 1),
-                    Position.of(100, 0)
-            );
-            List<Position> hole = List.of(
-                    Position.of(100.8, 0.8),
-                    Position.of(100.8, 0.2),
-                    Position.of(100.2, 0.2),
-                    Position.of(100.2, 0.8),
-                    Position.of(100.8, 0.8)
-            );
+        List<Position> exteriorRing = List.of(
+                Position.of(100, 0),
+                Position.of(101, 0),
+                Position.of(101, 1),
+                Position.of(100, 1),
+                Position.of(100, 0)
+        );
+        List<Position> hole = List.of(
+                Position.of(100.8, 0.8),
+                Position.of(100.8, 0.2),
+                Position.of(100.2, 0.2),
+                Position.of(100.2, 0.8),
+                Position.of(100.8, 0.8)
+        );
 
-            Polygon location1Variant1 = Polygon.of(exteriorRing, hole);
-            Polygon location1Variant2 = Polygon.of(exteriorRing, hole);
+        Polygon location1Variant1 = Polygon.of(exteriorRing, hole);
+        Polygon location1Variant2 = Polygon.of(exteriorRing, hole);
 
-            Polygon location2Variant1 = Polygon.of(hole, exteriorRing);
-            Polygon location2Variant2 = Polygon.of(hole, exteriorRing);
+        Polygon location2Variant1 = Polygon.of(hole, exteriorRing);
+        Polygon location2Variant2 = Polygon.of(hole, exteriorRing);
 
-            assertThat(location1Variant1).hasSameHashCodeAs(location1Variant2);
-            assertThat(location2Variant1).hasSameHashCodeAs(location2Variant2);
-        });
+        assertThat(location1Variant1).hasSameHashCodeAs(location1Variant2);
+        assertThat(location2Variant1).hasSameHashCodeAs(location2Variant2);
     }
 
 }

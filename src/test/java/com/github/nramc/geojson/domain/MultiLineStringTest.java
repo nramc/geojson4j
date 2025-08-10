@@ -31,7 +31,6 @@ import java.util.stream.Stream;
 
 import static com.github.nramc.geojson.constant.GeoJsonType.MULTI_LINE_STRING;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MultiLineStringTest {
@@ -283,41 +282,35 @@ class MultiLineStringTest {
 
     @Test
     void toString_shouldProvideFormatedStringWithAllArguments() {
-        assertDoesNotThrow(() -> {
-            MultiLineString multiLineString = MultiLineString.of(List.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0)));
-            assertThat(multiLineString).hasToString("MultiLineString{type='MultiLineString', coordinates=[[[100.012, 45.123456], [45.0, 65.0]]]}");
-        });
+        MultiLineString multiLineString = MultiLineString.of(List.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0)));
+        assertThat(multiLineString).hasToString("MultiLineString{type='MultiLineString', coordinates=[[[100.012, 45.123456], [45.0, 65.0]]]}");
     }
 
     @Test
     void equals_shouldConsiderEqualityBasedOnData() {
-        assertDoesNotThrow(() -> {
-            MultiLineString location1Variant1 = MultiLineString.of(List.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0)));
-            MultiLineString location1Variant2 = MultiLineString.of(List.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0)));
+        MultiLineString location1Variant1 = MultiLineString.of(List.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0)));
+        MultiLineString location1Variant2 = MultiLineString.of(List.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0)));
 
-            MultiLineString location2Variant1 = MultiLineString.of(List.of(Position.of(-100.012, -45.123456), Position.of(45.0, 65.0)));
-            MultiLineString location2Variant2 = MultiLineString.of(List.of(Position.of(-100.012, -45.123456), Position.of(45.0, 65.0)));
+        MultiLineString location2Variant1 = MultiLineString.of(List.of(Position.of(-100.012, -45.123456), Position.of(45.0, 65.0)));
+        MultiLineString location2Variant2 = MultiLineString.of(List.of(Position.of(-100.012, -45.123456), Position.of(45.0, 65.0)));
 
-            assertThat(location1Variant1).isEqualTo(location1Variant2);
-            assertThat(location2Variant1).isEqualTo(location2Variant2);
+        assertThat(location1Variant1).isEqualTo(location1Variant2);
+        assertThat(location2Variant1).isEqualTo(location2Variant2);
 
-            assertThat(location1Variant1).isNotEqualTo(location2Variant1);
-            assertThat(location1Variant2).isNotEqualTo(location2Variant2);
-        });
+        assertThat(location1Variant1).isNotEqualTo(location2Variant1);
+        assertThat(location1Variant2).isNotEqualTo(location2Variant2);
     }
 
     @Test
     void hashCode_shouldConsiderHashCodeBasedOnData() {
-        assertDoesNotThrow(() -> {
-            MultiLineString location1Variant1 = MultiLineString.of(List.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0)));
-            MultiLineString location1Variant2 = MultiLineString.of(List.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0)));
+        MultiLineString location1Variant1 = MultiLineString.of(List.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0)));
+        MultiLineString location1Variant2 = MultiLineString.of(List.of(Position.of(100.012, 45.123456), Position.of(45.0, 65.0)));
 
-            MultiLineString location2Variant1 = MultiLineString.of(List.of(Position.of(-100.012, -45.123456), Position.of(45.0, 65.0)));
-            MultiLineString location2Variant2 = MultiLineString.of(List.of(Position.of(-100.012, -45.123456), Position.of(45.0, 65.0)));
+        MultiLineString location2Variant1 = MultiLineString.of(List.of(Position.of(-100.012, -45.123456), Position.of(45.0, 65.0)));
+        MultiLineString location2Variant2 = MultiLineString.of(List.of(Position.of(-100.012, -45.123456), Position.of(45.0, 65.0)));
 
-            assertThat(location1Variant1).hasSameHashCodeAs(location1Variant2);
-            assertThat(location2Variant1).hasSameHashCodeAs(location2Variant2);
-        });
+        assertThat(location1Variant1).hasSameHashCodeAs(location1Variant2);
+        assertThat(location2Variant1).hasSameHashCodeAs(location2Variant2);
     }
 
 

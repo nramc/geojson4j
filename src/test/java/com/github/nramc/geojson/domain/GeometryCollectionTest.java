@@ -26,7 +26,6 @@ import java.util.List;
 
 import static com.github.nramc.geojson.constant.GeoJsonType.GEOMETRY_COLLECTION;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class GeometryCollectionTest {
     private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -120,41 +119,35 @@ class GeometryCollectionTest {
 
     @Test
     void toString_shouldProvideFormatedStringWithAllArguments() {
-        assertDoesNotThrow(() -> {
-            GeometryCollection geometryCollection = GeometryCollection.of(List.of(POINT, MULTI_POINT));
-            assertThat(geometryCollection).hasToString("GeometryCollection{type='GeometryCollection', geometries=[Point{type='Point', coordinates=[100.0, 0.0]}, MultiPoint{type='MultiPoint', coordinates=[[100.0, 0.0], [101.0, 1.0]]}]}");
-        });
+        GeometryCollection geometryCollection = GeometryCollection.of(List.of(POINT, MULTI_POINT));
+        assertThat(geometryCollection).hasToString("GeometryCollection{type='GeometryCollection', geometries=[Point{type='Point', coordinates=[100.0, 0.0]}, MultiPoint{type='MultiPoint', coordinates=[[100.0, 0.0], [101.0, 1.0]]}]}");
     }
 
     @Test
     void equals_shouldConsiderEqualityBasedOnData() {
-        assertDoesNotThrow(() -> {
-            GeometryCollection location1Variant1 = GeometryCollection.of(POINT);
-            GeometryCollection location1Variant2 = GeometryCollection.of(POINT);
+        GeometryCollection location1Variant1 = GeometryCollection.of(POINT);
+        GeometryCollection location1Variant2 = GeometryCollection.of(POINT);
 
-            GeometryCollection location2Variant1 = GeometryCollection.of(MULTI_POINT);
-            GeometryCollection location2Variant2 = GeometryCollection.of(MULTI_POINT);
+        GeometryCollection location2Variant1 = GeometryCollection.of(MULTI_POINT);
+        GeometryCollection location2Variant2 = GeometryCollection.of(MULTI_POINT);
 
-            assertThat(location1Variant1).isEqualTo(location1Variant2);
-            assertThat(location2Variant1).isEqualTo(location2Variant2);
+        assertThat(location1Variant1).isEqualTo(location1Variant2);
+        assertThat(location2Variant1).isEqualTo(location2Variant2);
 
-            assertThat(location1Variant1).isNotEqualTo(location2Variant1);
-            assertThat(location1Variant2).isNotEqualTo(location2Variant2);
-        });
+        assertThat(location1Variant1).isNotEqualTo(location2Variant1);
+        assertThat(location1Variant2).isNotEqualTo(location2Variant2);
     }
 
     @Test
     void hashCode_shouldConsiderHashCodeBasedOnData() {
-        assertDoesNotThrow(() -> {
-            GeometryCollection location1Variant1 = GeometryCollection.of(POINT);
-            GeometryCollection location1Variant2 = GeometryCollection.of(POINT);
+        GeometryCollection location1Variant1 = GeometryCollection.of(POINT);
+        GeometryCollection location1Variant2 = GeometryCollection.of(POINT);
 
-            GeometryCollection location2Variant1 = GeometryCollection.of(MULTI_POINT);
-            GeometryCollection location2Variant2 = GeometryCollection.of(MULTI_POINT);
+        GeometryCollection location2Variant1 = GeometryCollection.of(MULTI_POINT);
+        GeometryCollection location2Variant2 = GeometryCollection.of(MULTI_POINT);
 
-            assertThat(location1Variant1).hasSameHashCodeAs(location1Variant2);
-            assertThat(location2Variant1).hasSameHashCodeAs(location2Variant2);
-        });
+        assertThat(location1Variant1).hasSameHashCodeAs(location1Variant2);
+        assertThat(location2Variant1).hasSameHashCodeAs(location2Variant2);
     }
 
 }

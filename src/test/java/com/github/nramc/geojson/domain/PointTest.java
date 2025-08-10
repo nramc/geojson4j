@@ -25,7 +25,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PointTest {
@@ -185,41 +184,35 @@ class PointTest {
 
     @Test
     void toString_shouldProvideFormatedStringWithAllArguments() {
-        assertDoesNotThrow(() -> {
-            Point point = Point.of(108.1134, 45.24567);
-            assertThat(point).hasToString("Point{type='Point', coordinates=[108.1134, 45.24567]}");
-        });
+        Point point = Point.of(108.1134, 45.24567);
+        assertThat(point).hasToString("Point{type='Point', coordinates=[108.1134, 45.24567]}");
     }
 
     @Test
     void equals_shouldConsiderEqualityBasedOnData() {
-        assertDoesNotThrow(() -> {
-            Point location1Variant1 = Point.of(108.1134, 45.24567);
-            Point location1Variant2 = Point.of(108.1134, 45.24567);
+        Point location1Variant1 = Point.of(108.1134, 45.24567);
+        Point location1Variant2 = Point.of(108.1134, 45.24567);
 
-            Point location2Variant1 = Point.of(25.1234, -54.1234);
-            Point location2Variant2 = Point.of(25.1234, -54.1234);
+        Point location2Variant1 = Point.of(25.1234, -54.1234);
+        Point location2Variant2 = Point.of(25.1234, -54.1234);
 
-            assertThat(location1Variant1).isEqualTo(location1Variant2);
-            assertThat(location2Variant1).isEqualTo(location2Variant2);
+        assertThat(location1Variant1).isEqualTo(location1Variant2);
+        assertThat(location2Variant1).isEqualTo(location2Variant2);
 
-            assertThat(location1Variant1).isNotEqualTo(location2Variant1);
-            assertThat(location1Variant2).isNotEqualTo(location2Variant2);
-        });
+        assertThat(location1Variant1).isNotEqualTo(location2Variant1);
+        assertThat(location1Variant2).isNotEqualTo(location2Variant2);
     }
 
     @Test
     void hashCode_shouldConsiderHashCodeBasedOnData() {
-        assertDoesNotThrow(() -> {
-            Point location1Variant1 = Point.of(108.1134, 45.24567);
-            Point location1Variant2 = Point.of(108.1134, 45.24567);
+        Point location1Variant1 = Point.of(108.1134, 45.24567);
+        Point location1Variant2 = Point.of(108.1134, 45.24567);
 
-            Point location2Variant1 = Point.of(25.1234, -54.1234);
-            Point location2Variant2 = Point.of(25.1234, -54.1234);
+        Point location2Variant1 = Point.of(25.1234, -54.1234);
+        Point location2Variant2 = Point.of(25.1234, -54.1234);
 
-            assertThat(location1Variant1).hasSameHashCodeAs(location1Variant2);
-            assertThat(location2Variant1).hasSameHashCodeAs(location2Variant2);
-        });
+        assertThat(location1Variant1).hasSameHashCodeAs(location1Variant2);
+        assertThat(location2Variant1).hasSameHashCodeAs(location2Variant2);
     }
 
 }
