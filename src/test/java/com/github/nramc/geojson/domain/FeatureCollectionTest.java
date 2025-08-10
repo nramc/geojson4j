@@ -87,4 +87,44 @@ class FeatureCollectionTest {
 
     }
 
+    @Test
+    void validate_shouldReturnErrorsForInvalidType() {
+        FeatureCollection collection = new FeatureCollection("InvalidType", null);
+        assertThat(collection.validate().hasErrors()).isTrue();
+        assertThat(collection.validate().getErrors())
+                .anyMatch(error -> error.getKey().equals("type.invalid"));
+    }
+
+    @Test
+    void validate_shouldReturnNoErrorsForValidCollection() {
+        Feature feature = Feature.of("a9fa1f6a-b1b2-4030-b02f-b3d451558656", Point.of(45.0, 45.0), Map.of("name", "Park"));
+        FeatureCollection collection = FeatureCollection.of(feature);
+        assertThat(collection.validate().hasErrors()).isFalse();
+    }
+
+    @Test
+    void constructor_shouldAcceptNullFeatures() {
+        FeatureCollection collection = new FeatureCollection(FEATURE_COLLECTION, null);
+        assertThat(collection.getFeatures()).isEmpty();
+    }
+
+    @Test
+    void defaultConstructor_shouldCreateValidInstance() {
+        FeatureCollection collection = new FeatureCollection();
+        assertThat(collection.getType()).isEqualTo(FEATURE_COLLECTION);
+        assertThat(collection.getFeatures()).isEmpty();
+    }
+
+    @Test
+    void factoryMethod_shouldCreateValidCollection() {
+        Feature feature1 = Feature.of("a9fa1f6a-b1b2-4030-b02f-b3d451558656", Point.of(45.0, 45.0), Map.of("name", "Park"));
+        Feature feature2 = Feature.of("1e4b1fa0-b3f6-48cd-a9d5-78ffa9e5ac42", Point.of(95.0, 10.0), Map.of("name", "Temple"));
+
+        FeatureCollection collection = FeatureCollection.of(feature1, feature2);
+
+        assertThat(collection.getType()).isEqualTo(FEATURE_COLLECTION);
+        assertThat(collection.getFeatures()).hasSize(2);
+        assertThat(collection.isValid()).isTrue();
+    }
+
 }
