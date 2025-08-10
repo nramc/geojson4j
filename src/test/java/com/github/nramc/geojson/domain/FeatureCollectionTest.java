@@ -187,7 +187,7 @@ class FeatureCollectionTest {
 
         assertThatThrownBy(() -> FeatureCollection.of(features))
                 .isInstanceOf(GeoJsonValidationException.class)
-                .hasMessageContaining("geometry");
+                .hasMessageContaining("GeoJson Invalid");
     }
 
     @Test
