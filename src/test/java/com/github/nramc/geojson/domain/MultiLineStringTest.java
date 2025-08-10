@@ -45,13 +45,13 @@ class MultiLineStringTest {
                 .satisfies(obj -> assertThat(obj.getType()).isEqualTo(MULTI_LINE_STRING))
                 .satisfies(obj -> assertThat(obj.isValid()).isTrue())
                 .satisfies(obj -> assertThat(obj.getCoordinates()).asInstanceOf(InstanceOfAssertFactories.LIST).hasSize(5)
-                        .containsExactly(
-                                List.of(Position.of(100, 0), Position.of(101, 1)),
-                                List.of(Position.of(102, 2), Position.of(103, 3)),
-                                List.of(Position.of(104, 4), Position.of(105, 5)),
-                                List.of(Position.of(106, 6), Position.of(107, 7)),
-                                List.of(Position.of(108, 8), Position.of(109, 9))
-                        )
+                                .containsExactly(
+                                        List.of(Position.of(100, 0), Position.of(101, 1)),
+                                        List.of(Position.of(102, 2), Position.of(103, 3)),
+                                        List.of(Position.of(104, 4), Position.of(105, 5)),
+                                        List.of(Position.of(106, 6), Position.of(107, 7)),
+                                        List.of(Position.of(108, 8), Position.of(109, 9))
+                                )
                 );
     }
 
@@ -64,13 +64,13 @@ class MultiLineStringTest {
                 .satisfies(obj -> assertThat(obj.getType()).isEqualTo(MULTI_LINE_STRING))
                 .satisfies(obj -> assertThat(obj.isValid()).isTrue())
                 .satisfies(obj -> assertThat(obj.getCoordinates()).asInstanceOf(InstanceOfAssertFactories.LIST).hasSize(5)
-                        .containsExactly(
-                                List.of(Position.of(100, 0, 0), Position.of(101, 1, 1)),
-                                List.of(Position.of(102, 2, 2), Position.of(103, 3, 3)),
-                                List.of(Position.of(104, 4, 4), Position.of(105, 5, 5)),
-                                List.of(Position.of(106, 6, 6), Position.of(107, 7, 7)),
-                                List.of(Position.of(108, 8, 8), Position.of(109, 9, 9))
-                        )
+                                .containsExactly(
+                                        List.of(Position.of(100, 0, 0), Position.of(101, 1, 1)),
+                                        List.of(Position.of(102, 2, 2), Position.of(103, 3, 3)),
+                                        List.of(Position.of(104, 4, 4), Position.of(105, 5, 5)),
+                                        List.of(Position.of(106, 6, 6), Position.of(107, 7, 7)),
+                                        List.of(Position.of(108, 8, 8), Position.of(109, 9, 9))
+                                )
                 );
     }
 
@@ -90,13 +90,13 @@ class MultiLineStringTest {
                 .satisfies(multiLineString -> assertThat(multiLineString.getCoordinates()).isNotNull())
                 .satisfies(multiLineString -> assertThat(multiLineString.isValid()).isFalse())
                 .satisfies(multiLineString -> assertThat(multiLineString.validate())
-                        .satisfies(validationResult -> assertThat(validationResult.hasErrors()).isTrue())
-                        .satisfies(validationResult -> assertThat(validationResult.getErrors())
-                                .anySatisfy(error -> assertThat(error)
-                                        .satisfies(e -> assertThat(e.getField()).isEqualTo(expectedErrorField))
-                                        .satisfies(e -> assertThat(e.getKey()).isEqualTo(expectedErrorKey))
+                                .satisfies(validationResult -> assertThat(validationResult.hasErrors()).isTrue())
+                                .satisfies(validationResult -> assertThat(validationResult.getErrors())
+                                                .anySatisfy(error -> assertThat(error)
+                                                                .satisfies(e -> assertThat(e.getField()).isEqualTo(expectedErrorField))
+                                                                .satisfies(e -> assertThat(e.getKey()).isEqualTo(expectedErrorKey))
+                                                )
                                 )
-                        )
                 );
     }
 
@@ -115,13 +115,13 @@ class MultiLineStringTest {
                 .satisfies(multiLineString -> assertThat(multiLineString.getType()).isEqualTo("MultiLineString"))
                 .satisfies(multiLineString -> assertThat(multiLineString.isValid()).isFalse())
                 .satisfies(multiLineString -> assertThat(multiLineString.validate())
-                        .satisfies(validationResult -> assertThat(validationResult.hasErrors()).isTrue())
-                        .satisfies(validationResult -> assertThat(validationResult.getErrors())
-                                .anySatisfy(error -> assertThat(error)
-                                        .satisfies(e -> assertThat(e.getField()).isEqualTo(expectedErrorField))
-                                        .satisfies(e -> assertThat(e.getKey()).isEqualTo(expectedErrorKey))
+                                .satisfies(validationResult -> assertThat(validationResult.hasErrors()).isTrue())
+                                .satisfies(validationResult -> assertThat(validationResult.getErrors())
+                                                .anySatisfy(error -> assertThat(error)
+                                                                .satisfies(e -> assertThat(e.getField()).isEqualTo(expectedErrorField))
+                                                                .satisfies(e -> assertThat(e.getKey()).isEqualTo(expectedErrorKey))
+                                                )
                                 )
-                        )
                 );
     }
 
@@ -140,13 +140,13 @@ class MultiLineStringTest {
                 .satisfies(multiLineString -> assertThat(multiLineString.getType()).isEqualTo("MultiLineString"))
                 .satisfies(multiLineString -> assertThat(multiLineString.isValid()).isFalse())
                 .satisfies(multiLineString -> assertThat(multiLineString.validate())
-                        .satisfies(validationResult -> assertThat(validationResult.hasErrors()).isTrue())
-                        .satisfies(validationResult -> assertThat(validationResult.getErrors())
-                                .anySatisfy(error -> assertThat(error)
-                                        .satisfies(e -> assertThat(e.getField()).isEqualTo(expectedErrorField))
-                                        .satisfies(e -> assertThat(e.getKey()).isEqualTo(expectedErrorKey))
+                                .satisfies(validationResult -> assertThat(validationResult.hasErrors()).isTrue())
+                                .satisfies(validationResult -> assertThat(validationResult.getErrors())
+                                                .anySatisfy(error -> assertThat(error)
+                                                                .satisfies(e -> assertThat(e.getField()).isEqualTo(expectedErrorField))
+                                                                .satisfies(e -> assertThat(e.getKey()).isEqualTo(expectedErrorKey))
+                                                )
                                 )
-                        )
                 );
     }
 

@@ -13,13 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.nramc.geojson.domain;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.nramc.geojson.validator.GeoJsonValidationException;
-import com.github.nramc.geojson.validator.ValidationError;
-import com.github.nramc.geojson.validator.ValidationResult;
-import org.junit.jupiter.api.Test;
+package com.github.nramc.geojson.domain;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -32,6 +27,12 @@ import java.util.Map;
 import static com.github.nramc.geojson.constant.GeoJsonType.FEATURE_COLLECTION;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.nramc.geojson.validator.GeoJsonValidationException;
+import com.github.nramc.geojson.validator.ValidationError;
+import com.github.nramc.geojson.validator.ValidationResult;
+import org.junit.jupiter.api.Test;
 
 class FeatureCollectionTest {
     private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -61,7 +62,8 @@ class FeatureCollectionTest {
         FeatureCollection featureCollection = FeatureCollection.of(feature);
         assertThat(featureCollection)
                 .isNotNull()
-                .hasToString("FeatureCollection{type='FeatureCollection', features=[Feature{type='Feature', id='a9fa1f6a-b1b2-4030-b02f-b3d451558656', geometry=Point{type='Point', coordinates=[45.0, 45.0]}, properties={name=Park}}]}");
+                .hasToString(
+                        "FeatureCollection{type='FeatureCollection', features=[Feature{type='Feature', id='a9fa1f6a-b1b2-4030-b02f-b3d451558656', geometry=Point{type='Point', coordinates=[45.0, 45.0]}, properties={name=Park}}]}");
     }
 
     @Test
@@ -107,9 +109,9 @@ class FeatureCollectionTest {
         FeatureCollection col3 = FeatureCollection.of(feature2);
 
         assertThat(col1)
-                .isEqualTo(col2)   // same content
-                .isNotEqualTo(col3) // different content
-                .isNotEqualTo(null) // null
+                .isEqualTo(col2)// same content
+                .isNotEqualTo(col3)// different content
+                .isNotEqualTo(null)// null
                 .isNotEqualTo(new Object()); // different type
     }
 

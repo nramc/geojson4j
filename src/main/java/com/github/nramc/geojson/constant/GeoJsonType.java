@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.github.nramc.geojson.constant;
 
 import com.github.nramc.geojson.internal.utils.Generated;
@@ -20,8 +21,8 @@ import com.github.nramc.geojson.internal.utils.Generated;
 /**
  * A utility class that provides constant string values representing different
  * GeoJSON types as defined in the GeoJSON specification (RFC 7946).
- * <p>
- * This class contains predefined constants for various GeoJSON object types,
+ *
+ * <p>This class contains predefined constants for various GeoJSON object types,
  * such as {@code Point}, {@code LineString}, {@code Polygon}, etc. It cannot
  * be instantiated and is intended for use as a source of constant values.
  * </p>

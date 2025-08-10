@@ -13,16 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.nramc.geojson.domain;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.nramc.geojson.validator.ValidationError;
-import com.github.nramc.geojson.validator.ValidationResult;
-import com.github.nramc.geojson.validator.ValidationUtils;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
+package com.github.nramc.geojson.domain;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -34,12 +26,22 @@ import java.util.Set;
 
 import static com.github.nramc.geojson.constant.GeoJsonType.MULTI_POINT;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.nramc.geojson.validator.ValidationError;
+import com.github.nramc.geojson.validator.ValidationResult;
+import com.github.nramc.geojson.validator.ValidationUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Represents a GeoJSON MultiPoint geometry object.
- * <p>
- * A MultiPoint object contains multiple Position objects, which represent individual points in 2D or 3D space.
+ *
+ * <p>A MultiPoint object contains multiple Position objects, which represent individual points in 2D or 3D space.
  * The MultiPoint class validates the coordinates and ensures they meet the expected criteria for GeoJSON format.
  * </p>
+ *
  * <p>Example usage:
  * <pre>{@code
  * MultiPoint multiPoint = MultiPoint.of(Position.of(100, 50),Position.of(110, 60),Position.of(150, 90));
@@ -59,8 +61,8 @@ public final class MultiPoint extends Geometry {
     /**
      * No-argument constructor required for certain frameworks (e.g., ORM frameworks)
      * and serialization mechanisms that need to instantiate objects without arguments.
-     * <p>
-     * This constructor does not perform any validation. After using this constructor,
+     *
+     * <p>This constructor does not perform any validation. After using this constructor,
      * it is recommended to call the {@link #validate()} or {@link #isValid()} method to ensure the object is in a valid state.
      * </p>
      */
@@ -71,8 +73,8 @@ public final class MultiPoint extends Geometry {
     /**
      * Creates a MultiPoint object with the specified type and coordinates.
      * This constructor is typically used for deserialization of JSON data.
-     * <p>
-     * The coordinates list is wrapped in an unmodifiable list to ensure immutability.
+     *
+     * <p>The coordinates list is wrapped in an unmodifiable list to ensure immutability.
      * </p>
      *
      * @param type        The type of the geometry, typically "MultiPoint".
@@ -127,8 +129,8 @@ public final class MultiPoint extends Geometry {
 
     /**
      * Validates the MultiPoint geometry.
-     * <p>
-     * The validation checks the following:
+     *
+     * <p>The validation checks the following:
      * <ul>
      *     <li>Validates that the type is "MultiPoint".</li>
      *     <li>Ensures the coordinates are not empty or null.</li>
@@ -161,7 +163,7 @@ public final class MultiPoint extends Geometry {
     }
 
     /**
-     * Returns a string representation of the {@link MultiPoint} object in the format:
+     * Returns a string representation of the {@link MultiPoint} object.
      * <pre>
      * MultiPoint{type='MultiPoint', coordinates=[...]}
      * </pre>

@@ -66,7 +66,7 @@ class PointTest {
         GeoJson geoJson = objectMapper.readValue(jsonString, GeoJson.class);
         assertThat(geoJson).isNotNull().satisfies(point -> assertThat(point.getType()).isEqualTo("Point"));
         assertThat((Point) geoJson).satisfies(point -> assertThat(point.getCoordinates()).isNotNull()
-                        .extracting(Position::getCoordinates).isEqualTo(new double[]{60.8, 20.5}))
+                .extracting(Position::getCoordinates).isEqualTo(new double[]{60.8, 20.5}))
                 .satisfies(point -> assertThat(point.isValid()).isTrue())
                 .satisfies(point -> assertThat(point.validate())
                         .satisfies(validationResult -> assertThat(validationResult.hasErrors()).isFalse())
@@ -124,13 +124,13 @@ class PointTest {
                 .satisfies(point -> assertThat(point.getCoordinates()).isNotNull())
                 .satisfies(point -> assertThat(point.isValid()).isFalse())
                 .satisfies(point -> assertThat(point.validate())
-                        .satisfies(validationResult -> assertThat(validationResult.hasErrors()).isTrue())
-                        .satisfies(validationResult -> assertThat(validationResult.getErrors())
-                                .anySatisfy(error -> assertThat(error)
-                                        .satisfies(e -> assertThat(e.getField()).isEqualTo("coordinates"))
-                                        .satisfies(e -> assertThat(e.getKey()).isEqualTo(expectedErrorKey))
+                                .satisfies(validationResult -> assertThat(validationResult.hasErrors()).isTrue())
+                                .satisfies(validationResult -> assertThat(validationResult.getErrors())
+                                                .anySatisfy(error -> assertThat(error)
+                                                                .satisfies(e -> assertThat(e.getField()).isEqualTo("coordinates"))
+                                                                .satisfies(e -> assertThat(e.getKey()).isEqualTo(expectedErrorKey))
+                                                )
                                 )
-                        )
                 );
     }
 

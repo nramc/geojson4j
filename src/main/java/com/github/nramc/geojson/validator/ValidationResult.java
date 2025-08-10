@@ -13,18 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.nramc.geojson.validator;
 
-import org.apache.commons.collections4.CollectionUtils;
+package com.github.nramc.geojson.validator;
 
 import java.text.MessageFormat;
 import java.util.Set;
 
+import org.apache.commons.collections4.CollectionUtils;
+
 
 /**
  * Represents the result of a validation operation.
- * <p>
- * This class encapsulates a set of validation errors and provides methods to
+ *
+ * <p>This class encapsulates a set of validation errors and provides methods to
  * check if any errors occurred. It is used to aggregate and represent validation
  * results in a structured way.
  * </p>
@@ -56,8 +57,7 @@ public class ValidationResult {
     /**
      * Returns the set of validation errors associated with this result.
      *
-     * @return A set of {@link ValidationError} objects. Never null, but may be empty if there
-     * are no validation errors.
+     * @return A set of {@link ValidationError} objects. Never null, but may be empty if there are no validation errors.
      */
     public Set<ValidationError> getErrors() {
         return errors;
