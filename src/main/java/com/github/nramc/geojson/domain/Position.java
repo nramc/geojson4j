@@ -13,7 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.github.nramc.geojson.domain;
+
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -24,15 +30,10 @@ import com.github.nramc.geojson.validator.ValidationError;
 import com.github.nramc.geojson.validator.ValidationResult;
 import com.github.nramc.geojson.validator.ValidationUtils;
 
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Represents a GeoJSON Point, defined by a single geographical position.
- * <p>
- * A Point in GeoJSON consists of a single coordinate pair (latitude, longitude)
+ *
+ * <p>A Point in GeoJSON consists of a single coordinate pair (latitude, longitude)
  * and optionally an altitude. This class provides methods to access these
  * coordinates and ensures they adhere to the valid ranges defined in the GeoJSON
  * specification (RFC 7946).
@@ -62,7 +63,7 @@ public class Position implements Validatable, Serializable {
      * and serialization mechanisms that need to instantiate objects without arguments.
      */
     public Position() {
-        this.coordinates = new double[]{Double.NaN, Double.NaN};
+        this.coordinates = new double[] {Double.NaN, Double.NaN};
     }
 
     /**
@@ -103,7 +104,7 @@ public class Position implements Validatable, Serializable {
      * @throws GeoJsonValidationException with validation errors
      */
     public static Position of(double longitude, double latitude) {
-        return ValidationUtils.validateAndThrowErrorIfInvalid(new Position(new double[]{longitude, latitude}));
+        return ValidationUtils.validateAndThrowErrorIfInvalid(new Position(new double[] {longitude, latitude}));
     }
 
     /**
@@ -116,7 +117,7 @@ public class Position implements Validatable, Serializable {
      * @throws GeoJsonValidationException with validation errors
      */
     public static Position of(double longitude, double latitude, double altitude) {
-        return ValidationUtils.validateAndThrowErrorIfInvalid(new Position(new double[]{longitude, latitude, altitude}));
+        return ValidationUtils.validateAndThrowErrorIfInvalid(new Position(new double[] {longitude, latitude, altitude}));
     }
 
     /**
@@ -186,8 +187,7 @@ public class Position implements Validatable, Serializable {
      * <p>If any of these validations fail, the corresponding error keys are added to a set of
      * errors, which is then wrapped in a {@code ValidationResult} object and returned.</p>
      *
-     * @return A {@code ValidationResult} object containing any validation errors found. If there
-     * are no errors, the returned {@code ValidationResult} will contain an empty set of errors {@code ValidationError}.
+     * @return A {@code ValidationResult} result of validation process.
      * @see ValidationResult
      * @see ValidationError
      */

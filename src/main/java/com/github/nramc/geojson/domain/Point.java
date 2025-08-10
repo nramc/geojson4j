@@ -13,7 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.github.nramc.geojson.domain;
+
+import java.text.MessageFormat;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
+import static com.github.nramc.geojson.constant.GeoJsonType.POINT;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -23,17 +31,10 @@ import com.github.nramc.geojson.validator.ValidationResult;
 import com.github.nramc.geojson.validator.ValidationUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.text.MessageFormat;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-
-import static com.github.nramc.geojson.constant.GeoJsonType.POINT;
-
 /**
  * Represents a GeoJSON Point geometry.
- * <p>
- * A GeoJSON Point is defined by a single {@link Position} which includes the coordinates
+ *
+ * <p>A GeoJSON Point is defined by a single {@link Position} which includes the coordinates
  * (longitude, latitude, and optional altitude) of the point. This class provides methods
  * to create and validate Point objects in compliance with the GeoJSON specification.
  * </p>
@@ -61,8 +62,8 @@ public final class Point extends Geometry {
     /**
      * No-argument constructor required for certain frameworks (e.g., ORM frameworks)
      * and serialization mechanisms that need to instantiate objects without arguments.
-     * <p>
-     * This constructor does not perform any validation. After using this constructor,
+     *
+     * <p>This constructor does not perform any validation. After using this constructor,
      * it is recommended to call the {@link #validate()} or {@link #isValid()} method to ensure the object is in a valid state.
      * </p>
      */
@@ -73,6 +74,7 @@ public final class Point extends Geometry {
     /**
      * Constructs a new {@code Point} with the specified type and coordinates.
      * This constructor is typically used for deserialization of JSON data.
+     *
      * <p>If object created using constructor directly, then validation does not performed eagerly.
      * To perform validation, use below options,
      * <ol>
@@ -169,7 +171,7 @@ public final class Point extends Geometry {
     }
 
     /**
-     * Returns a string representation of the {@link Point} object in the format:
+     * Returns a string representation of the {@link Point} object.
      * <pre>
      * Point{type='Point', coordinates=[longitude, latitude, altitude(optional)]}
      * </pre>

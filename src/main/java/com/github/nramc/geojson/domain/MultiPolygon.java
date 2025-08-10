@@ -13,16 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.nramc.geojson.domain;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.nramc.geojson.validator.GeoJsonValidationException;
-import com.github.nramc.geojson.validator.ValidationError;
-import com.github.nramc.geojson.validator.ValidationResult;
-import com.github.nramc.geojson.validator.ValidationUtils;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
+package com.github.nramc.geojson.domain;
 
 import java.text.MessageFormat;
 import java.util.Collections;
@@ -33,24 +25,34 @@ import java.util.Set;
 
 import static com.github.nramc.geojson.constant.GeoJsonType.MULTI_POLYGON;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.nramc.geojson.validator.GeoJsonValidationException;
+import com.github.nramc.geojson.validator.ValidationError;
+import com.github.nramc.geojson.validator.ValidationResult;
+import com.github.nramc.geojson.validator.ValidationUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Represents a GeoJSON MultiPolygon object, which is a collection of multiple {@link PolygonCoordinates} objects.
  * This class extends the {@link Geometry} base class and provides methods to create, manage, and validate
  * MultiPolygon instances according to the GeoJSON specification.
- * <p>
- * A MultiPolygon is used to represent multiple polygon geometries in a single GeoJSON object. Each
+ *
+ * <p>A MultiPolygon is used to represent multiple polygon geometries in a single GeoJSON object. Each
  * {@link PolygonCoordinates} object in the collection represents an individual polygon.
  * </p>
  *
- * <p>
- * The class includes various factory methods to create instances of MultiPolygon and validation logic to
+ * <p>The class includes various factory methods to create instances of MultiPolygon and validation logic to
  * ensure the MultiPolygon conforms to the GeoJSON specification.
  * </p>
  *
  * <p>Usage Example:</p>
  * <pre>{@code
- * PolygonCoordinates PolygonCoordinate1 = PolygonCoordinates.of(Arrays.asList(Position.of(0, 0), Position.of(0, 1), Position.of(1, 1), Position.of(1, 0), Position.of(0, 0)));
- * PolygonCoordinates PolygonCoordinate2 = PolygonCoordinates.of(Arrays.asList(Position.of(0.2, 0.2), Position.of(0.2, 0.8), Position.of(0.8, 0.8), Position.of(0.8, 0.2), Position.of(0.2, 0.2)));
+ * PolygonCoordinates PolygonCoordinate1 = PolygonCoordinates.of(
+ *  Arrays.asList(Position.of(0, 0), Position.of(0, 1), Position.of(1, 1), Position.of(1, 0), Position.of(0, 0)));
+ * PolygonCoordinates PolygonCoordinate2 = PolygonCoordinates.of(
+ *  Arrays.asList(Position.of(0.2, 0.2), Position.of(0.2, 0.8), Position.of(0.8, 0.8), Position.of(0.8, 0.2), Position.of(0.2, 0.2)));
  * MultiPolygon multiPolygon = MultiPolygon.of(PolygonCoordinate1, PolygonCoordinate2);
  * }</pre>
  *
@@ -66,8 +68,8 @@ public final class MultiPolygon extends Geometry {
     /**
      * No-argument constructor required for certain frameworks (e.g., ORM frameworks) and
      * serialization mechanisms that need to instantiate objects without arguments.
-     * <p>
-     * This constructor does not perform any validation. After using this constructor, it is
+     *
+     * <p>This constructor does not perform any validation. After using this constructor, it is
      * recommended to call the {@link #validate()} method to ensure the object is in a valid state.
      * </p>
      */
@@ -91,8 +93,8 @@ public final class MultiPolygon extends Geometry {
 
     /**
      * Factory method to create a {@link MultiPolygon} from a variable number of {@link PolygonCoordinates} objects.
-     * <p>
-     * This method constructs a new {@link MultiPolygon} using the provided array of {@link PolygonCoordinates} and
+     *
+     * <p>This method constructs a new {@link MultiPolygon} using the provided array of {@link PolygonCoordinates} and
      * immediately validates the constructed instance.
      * If the created MultiPolygon is invalid, a {@link GeoJsonValidationException} will be thrown with detailed
      * validation errors.
@@ -109,8 +111,8 @@ public final class MultiPolygon extends Geometry {
 
     /**
      * Factory method to create a {@link MultiPolygon} from a list of {@link PolygonCoordinates} objects.
-     * <p>
-     * This method constructs a new {@link MultiPolygon} with the specified coordinates and validates the created instance.
+     *
+     * <p>This method constructs a new {@link MultiPolygon} with the specified coordinates and validates the created instance.
      * If the constructed MultiPolygon does not pass validation, a {@link GeoJsonValidationException} will
      * be thrown with details about the validation errors.
      * </p>
@@ -126,8 +128,8 @@ public final class MultiPolygon extends Geometry {
 
     /**
      * Validates the {@link MultiPolygon} object to ensure it adheres to the GeoJSON specification.
-     * <p>
-     * The validation checks include:
+     *
+     * <p>The validation checks include:
      * - Ensuring the "type" field is "MultiPolygon".
      * - Ensuring the coordinates list is not empty and contains at least one polygon.
      * - Delegating validation to each {@link PolygonCoordinates} object in the list.
@@ -189,8 +191,8 @@ public final class MultiPolygon extends Geometry {
 
     /**
      * Compares this MultiPolygon object with another object for equality.
-     * <p>
-     * The comparison checks if both objects are of the same type and if their
+     *
+     * <p>The comparison checks if both objects are of the same type and if their
      * type and coordinates fields are equal.
      *
      * @param o The object to compare with this MultiPolygon.
@@ -210,8 +212,8 @@ public final class MultiPolygon extends Geometry {
 
     /**
      * Computes the hash code for this MultiPolygon.
-     * <p>
-     * The hash code is calculated based on the type and coordinates fields,
+     *
+     * <p>The hash code is calculated based on the type and coordinates fields,
      * ensuring consistent hashing for use in hash-based collections.
      *
      * @return The hash code value for this MultiPolygon.
