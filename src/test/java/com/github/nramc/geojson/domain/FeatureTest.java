@@ -17,6 +17,9 @@ package com.github.nramc.geojson.domain;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.nramc.geojson.validator.GeoJsonValidationException;
+import com.github.nramc.geojson.validator.ValidationError;
+import com.github.nramc.geojson.validator.ValidationResult;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -24,11 +27,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.github.nramc.geojson.constant.GeoJsonType.FEATURE;
 import static com.github.nramc.geojson.constant.GeoJsonType.POLYGON;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.entry;
 
 class FeatureTest {
@@ -218,5 +224,98 @@ class FeatureTest {
         JsonNode propertiesNode = jsonNode.get("properties");
         assertThat(propertiesNode.get("name").asText()).isEqualTo("Structure Test");
         assertThat(propertiesNode.get("visited").asBoolean()).isTrue();
+    }
+
+    @Test
+    void verifyNonExistsPropertyHandledGracefully() {
+        Feature feature = new Feature(FEATURE, "test-id", Point.of(0.0, 0.0), null);
+
+        assertThat(feature.getProperties()).isNotNull().isEmpty();
+
+        assertThat(feature.getProperty("non-existent")).isNull();
+        assertThat(feature.getPropertyIfExists("non-existent")).isEmpty();
+    }
+
+    @Test
+    void verifyValidationWithInvalidGeometry() {
+        Feature feature = new Feature(FEATURE, "test-id", null, Map.of());
+
+        ValidationResult result = feature.validate();
+
+        assertThat(result.hasErrors()).isTrue();
+        assertThat(result.getErrors())
+                .extracting(ValidationError::getField)
+                .contains("geometry");
+    }
+
+    @Test
+    void verifyValidationWithInvalidType() {
+        Feature feature = new Feature("InvalidType", "test-id", Point.of(0.0, 0.0), Map.of());
+
+        ValidationResult result = feature.validate();
+
+        assertThat(result.hasErrors()).isTrue();
+        assertThat(result.getErrors())
+                .extracting(ValidationError::getField)
+                .contains("type");
+    }
+
+    @Test
+    void verifyPropertyRetrieval() {
+        Map<String, Serializable> props = Map.of(
+                "stringProp", "value",
+                "intProp", 42,
+                "boolProp", true
+        );
+
+        Feature feature = Feature.of("test-id", Point.of(0.0, 0.0), props);
+
+        assertThat(feature.getProperty("stringProp")).isEqualTo("value");
+        assertThat(feature.getProperty("intProp")).isEqualTo(42);
+        assertThat(feature.getProperty("boolProp")).asString().isEqualTo("true");
+        assertThat(feature.getProperty("nonExistent")).isNull();
+
+        assertThat(feature.getPropertyIfExists("stringProp")).hasValue("value");
+        assertThat(feature.getPropertyIfExists("nonExistent")).isEmpty();
+    }
+
+    @Test
+    void verifyFactoryMethodValidation() {
+        assertThatThrownBy(() ->
+                Feature.of("test-id", null, null)
+        ).isInstanceOf(GeoJsonValidationException.class)
+                .hasMessageContaining("GeoJson Invalid");
+    }
+
+    @Test
+    void verifyDefaultConstructor() {
+        Feature feature = new Feature();
+
+        assertThat(feature.getType()).isEqualTo(FEATURE);
+        assertThat(feature.getId()).isNull();
+        assertThat(feature.getGeometry()).isNull();
+        assertThat(feature.getProperties()).isEmpty();
+
+        ValidationResult result = feature.validate();
+        assertThat(result.hasErrors()).isTrue();
+        assertThat(result.getErrors())
+                .extracting(ValidationError::getField)
+                .contains("geometry");
+    }
+
+    @Test
+    void testImmutabilityOfProperties() {
+        Map<String, Serializable> mutableProps = new HashMap<>();
+        mutableProps.put("key", "value");
+
+        Feature feature = Feature.of("test-id", Point.of(0.0, 0.0), mutableProps);
+
+        Map<String, Serializable> properties = feature.getProperties();
+        assertThatThrownBy(() -> properties.put("newKey", "newValue"))
+                .isInstanceOf(UnsupportedOperationException.class);
+
+        // Original map should be unaffected by the feature creation
+        mutableProps.put("anotherKey", "anotherValue");
+        assertThat(properties).doesNotContainKey("anotherKey");
     }
 }

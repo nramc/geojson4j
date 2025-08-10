@@ -91,7 +91,7 @@ public non-sealed class Feature extends GeoJson implements Validatable, Serializ
         super(type);
         this.id = id;
         this.geometry = geometry;
-        this.properties = Map.copyOf(properties);
+        this.properties = Map.copyOf(MapUtils.emptyIfNull(properties));
     }
 
     /**
