@@ -63,7 +63,7 @@ public class Position implements Validatable, Serializable {
      * and serialization mechanisms that need to instantiate objects without arguments.
      */
     public Position() {
-        this.coordinates = new double[] {Double.NaN, Double.NaN};
+        this.coordinates = new double[]{Double.NaN, Double.NaN};
     }
 
     /**
@@ -104,7 +104,7 @@ public class Position implements Validatable, Serializable {
      * @throws GeoJsonValidationException with validation errors
      */
     public static Position of(double longitude, double latitude) {
-        return ValidationUtils.validateAndThrowErrorIfInvalid(new Position(new double[] {longitude, latitude}));
+        return ValidationUtils.validateAndThrowErrorIfInvalid(new Position(new double[]{longitude, latitude}));
     }
 
     /**
@@ -117,7 +117,7 @@ public class Position implements Validatable, Serializable {
      * @throws GeoJsonValidationException with validation errors
      */
     public static Position of(double longitude, double latitude, double altitude) {
-        return ValidationUtils.validateAndThrowErrorIfInvalid(new Position(new double[] {longitude, latitude, altitude}));
+        return ValidationUtils.validateAndThrowErrorIfInvalid(new Position(new double[]{longitude, latitude, altitude}));
     }
 
     /**
