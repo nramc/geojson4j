@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.github.nramc.geojson.validator;
 
 import java.io.Serializable;
@@ -21,8 +22,8 @@ import java.util.Objects;
 
 /**
  * Represents a validation error that provides details about a specific validation failure.
- * <p>
- * This class encapsulates information about a validation error, including:
+ *
+ * <p>This class encapsulates information about a validation error, including:
  * <ul>
  *     <li>The field that caused the error.</li>
  *     <li>An error message describing the nature of the validation failure.</li>
@@ -97,8 +98,8 @@ public class ValidationError implements Serializable {
 
     /**
      * Returns a string representation of the {@link ValidationError} object.
-     * <p>
-     * The string representation follows the format:
+     *
+     * <p>The string representation follows the format:
      * <pre>
      * ValidationError{field='fieldName', message='errorMessage', key='errorKey'}
      * </pre>
@@ -108,12 +109,11 @@ public class ValidationError implements Serializable {
      *     <li><b>message</b> is a descriptive message explaining the validation error.</li>
      *     <li><b>key</b> is a key that can be used to identify the specific type of validation error.</li>
      * </ul>
-     * <p>
-     * This method is particularly useful for logging or debugging purposes as it provides a human-readable
+     *
+     * <p>This method is particularly useful for logging or debugging purposes as it provides a human-readable
      * representation of the validation error details.
      *
-     * @return A string representation of the {@link ValidationError} in the format:
-     * {@code ValidationError{field='fieldName', message='errorMessage', key='errorKey'}}
+     * @return A string representation of the {@link ValidationError}
      */
     @Override
     public String toString() {

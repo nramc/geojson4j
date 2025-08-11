@@ -13,7 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.github.nramc.geojson.domain;
+
+import java.text.MessageFormat;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
+import static com.github.nramc.geojson.constant.GeoJsonType.FEATURE_COLLECTION;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -25,38 +34,29 @@ import com.github.nramc.geojson.validator.ValidationUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.text.MessageFormat;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-
-import static com.github.nramc.geojson.constant.GeoJsonType.FEATURE_COLLECTION;
-
 
 /**
  * Represents a GeoJSON FeatureCollection object, which is a collection of {@link Feature} objects.
- * <p>
- * A FeatureCollection is an object that contains an array of features, each representing a geographic
+ *
+ * <p>A FeatureCollection is an object that contains an array of features, each representing a geographic
  * feature with a geometry and properties. The type of the FeatureCollection should always be "FeatureCollection",
  * as specified by the GeoJSON standard.
  * </p>
- * <p>
- * This class implements the {@link Validatable} interface to support validation of the feature collection
+ *
+ * <p>This class implements the {@link Validatable} interface to support validation of the feature collection
  * according to the GeoJSON specification. It is immutable and thread-safe.
  * </p>
  *
  * <p>GeoJSON Specification Reference:
- * <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.3">RFC 7946 - Section 3.3</a>
- * </p>
+ * <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.3">RFC 7946 - Section 3.3</a></p>
  */
 public final class FeatureCollection extends GeoJson implements Validatable {
     private final List<Feature> features;
 
     /**
      * Default constructor required for frameworks (e.g., serialization).
-     * <p>
-     * This constructor does not perform any validation. After using this constructor, it is recommended to
+     *
+     * <p>This constructor does not perform any validation. After using this constructor, it is recommended to
      * call the {@link #validate()} or {@link #isValid()} method to ensure the object is in a valid state.
      * </p>
      */
@@ -66,9 +66,8 @@ public final class FeatureCollection extends GeoJson implements Validatable {
 
     /**
      * Constructs a FeatureCollection with the specified type and list of features.
-     * <p>
-     * The type should be set to "FeatureCollection", as per the GeoJSON specification.
-     * </p>
+     *
+     * <p>The type should be set to "FeatureCollection", as per the GeoJSON specification.</p>
      *
      * @param type     The type of the collection. It should be "FeatureCollection".
      * @param features A list of {@link Feature} objects that represent the features of this collection.
@@ -82,8 +81,8 @@ public final class FeatureCollection extends GeoJson implements Validatable {
 
     /**
      * Factory method to create a validated {@link FeatureCollection} with the given list of features.
-     * <p>
-     * This method validates the created FeatureCollection using {@link ValidationUtils#validateAndThrowErrorIfInvalid(Validatable)}.
+     *
+     * <p>This method validates the created FeatureCollection using {@link ValidationUtils#validateAndThrowErrorIfInvalid(Validatable)}.
      * If validation fails, it throws a {@link GeoJsonValidationException} with details about the validation errors.
      * </p>
      *
@@ -98,9 +97,8 @@ public final class FeatureCollection extends GeoJson implements Validatable {
 
     /**
      * Factory method to create a validated {@link FeatureCollection} with the given {@link Feature} objects.
-     * <p>
-     * This method is a convenience for creating a collection from an array of features.
-     * </p>
+     *
+     * <p>This method is a convenience for creating a collection from an array of features.</p>
      *
      * @param features The {@link Feature} objects to include in the collection.
      * @return A validated {@link FeatureCollection} object.
@@ -112,9 +110,8 @@ public final class FeatureCollection extends GeoJson implements Validatable {
 
     /**
      * Gets the type of the FeatureCollection.
-     * <p>
-     * The type is always "FeatureCollection" as per the GeoJSON specification.
-     * </p>
+     *
+     * <p>The type is always "FeatureCollection" as per the GeoJSON specification.</p>
      *
      * @return The type of the feature collection, which is always "FeatureCollection".
      */
@@ -125,9 +122,8 @@ public final class FeatureCollection extends GeoJson implements Validatable {
 
     /**
      * Gets the list of features in this FeatureCollection.
-     * <p>
-     * The list contains all {@link Feature} objects that are part of this collection.
-     * </p>
+     *
+     * <p>The list contains all {@link Feature} objects that are part of this collection.</p>
      *
      * @return An unmodifiable list of {@link Feature} objects.
      */
@@ -137,8 +133,8 @@ public final class FeatureCollection extends GeoJson implements Validatable {
 
     /**
      * Validates the FeatureCollection according to the GeoJSON specification.
-     * <p>
-     * The validation checks include:
+     *
+     * <p>The validation checks include:
      * <ul>
      *     <li>The type must be "FeatureCollection".</li>
      *     <li>Each feature in the collection is validated using {@link Feature#validate()}.</li>

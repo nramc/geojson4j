@@ -103,13 +103,13 @@ class LineStringTest {
                 .satisfies(lineString -> assertThat(lineString.getCoordinates()).isNotNull())
                 .satisfies(lineString -> assertThat(lineString.isValid()).isFalse())
                 .satisfies(lineString -> assertThat(lineString.validate())
-                        .satisfies(validationResult -> assertThat(validationResult.hasErrors()).isTrue())
-                        .satisfies(validationResult -> assertThat(validationResult.getErrors())
-                                .anySatisfy(error -> assertThat(error)
-                                        .satisfies(e -> assertThat(e.getField()).isEqualTo(expectedErrorField))
-                                        .satisfies(e -> assertThat(e.getKey()).isEqualTo(expectedErrorKey))
+                                .satisfies(validationResult -> assertThat(validationResult.hasErrors()).isTrue())
+                                .satisfies(validationResult -> assertThat(validationResult.getErrors())
+                                                .anySatisfy(error -> assertThat(error)
+                                                                .satisfies(e -> assertThat(e.getField()).isEqualTo(expectedErrorField))
+                                                                .satisfies(e -> assertThat(e.getKey()).isEqualTo(expectedErrorKey))
+                                                )
                                 )
-                        )
                 );
     }
 
@@ -128,13 +128,13 @@ class LineStringTest {
                 .satisfies(lineString -> assertThat(lineString.getType()).isEqualTo("LineString"))
                 .satisfies(lineString -> assertThat(lineString.isValid()).isFalse())
                 .satisfies(lineString -> assertThat(lineString.validate())
-                        .satisfies(validationResult -> assertThat(validationResult.hasErrors()).isTrue())
-                        .satisfies(validationResult -> assertThat(validationResult.getErrors())
-                                .anySatisfy(error -> assertThat(error)
-                                        .satisfies(e -> assertThat(e.getField()).isEqualTo(expectedErrorField))
-                                        .satisfies(e -> assertThat(e.getKey()).isEqualTo(expectedErrorKey))
+                                .satisfies(validationResult -> assertThat(validationResult.hasErrors()).isTrue())
+                                .satisfies(validationResult -> assertThat(validationResult.getErrors())
+                                                .anySatisfy(error -> assertThat(error)
+                                                                .satisfies(e -> assertThat(e.getField()).isEqualTo(expectedErrorField))
+                                                                .satisfies(e -> assertThat(e.getKey()).isEqualTo(expectedErrorKey))
+                                                )
                                 )
-                        )
                 );
     }
 
@@ -153,13 +153,13 @@ class LineStringTest {
                 .satisfies(lineString -> assertThat(lineString.getType()).isEqualTo("LineString"))
                 .satisfies(lineString -> assertThat(lineString.isValid()).isFalse())
                 .satisfies(lineString -> assertThat(lineString.validate())
-                        .satisfies(validationResult -> assertThat(validationResult.hasErrors()).isTrue())
-                        .satisfies(validationResult -> assertThat(validationResult.getErrors())
-                                .anySatisfy(error -> assertThat(error)
-                                        .satisfies(e -> assertThat(e.getField()).isEqualTo(expectedErrorField))
-                                        .satisfies(e -> assertThat(e.getKey()).isEqualTo(expectedErrorKey))
+                                .satisfies(validationResult -> assertThat(validationResult.hasErrors()).isTrue())
+                                .satisfies(validationResult -> assertThat(validationResult.getErrors())
+                                                .anySatisfy(error -> assertThat(error)
+                                                                .satisfies(e -> assertThat(e.getField()).isEqualTo(expectedErrorField))
+                                                                .satisfies(e -> assertThat(e.getKey()).isEqualTo(expectedErrorKey))
+                                                )
                                 )
-                        )
                 );
     }
 

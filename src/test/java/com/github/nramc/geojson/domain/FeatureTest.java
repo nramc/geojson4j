@@ -13,14 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.nramc.geojson.domain;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.nramc.geojson.validator.GeoJsonValidationException;
-import com.github.nramc.geojson.validator.ValidationError;
-import com.github.nramc.geojson.validator.ValidationResult;
-import org.junit.jupiter.api.Test;
+package com.github.nramc.geojson.domain;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -36,6 +30,13 @@ import static com.github.nramc.geojson.constant.GeoJsonType.POLYGON;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.entry;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.nramc.geojson.validator.GeoJsonValidationException;
+import com.github.nramc.geojson.validator.ValidationError;
+import com.github.nramc.geojson.validator.ValidationResult;
+import org.junit.jupiter.api.Test;
 
 class FeatureTest {
     private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -96,7 +97,8 @@ class FeatureTest {
     void toString_shouldProvideFormatedStringWithAllArguments() {
         Feature feature = Feature.of("a9fa1f6a-b1b2-4030-b02f-b3d451558656", Point.of(45.0, 45.0), Map.of("name", "Park"));
         assertThat(feature).isNotNull()
-                .hasToString("Feature{type='Feature', id='a9fa1f6a-b1b2-4030-b02f-b3d451558656', geometry=Point{type='Point', coordinates=[45.0, 45.0]}, properties={name=Park}}");
+                .hasToString(
+                        "Feature{type='Feature', id='a9fa1f6a-b1b2-4030-b02f-b3d451558656', geometry=Point{type='Point', coordinates=[45.0, 45.0]}, properties={name=Park}}");
     }
 
     @Test

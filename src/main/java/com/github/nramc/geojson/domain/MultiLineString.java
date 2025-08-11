@@ -13,16 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.nramc.geojson.domain;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.nramc.geojson.validator.GeoJsonValidationException;
-import com.github.nramc.geojson.validator.ValidationError;
-import com.github.nramc.geojson.validator.ValidationResult;
-import com.github.nramc.geojson.validator.ValidationUtils;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
+package com.github.nramc.geojson.domain;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -34,6 +26,15 @@ import java.util.Objects;
 import java.util.Set;
 
 import static com.github.nramc.geojson.constant.GeoJsonType.MULTI_LINE_STRING;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.nramc.geojson.validator.GeoJsonValidationException;
+import com.github.nramc.geojson.validator.ValidationError;
+import com.github.nramc.geojson.validator.ValidationResult;
+import com.github.nramc.geojson.validator.ValidationUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A class representing a GeoJSON MultiLineString geometry object.
@@ -59,8 +60,8 @@ public final class MultiLineString extends Geometry {
     /**
      * No-argument constructor required for certain frameworks (e.g., ORM frameworks)
      * and serialization mechanisms that need to instantiate objects without arguments.
-     * <p>
-     * This constructor does not perform any validation. After using this constructor,
+     *
+     * <p>This constructor does not perform any validation. After using this constructor,
      * it is recommended to call the {@link #validate()} or {@link #isValid()} method to ensure the object is in a valid state.
      * </p>
      */
@@ -176,8 +177,7 @@ public final class MultiLineString extends Geometry {
      * Two {@link MultiLineString} objects are considered equal if their type and coordinates are the same.
      *
      * @param o The object to compare with.
-     * @return {@code true} if this {@link MultiLineString} is equal to the specified object,
-     * {@code false} otherwise.
+     * @return {@code true} if this {@link MultiLineString} is equal to the specified object, {@code false} otherwise.
      */
     @Override
     public boolean equals(Object o) {

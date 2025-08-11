@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.github.nramc.geojson.internal.utils;
 
 import java.lang.annotation.Documented;
@@ -26,8 +27,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Indicates that the annotated code should be excluded from code coverage reports.
- * <p>
- * This annotation is typically used to mark code that is automatically generated,
+ *
+ * <p>This annotation is typically used to mark code that is automatically generated,
  * boilerplate, or otherwise not relevant for test coverage metrics.
  * </p>
  *

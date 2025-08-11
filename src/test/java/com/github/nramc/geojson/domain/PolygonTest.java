@@ -108,9 +108,9 @@ class PolygonTest {
                 .satisfies(obj -> assertThat(obj.isValid()).isFalse())
                 .satisfies(obj -> assertThat(obj.getCoordinates()).isNotNull())
                 .satisfies(obj -> assertThat(obj.validate()).isNotNull()
-                        .satisfies(validationResult -> assertThat(validationResult.getErrors()).isNotEmpty()
-                                .anySatisfy(error -> assertThat(error.getKey()).isEqualTo(expectedErrorKey))
-                        )
+                                .satisfies(validationResult -> assertThat(validationResult.getErrors()).isNotEmpty()
+                                                .anySatisfy(error -> assertThat(error.getKey()).isEqualTo(expectedErrorKey))
+                                )
                 );
     }
 

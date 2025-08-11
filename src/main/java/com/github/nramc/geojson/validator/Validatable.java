@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.github.nramc.geojson.validator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -53,8 +54,7 @@ public interface Validatable {
     /**
      * Validates the GeoJson and returns the results of the validation.
      *
-     * @return A {@code ValidationResult} object containing any errors found during the validation process.
-     * If there are no errors, the {@code ValidationResult} will contain an empty set of errors.
+     * @return A {@code ValidationResult} result of validation process.
      * @see ValidationResult
      * @see ValidationError
      */

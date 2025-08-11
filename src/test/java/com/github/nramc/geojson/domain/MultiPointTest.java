@@ -160,13 +160,13 @@ class MultiPointTest {
                 .satisfies(point -> assertThat(point.getCoordinates()).isNotNull())
                 .satisfies(point -> assertThat(point.isValid()).isFalse())
                 .satisfies(point -> assertThat(point.validate())
-                        .satisfies(validationResult -> assertThat(validationResult.hasErrors()).isTrue())
-                        .satisfies(validationResult -> assertThat(validationResult.getErrors())
-                                .anySatisfy(error -> assertThat(error)
-                                        .satisfies(e -> assertThat(e.getField()).isEqualTo("coordinates"))
-                                        .satisfies(e -> assertThat(e.getKey()).isEqualTo(expectedErrorKey))
+                                .satisfies(validationResult -> assertThat(validationResult.hasErrors()).isTrue())
+                                .satisfies(validationResult -> assertThat(validationResult.getErrors())
+                                                .anySatisfy(error -> assertThat(error)
+                                                                .satisfies(e -> assertThat(e.getField()).isEqualTo("coordinates"))
+                                                                .satisfies(e -> assertThat(e.getKey()).isEqualTo(expectedErrorKey))
+                                                )
                                 )
-                        )
                 );
     }
 
@@ -189,13 +189,13 @@ class MultiPointTest {
                 .satisfies(point -> assertThat(point.getType()).isEqualTo("MultiPoint"))
                 .satisfies(point -> assertThat(point.isValid()).isFalse())
                 .satisfies(point -> assertThat(point.validate())
-                        .satisfies(validationResult -> assertThat(validationResult.hasErrors()).isTrue())
-                        .satisfies(validationResult -> assertThat(validationResult.getErrors())
-                                .anySatisfy(error -> assertThat(error)
-                                        .satisfies(e -> assertThat(e.getField()).isEqualTo("coordinates"))
-                                        .satisfies(e -> assertThat(e.getKey()).isEqualTo(expectedErrorKey))
+                                .satisfies(validationResult -> assertThat(validationResult.hasErrors()).isTrue())
+                                .satisfies(validationResult -> assertThat(validationResult.getErrors())
+                                                .anySatisfy(error -> assertThat(error)
+                                                                .satisfies(e -> assertThat(e.getField()).isEqualTo("coordinates"))
+                                                                .satisfies(e -> assertThat(e.getKey()).isEqualTo(expectedErrorKey))
+                                                )
                                 )
-                        )
                 );
     }
 
@@ -218,13 +218,13 @@ class MultiPointTest {
                 .satisfies(point -> assertThat(point.getType()).isEqualTo("MultiPoint"))
                 .satisfies(point -> assertThat(point.isValid()).isFalse())
                 .satisfies(point -> assertThat(point.validate())
-                        .satisfies(validationResult -> assertThat(validationResult.hasErrors()).isTrue())
-                        .satisfies(validationResult -> assertThat(validationResult.getErrors())
-                                .anySatisfy(error -> assertThat(error)
-                                        .satisfies(e -> assertThat(e.getField()).isEqualTo("coordinates"))
-                                        .satisfies(e -> assertThat(e.getKey()).isEqualTo(expectedErrorKey))
+                                .satisfies(validationResult -> assertThat(validationResult.hasErrors()).isTrue())
+                                .satisfies(validationResult -> assertThat(validationResult.getErrors())
+                                                .anySatisfy(error -> assertThat(error)
+                                                                .satisfies(e -> assertThat(e.getField()).isEqualTo("coordinates"))
+                                                                .satisfies(e -> assertThat(e.getKey()).isEqualTo(expectedErrorKey))
+                                                )
                                 )
-                        )
                 );
     }
 

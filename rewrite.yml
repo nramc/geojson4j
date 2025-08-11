@@ -11,6 +11,7 @@ recipeList:
   - org.openrewrite.recommendations.DependencyManagement
   - org.openrewrite.maven.BestPractices
   - org.openrewrite.java.AddApache2LicenseHeader
+#  - org.openrewrite.java.format.AutoFormat
 
 ---
 type: specs.openrewrite.org/v1beta/recipe

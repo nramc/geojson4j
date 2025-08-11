@@ -13,14 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.github.nramc.geojson.validator;
 
 import java.util.Set;
 
 /**
  * Exception thrown when a GeoJSON object fails validation.
- * <p>
- * This exception is used to indicate that a GeoJSON object contains validation errors,
+ *
+ * <p>This exception is used to indicate that a GeoJSON object contains validation errors,
  * and it provides details about these errors. The exception includes a message
  * describing the issue and a set of {@link ValidationError} objects with specific error details.
  * </p>

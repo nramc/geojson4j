@@ -13,11 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.nramc.geojson.domain;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.github.nramc.geojson.validator.Validatable;
+package com.github.nramc.geojson.domain;
 
 import static com.github.nramc.geojson.constant.GeoJsonType.GEOMETRY_COLLECTION;
 import static com.github.nramc.geojson.constant.GeoJsonType.LINE_STRING;
@@ -26,6 +23,10 @@ import static com.github.nramc.geojson.constant.GeoJsonType.MULTI_POINT;
 import static com.github.nramc.geojson.constant.GeoJsonType.MULTI_POLYGON;
 import static com.github.nramc.geojson.constant.GeoJsonType.POINT;
 import static com.github.nramc.geojson.constant.GeoJsonType.POLYGON;
+
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.github.nramc.geojson.validator.Validatable;
 
 
 /**
@@ -50,10 +51,12 @@ import static com.github.nramc.geojson.constant.GeoJsonType.POLYGON;
  *   polymorphic deserialization.</li>
  * </ul>
  *
- * <p><strong>Inheritance:</strong></p>
+ * <strong>Inheritance:</strong>
+ *
  * <p>This class is declared as a sealed class, meaning it explicitly defines which subclasses
  * are permitted to extend it. This provides better control over the class hierarchy and ensures
- * that only specific types of geometries can be represented.</p>
+ * that only specific types of geometries can be represented.
+ * </p>
  *
  * <p>GeoJSON Specification Reference:
  * <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.1">RFC 7946 - Section 3.1</a>

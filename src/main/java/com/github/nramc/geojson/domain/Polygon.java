@@ -13,15 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.nramc.geojson.domain;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.nramc.geojson.validator.ValidationError;
-import com.github.nramc.geojson.validator.ValidationResult;
-import com.github.nramc.geojson.validator.ValidationUtils;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
+package com.github.nramc.geojson.domain;
 
 import java.text.MessageFormat;
 import java.util.HashSet;
@@ -31,20 +24,26 @@ import java.util.Set;
 
 import static com.github.nramc.geojson.constant.GeoJsonType.POLYGON;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.nramc.geojson.validator.ValidationError;
+import com.github.nramc.geojson.validator.ValidationResult;
+import com.github.nramc.geojson.validator.ValidationUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Represents a GeoJSON Polygon object, which is defined by a series of linear rings, including one exterior
  * ring and optionally several interior rings (holes). The {@link Polygon} class extends the {@link Geometry} base
  * class and provides methods for creating and validating Polygon objects.
- * <p>
- * A Polygon is structured according to the GeoJSON specification, where:
+ *
+ * <p>A Polygon is structured according to the GeoJSON specification, where:
  * - The exterior ring defines the boundary of the polygon.
  * - Interior rings (holes) define regions within the polygon that are excluded from the area.
  * The {@link PolygonCoordinates} object is used to store and manage the rings.
  * </p>
  *
- * <p>
- * The Polygon object supports various factory methods to construct instances from exterior and interior rings.
- * </p>
+ * <p>The Polygon object supports various factory methods to construct instances from exterior and interior rings.</p>
  *
  * <p>Usage Example:</p>
  * <pre>{@code
@@ -73,8 +72,8 @@ public final class Polygon extends Geometry {
 
     /**
      * Constructs a {@link Polygon} with the specified type and coordinates.
-     * <p>
-     * This constructor does not perform any validation. This constructor is typically used for deserialization of JSON data.
+     *
+     * <p>This constructor does not perform any validation. This constructor is typically used for deserialization of JSON data.
      * After using this constructor, it is recommended to call the {@link #validate()} or {@link #isValid()} method to ensure the object is in a valid state.
      * </p>
      *
@@ -132,8 +131,8 @@ public final class Polygon extends Geometry {
 
     /**
      * Validates the {@link Polygon} object to ensure it adheres to the GeoJSON specification.
-     * <p>
-     * The validation checks include:
+     *
+     * <p>The validation checks include:
      * - Ensuring the "type" field is "Polygon".
      * - Ensuring the coordinates are not empty and contain at least one position.
      * - Delegating further validation to the {@link PolygonCoordinates} instance.
