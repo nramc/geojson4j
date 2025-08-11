@@ -13,16 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.nramc.geojson.domain;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.nramc.geojson.validator.ValidationError;
-import com.github.nramc.geojson.validator.ValidationResult;
-import com.github.nramc.geojson.validator.ValidationUtils;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
+package com.github.nramc.geojson.domain;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -33,6 +25,15 @@ import java.util.Objects;
 import java.util.Set;
 
 import static com.github.nramc.geojson.constant.GeoJsonType.LINE_STRING;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.nramc.geojson.validator.ValidationError;
+import com.github.nramc.geojson.validator.ValidationResult;
+import com.github.nramc.geojson.validator.ValidationUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Represents a GeoJSON LineString geometry, which is defined by an ordered list of two or more
@@ -61,8 +62,8 @@ public final class LineString extends Geometry {
     /**
      * No-argument constructor required for certain frameworks (e.g., ORM frameworks)
      * and serialization mechanisms that need to instantiate objects without arguments.
-     * <p>
-     * This constructor does not perform any validation. After using this constructor,
+     *
+     * <p>This constructor does not perform any validation. After using this constructor,
      * it is recommended to call the {@link #validate()} or {@link #isValid()} method to ensure the object is in a valid state.
      * </p>
      */
@@ -148,8 +149,7 @@ public final class LineString extends Geometry {
     /**
      * Retrieves the list of coordinates that define this LineString.
      *
-     * @return an unmodifiable list of {@link Position} objects representing the coordinates
-     * of the LineString. The list contains at least two positions.
+     * @return an unmodifiable list of {@link Position} objects representing the coordinates.
      */
     public List<Position> getCoordinates() {
         return coordinates;
@@ -168,15 +168,16 @@ public final class LineString extends Geometry {
     /**
      * Compares this {@code LineString} with the specified object for equality.
      *
-     * @param o the object to compare with this {@code LineString}
-     * @return {@code true} if the specified object is equal to this {@code LineString}, otherwise {@code false}
-     * <p>
-     * The method checks:
+     * <p>The method checks,
      * <ul>
      *     <li>If the current instance is compared with itself, it returns {@code true}.</li>
      *     <li>If the object is not an instance of {@code LineString}, it returns {@code false}.</li>
      *     <li>If both objects have the same type and coordinates, it returns {@code true}; otherwise, it returns {@code false}.</li>
      * </ul>
+     * </p>
+     *
+     * @param o the object to compare with this {@code LineString}
+     * @return {@code true} if the specified object is equal to this {@code LineString}, otherwise {@code false}
      */
     @Override
     public boolean equals(Object o) {
@@ -193,13 +194,13 @@ public final class LineString extends Geometry {
     /**
      * Returns the hash code value for this {@code LineString}.
      *
-     * @return the hash code value, computed based on the {@code type} and {@code coordinates} fields
-     * <p>
-     * The method generates a hash code using the following logic:
+     * <p>The method generates a hash code using the following logic:
      * - Initializes the result with the hash code of the {@code type}.
      * - Updates the result by multiplying it by 31 and adding the hash code of the {@code coordinates}.
      * This approach ensures a well-distributed hash code for the object.
      * </p>
+     *
+     * @return the hash code value, computed based on the {@code type} and {@code coordinates} fields
      */
     @Override
     public int hashCode() {

@@ -13,7 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.github.nramc.geojson.domain;
+
+import java.io.Serializable;
+import java.text.MessageFormat;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+
+import static com.github.nramc.geojson.constant.GeoJsonType.FEATURE;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -26,28 +37,17 @@ import com.github.nramc.geojson.validator.ValidationUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.Serializable;
-import java.text.MessageFormat;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-
-import static com.github.nramc.geojson.constant.GeoJsonType.FEATURE;
-
 /**
  * Represents a GeoJSON Feature object, which is a fundamental element in GeoJSON that contains
  * a geometry, an optional identifier (id), and optional properties.
- * <p>
- * A Feature in GeoJSON may represent a geographical feature, such as a point, line, or polygon,
+ *
+ * <p>A Feature in GeoJSON may represent a geographical feature, such as a point, line, or polygon,
  * and can also have properties (metadata) associated with it. The Feature also includes a type
  * and may have a unique identifier. This class implements the {@link Validatable} interface to
  * support validation according to the GeoJSON specification.
  * </p>
- * <p>
- * This class is immutable and thread-safe. All collections are unmodifiable.
- * </p>
+ *
+ * <p>This class is immutable and thread-safe. All collections are unmodifiable.</p>
  *
  * <p>GeoJSON Specification Reference:
  * <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.2">RFC 7946 - Section 3.2</a>
@@ -61,8 +61,8 @@ public non-sealed class Feature extends GeoJson implements Validatable, Serializ
     /**
      * Default constructor required for frameworks (e.g., ORM frameworks or serialization mechanisms)
      * that need to instantiate objects without arguments.
-     * <p>
-     * This constructor does not perform any validation. After using this constructor,
+     *
+     * <p>This constructor does not perform any validation. After using this constructor,
      * it is recommended to call the {@link #validate()} or {@link #isValid()} method to ensure the object is in a valid state.
      * </p>
      */
@@ -72,8 +72,8 @@ public non-sealed class Feature extends GeoJson implements Validatable, Serializ
 
     /**
      * Constructs a Feature object with the specified type, id, geometry, and properties.
-     * <p>
-     * This constructor is used when creating a Feature with a specified type, id, geometry, and properties.
+     *
+     * <p>This constructor is used when creating a Feature with a specified type, id, geometry, and properties.
      * The properties are copied to ensure immutability.
      * </p>
      *
@@ -96,8 +96,8 @@ public non-sealed class Feature extends GeoJson implements Validatable, Serializ
 
     /**
      * Factory method to create a validated {@link Feature} with the given id, geometry, and properties.
-     * <p>
-     * This method validates the created Feature using {@link ValidationUtils#validateAndThrowErrorIfInvalid(Validatable)}.
+     *
+     * <p>This method validates the created Feature using {@link ValidationUtils#validateAndThrowErrorIfInvalid(Validatable)}.
      * If validation fails, it throws a {@link GeoJsonValidationException} with details about the validation errors.
      * </p>
      *
@@ -123,8 +123,8 @@ public non-sealed class Feature extends GeoJson implements Validatable, Serializ
 
     /**
      * Gets the properties associated with the Feature.
-     * <p>
-     * These properties are stored in a map where the key is the property name, and the value is the property value.
+     *
+     * <p>These properties are stored in a map where the key is the property name, and the value is the property value.
      * The map is unmodifiable.
      * </p>
      *
@@ -146,9 +146,8 @@ public non-sealed class Feature extends GeoJson implements Validatable, Serializ
 
     /**
      * Retrieves a property by its name, wrapped in an Optional.
-     * <p>
-     * If the property does not exist, an empty {@link Optional} will be returned.
-     * </p>
+     *
+     * <p>If the property does not exist, an empty {@link Optional} will be returned.</p>
      *
      * @param property The name of the property to retrieve.
      * @return An {@link Optional} containing the property value, or an empty Optional if the property does not exist.
@@ -159,9 +158,8 @@ public non-sealed class Feature extends GeoJson implements Validatable, Serializ
 
     /**
      * Gets the geometry representing the feature's shape.
-     * <p>
-     * The geometry defines the shape of the feature (e.g., Point, LineString, Polygon).
-     * </p>
+     *
+     * <p>The geometry defines the shape of the feature (e.g., Point, LineString, Polygon).</p>
      *
      * @return The geometry of the feature.
      */
@@ -171,9 +169,8 @@ public non-sealed class Feature extends GeoJson implements Validatable, Serializ
 
     /**
      * Gets the identifier for the Feature.
-     * <p>
-     * The id is optional in GeoJSON and can be null if no identifier is provided.
-     * </p>
+     *
+     * <p>The id is optional in GeoJSON and can be null if no identifier is provided.</p>
      *
      * @return The id of the feature, or null if not provided.
      */
@@ -183,8 +180,8 @@ public non-sealed class Feature extends GeoJson implements Validatable, Serializ
 
     /**
      * Validates the Feature according to the GeoJSON specification.
-     * <p>
-     * The validation checks include:
+     *
+     * <p>The validation checks include:
      * <ul>
      *     <li>The type must be "Feature".</li>
      *     <li>The geometry must not be null.</li>
@@ -218,8 +215,7 @@ public non-sealed class Feature extends GeoJson implements Validatable, Serializ
      * of the feature in a formatted manner. This can be useful for debugging
      * or logging purposes.</p>
      *
-     * @return a string representation of the Feature object, including its
-     * type, id, geometry, and properties.
+     * @return a string representation of the Feature object, including its type, id, geometry, and properties.
      */
     @Override
     public String toString() {
