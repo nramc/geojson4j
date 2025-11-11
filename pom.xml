@@ -75,7 +75,7 @@
 
         <!-- Versions for plugins and dependencies -->
         <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
-        <checkstyle.version>12.1.1</checkstyle.version>
+        <checkstyle.version>12.1.2</checkstyle.version>
         <maven-site-plugin.version>3.21.0</maven-site-plugin.version>
         <asciidoctor-converter-doxia-module.version>3.2.0</asciidoctor-converter-doxia-module.version>
     </properties>
