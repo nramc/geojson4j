@@ -66,7 +66,7 @@
         <rewrite-logging-frameworks.version>3.19.0</rewrite-logging-frameworks.version>
         <rewrite-maven-plugin.version>6.24.0</rewrite-maven-plugin.version>
         <rewrite-recommendations.version>1.15.0</rewrite-recommendations.version>
-        <rewrite-static-analysis.version>2.21.0</rewrite-static-analysis.version>
+        <rewrite-static-analysis.version>2.22.0</rewrite-static-analysis.version>
         <rewrite-testing-frameworks.version>3.14.1</rewrite-testing-frameworks.version>
         <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
         <commons-collections4.version>4.5.0</commons-collections4.version>
