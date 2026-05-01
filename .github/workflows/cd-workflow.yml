@@ -6,14 +6,22 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Release
+name: Release & Publish
 
 on:
+  schedule:
+    # GitHub Actions cron uses UTC.
+    - cron: '0 6 * * 0'
   workflow_dispatch:
     inputs:
       releaseVersion:
-        description: 'Release Version'
-        default: '0.0.0'
+        description: 'Release version to publish (e.g. 1.2.3). Leave empty to auto-increment the patch version.'
+        default: ''
+        type: string
+      geminiModel:
+        description: 'Gemini model to use (e.g., gemini-2.5-flash-lite, gemini-2.5-flash)'
+        required: false
+        default: 'gemini-2.5-flash-lite'
         type: string
 
 jobs:
@@ -21,9 +29,15 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write   # required to create releases and write RELEASE_NOTES.md
+      id-token: write   # required for OIDC token (Gemini CLI auth)
+
     steps:
 
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0   # full history needed to collect commits since last tag
 
       - name: Set up Java & Maven
         uses: actions/setup-java@v5
@@ -36,24 +50,51 @@ jobs:
           gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
           gpg-passphrase: GPG_PASSPHRASE
 
+      - name: Publish GPG public key to keyservers
+        run: |
+          KEY_ID=$(gpg --list-secret-keys --keyid-format LONG | grep '^sec' | awk '{print $2}' | cut -d'/' -f2 | head -1)
+          echo "Publishing GPG public key: $KEY_ID"
+          # gpg --keyserver keyserver.ubuntu.com --send-keys "$KEY_ID" || true
+          # gpg --keyserver keys.openpgp.org --send-keys "$KEY_ID" || true
+          # gpg --keyserver pgp.mit.edu --send-keys "$KEY_ID" || true
+
       - name: setup git properties for preparation
         run: |
           git config --global user.email "ramachandrannellai@gmail.com"
           git config --global user.name "Deploy Bot"
 
-      - name: Prepare Release with specified version
-        run: mvn --batch-mode --no-transfer-progress -Pgithub -DpushChanges=true release:prepare release:perform -DscmCommentPrefix='chore:' -DreleaseVersion=${{ inputs.releaseVersion }} -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
-        if: inputs.releaseVersion != '0.0.0' && inputs.releaseVersion != ''
-        env:
-          GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
-          GPG_PRIVATE_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
-          GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+      - name: Resolve Release Version
+        id: resolve_version
+        run: |
+          INPUT_VERSION="${{ github.event.inputs.releaseVersion }}"
+          if [ -n "$INPUT_VERSION" ]; then
+            echo "version=$INPUT_VERSION" >> "$GITHUB_OUTPUT"
+            echo "RELEASE_VERSION_ARGS=-DreleaseVersion=$INPUT_VERSION" >> "$GITHUB_ENV"
+          else
+            # Derive version from pom.xml: strip the -SNAPSHOT suffix
+            SNAPSHOT_VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec 2>/dev/null)
+            RELEASE_VERSION="${SNAPSHOT_VERSION%-SNAPSHOT}"
+            echo "version=$RELEASE_VERSION" >> "$GITHUB_OUTPUT"
+            echo "RELEASE_VERSION_ARGS=" >> "$GITHUB_ENV"
+          fi
 
-      - name: Prepare Release with default minor version increment
-        run: mvn -B --batch-mode --no-transfer-progress -Pgithub -DpushChanges=true release:prepare release:perform -DscmCommentPrefix='chore:' -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
-        if: inputs.releaseVersion == '0.0.0' || inputs.releaseVersion == ''
+      - name: Generate Changelog
+        id: changelog
+        uses: TriPSs/conventional-changelog-action@v6
+        with:
+          github-token: ${{ secrets.DEPLOY_TOKEN }}
+          skip-on-empty: 'false'
+          skip-tag: 'true'          # Maven handles tag creation
+          skip-commit: 'true'       # do not commit changelog
+          git-push: 'false'         # do not push
+
+      - name: Prepare Release
+        run: |
+          mvn -B --no-transfer-progress -Pgithub -DpushChanges=true \
+            release:prepare release:perform \
+            -DscmCommentPrefix="chore:" \
+            -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
+            ${{ env.RELEASE_VERSION_ARGS }}
         env:
           GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
@@ -62,18 +103,67 @@ jobs:
           GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
 
       - name: Get Released version
+        id: released_version
         run: |
-          echo "RELEASE_VERSION=$(git describe --tags $(git rev-list --tags --max-count=1))" >> "$GITHUB_ENV"
-          echo "Released Version: $RELEASE_VERSION"
+          git fetch --tags
+          RELEASED_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
+          echo "tag=${RELEASED_TAG}" >> "$GITHUB_OUTPUT"
+          echo "RELEASE_VERSION=${RELEASED_TAG}" >> "$GITHUB_ENV"
+          echo "Released Version: ${RELEASED_TAG}"
+
+      - name: Get previous tag
+        id: get_prev_tag
+        run: |
+          CURRENT_TAG="${{ steps.released_version.outputs.tag }}"
+          PREV_TAG=$(git describe --tags --abbrev=0 "${CURRENT_TAG}^" 2>/dev/null || echo "")
+          echo "tag=${PREV_TAG}" >> "$GITHUB_OUTPUT"
+
+      - name: Generate AI-Enhanced Release Notes with Gemini
+        id: ai_release_notes
+        uses: 'google-github-actions/run-gemini-cli@v0'
+        env:
+          GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+          COMMIT_RANGE: ${{ steps.get_prev_tag.outputs.tag }}..${{ steps.released_version.outputs.tag }}
+          CLEAN_CHANGELOG: ${{ steps.changelog.outputs.clean_changelog }}
+          GEMINI_CLI_TRUST_WORKSPACE: true
+        with:
+          gemini_api_key: '${{ secrets.GEMINI_API_KEY }}'
+          gemini_model: ${{ github.event.inputs.geminiModel != '' && github.event.inputs.geminiModel || vars.GEMINI_MODEL }}
+          workflow_name: 'gemini-release-notes'
+          upload_artifacts: 'true'
+          settings: |-
+            {
+              "autoAccept": true,
+              "model": {
+                "maxSessionTurns": 25
+              }
+            }
+          prompt: '/gemini-release-notes'
+
+      - name: Read Release Notes
+        id: read_release_notes
+        run: |
+          if [ -f RELEASE_NOTES.md ]; then
+            NOTES="$(cat RELEASE_NOTES.md)"
+          elif [ -n "${{ steps.changelog.outputs.clean_changelog }}" ]; then
+            NOTES="${{ steps.changelog.outputs.clean_changelog }}"
+          else
+            NOTES="No impactful changes in this release."
+          fi
+          delimiter="__RELEASE_NOTES_EOF__"
+          echo "notes<<$delimiter" >> "$GITHUB_OUTPUT"
+          echo "$NOTES" >> "$GITHUB_OUTPUT"
+          echo "$delimiter" >> "$GITHUB_OUTPUT"
 
       - name: Create Release with Notes
         uses: ncipollo/release-action@v1
         with:
-          tag: ${{env.RELEASE_VERSION}}
-          name: ${{env.RELEASE_VERSION}}
+          tag: ${{ steps.released_version.outputs.tag }}
+          name: ${{ steps.released_version.outputs.tag }}
           commit: main
-          generateReleaseNotes: true
+          body: ${{ steps.read_release_notes.outputs.notes }}
           draft: false
           prerelease: false
           token: ${{ secrets.DEPLOY_TOKEN }}
-
+          allowUpdates: true
