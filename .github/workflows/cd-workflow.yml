@@ -9,11 +9,14 @@
 name: Release
 
 on:
+  schedule:
+    # GitHub Actions cron uses UTC.
+    - cron: '0 6 * * 0'
   workflow_dispatch:
     inputs:
       releaseVersion:
-        description: 'Release Version'
-        default: '0.0.0'
+        description: 'Release version to publish (e.g. 1.2.3). Leave empty to auto-increment the patch version.'
+        default: ''
         type: string
 
 jobs:
@@ -41,19 +44,24 @@ jobs:
           git config --global user.email "ramachandrannellai@gmail.com"
           git config --global user.name "Deploy Bot"
 
-      - name: Prepare Release with specified version
-        run: mvn --batch-mode --no-transfer-progress -Pgithub -DpushChanges=true release:prepare release:perform -DscmCommentPrefix='chore:' -DreleaseVersion=${{ inputs.releaseVersion }} -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
-        if: inputs.releaseVersion != '0.0.0' && inputs.releaseVersion != ''
-        env:
-          GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
-          GPG_PRIVATE_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
-          GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+      - name: Resolve Release Version
+        run: |
+          INPUT_VERSION="${{ github.event.inputs.releaseVersion }}"
+          if [ -n "$INPUT_VERSION" ]; then
+            echo "RELEASE_VERSION=$INPUT_VERSION" >> "$GITHUB_ENV"
+            echo "RELEASE_VERSION_ARGS=-DreleaseVersion=$INPUT_VERSION" >> "$GITHUB_ENV"
+          else
+            echo "RELEASE_VERSION=" >> "$GITHUB_ENV"
+            echo "RELEASE_VERSION_ARGS=" >> "$GITHUB_ENV"
+          fi
 
-      - name: Prepare Release with default minor version increment
-        run: mvn -B --batch-mode --no-transfer-progress -Pgithub -DpushChanges=true release:prepare release:perform -DscmCommentPrefix='chore:' -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
-        if: inputs.releaseVersion == '0.0.0' || inputs.releaseVersion == ''
+      - name: Prepare Release
+        run: |
+          mvn -B --no-transfer-progress -Pgithub -DpushChanges=true \
+            release:prepare release:perform \
+            -DscmCommentPrefix="chore:" \
+            -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
+            ${{ env.RELEASE_VERSION_ARGS }}
         env:
           GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
