@@ -4,7 +4,7 @@
 
     <groupId>io.github.nramc</groupId>
     <artifactId>geojson4j</artifactId>
-    <version>1.0.10-SNAPSHOT</version>
+    <version>1.0.11-SNAPSHOT</version>
 
     <name>geojson4j</name>
     <description>
