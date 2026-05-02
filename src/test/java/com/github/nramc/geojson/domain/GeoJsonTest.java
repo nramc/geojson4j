@@ -18,8 +18,6 @@ package com.github.nramc.geojson.domain;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-
 import static com.github.nramc.geojson.constant.GeoJsonType.FEATURE;
 import static com.github.nramc.geojson.constant.GeoJsonType.FEATURE_COLLECTION;
 import static com.github.nramc.geojson.constant.GeoJsonType.GEOMETRY_COLLECTION;
@@ -35,7 +33,7 @@ class GeoJsonTest {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    void deserialization_withPoint() throws IOException {
+    void deserialization_withPoint() throws Exception {
         String json = """
                 { "type": "Point", "coordinates": [100.0, 0.0] }""";
         GeoJson geoJson = objectMapper.readValue(json, GeoJson.class);
@@ -45,7 +43,7 @@ class GeoJsonTest {
     }
 
     @Test
-    void deserialization_withMultiPoint() throws IOException {
+    void deserialization_withMultiPoint() throws Exception {
         String json = """
                 { "type": "MultiPoint", "coordinates": [ [100.0, 0.0], [101.0, 1.0] ] }""";
         GeoJson geoJson = objectMapper.readValue(json, GeoJson.class);
@@ -55,7 +53,7 @@ class GeoJsonTest {
     }
 
     @Test
-    void deserialization_withLineString() throws IOException {
+    void deserialization_withLineString() throws Exception {
         String json = """
                 { "type": "LineString", "coordinates": [ [101.0, 0.0], [102.0, 1.0] ] }""";
         GeoJson geoJson = objectMapper.readValue(json, GeoJson.class);
@@ -65,7 +63,7 @@ class GeoJsonTest {
     }
 
     @Test
-    void deserialization_withMultiLineString() throws IOException {
+    void deserialization_withMultiLineString() throws Exception {
         String json = """
                 { "type": "MultiLineString", "coordinates": [ [ [100.0, 0.0], [101.0, 1.0] ], [ [102.0, 2.0], [103.0, 3.0] ] ] }""";
         GeoJson geoJson = objectMapper.readValue(json, GeoJson.class);
@@ -75,7 +73,7 @@ class GeoJsonTest {
     }
 
     @Test
-    void deserialization_withPolygonAndWithoutHoles() throws IOException {
+    void deserialization_withPolygonAndWithoutHoles() throws Exception {
         String json = """
                 {"type": "Polygon", "coordinates": [[[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0]]]}""";
         GeoJson geoJson = objectMapper.readValue(json, GeoJson.class);
@@ -85,7 +83,7 @@ class GeoJsonTest {
     }
 
     @Test
-    void deserialization_withPolygonAndWithHoles() throws IOException {
+    void deserialization_withPolygonAndWithHoles() throws Exception {
         String json = """
                 { "type": "Polygon", "coordinates": [[[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0]], [[100.8, 0.8], [100.8, 0.2], [100.2, 0.2], [100.2, 0.8], [100.8, 0.8]]] }""";
         GeoJson geoJson = objectMapper.readValue(json, GeoJson.class);
@@ -95,7 +93,7 @@ class GeoJsonTest {
     }
 
     @Test
-    void deserialization_withMultiPolygon() throws IOException {
+    void deserialization_withMultiPolygon() throws Exception {
         String json = """
                 {"type": "MultiPolygon", "coordinates": [[[[102.0, 2.0], [103.0, 2.0], [103.0, 3.0], [102.0, 3.0], [102.0, 2.0]]], [[[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0]], [[100.2, 0.2], [100.2, 0.8], [100.8, 0.8], [100.8, 0.2], [100.2, 0.2]]]]}""";
         GeoJson geoJson = objectMapper.readValue(json, GeoJson.class);
@@ -105,7 +103,7 @@ class GeoJsonTest {
     }
 
     @Test
-    void deserialization_withGeometryCollection() throws IOException {
+    void deserialization_withGeometryCollection() throws Exception {
         String json = """
                 {
                   "type": "GeometryCollection",
@@ -126,7 +124,7 @@ class GeoJsonTest {
     }
 
     @Test
-    void deserialization_withFeature() throws IOException {
+    void deserialization_withFeature() throws Exception {
         String json = """
                 {"id": "ID_001", "type": "Feature", "geometry": {"type": "Polygon", "coordinates": [[[11.539417624693925, 48.17613313877797], [11.538077298468238, 48.168150074081154], [11.561556116500725, 48.1685970352552], [11.558505718881861, 48.1759482169781], [11.539417624693925, 48.17613313877797]]]}, "properties": {"name": "Olympic Park", "size": 85}}""";
         GeoJson geoJson = objectMapper.readValue(json, GeoJson.class);
@@ -136,7 +134,7 @@ class GeoJsonTest {
     }
 
     @Test
-    void deserialization_withFeatureCollection() throws IOException {
+    void deserialization_withFeatureCollection() throws Exception {
         String json = """
                 {
                   "type": "FeatureCollection",

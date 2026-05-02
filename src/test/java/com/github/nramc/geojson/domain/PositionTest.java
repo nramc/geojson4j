@@ -24,7 +24,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,21 +33,21 @@ class PositionTest {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    void serialization_withMandatoryValuesOnly() throws IOException {
+    void serialization_withMandatoryValuesOnly() throws Exception {
         Position position = Position.of(10.0, 15.0);
         String jsonContent = objectMapper.writeValueAsString(position);
         assertThat(jsonContent).isEqualToIgnoringWhitespace("[10.0, 15.0]");
     }
 
     @Test
-    void serialization_withMandatoryAndOptionalValues() throws IOException {
+    void serialization_withMandatoryAndOptionalValues() throws Exception {
         Position position = Position.of(10.0, 15.0, 25.0);
         String jsonContent = objectMapper.writeValueAsString(position);
         assertThat(jsonContent).isEqualToIgnoringWhitespace("[10.0, 15.0, 25.0]");
     }
 
     @Test
-    void deserialization_withAllValues() throws IOException {
+    void deserialization_withAllValues() throws Exception {
         String jsonString = "[18.5, 23.9, 30.2]";
         Position objectContent = objectMapper.readValue(jsonString, Position.class);
         assertThat(objectContent).isNotNull()
@@ -58,7 +57,7 @@ class PositionTest {
     }
 
     @Test
-    void deserialization_withMandatoryValues() throws IOException {
+    void deserialization_withMandatoryValues() throws Exception {
         String jsonString = "[24.1, 56.3]";
         Position objectContent = objectMapper.readValue(jsonString, Position.class);
         assertThat(objectContent).isNotNull()
@@ -69,7 +68,7 @@ class PositionTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"[24.1]", "[]", "[1, 2, 3, 4]", "[-190, 90]", "[100.0, -180]", "[190, 74]", "[80.0, 98.0]"})
-    void deserialization_withInvalidValues_shouldThrowSerializationError(String jsonString) throws JsonProcessingException {
+    void deserialization_withInvalidValues_shouldThrowSerializationError(String jsonString) throws Exception {
         Position position = objectMapper.readValue(jsonString, Position.class);
         assertThat(position).isNotNull().extracting(Position::isValid).isEqualTo(false);
     }
@@ -109,7 +108,7 @@ class PositionTest {
     }
 
     @ParameterizedTest
-    @CsvSource({
+    @ValueSource(strings = {
             "181,180,11000",
             "180,181,10000",
             "181,181,-11000",

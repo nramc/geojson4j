@@ -15,7 +15,6 @@
  */
 package com.github.nramc.geojson.domain;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.nramc.geojson.validator.GeoJsonValidationException;
 import org.junit.jupiter.api.Test;
@@ -24,7 +23,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -49,7 +47,7 @@ class PolygonTest {
     );
 
     @Test
-    void deserialization_withValidExterior_shouldCreateValidObject() throws IOException {
+    void deserialization_withValidExterior_shouldCreateValidObject() throws Exception {
         Polygon obj = objectMapper.readValue(POLYGON_WITHOUT_HOLES_JSON, Polygon.class);
 
         assertThat(obj).isNotNull()
@@ -62,7 +60,7 @@ class PolygonTest {
     }
 
     @Test
-    void deserialization_withValidExteriorAndHoles_shouldCreateValidObject() throws IOException {
+    void deserialization_withValidExteriorAndHoles_shouldCreateValidObject() throws Exception {
         Polygon obj = objectMapper.readValue(POLYGON_WITH_HOLES_JSON, Polygon.class);
 
         assertThat(obj).isNotNull()
@@ -75,7 +73,7 @@ class PolygonTest {
     }
 
     @Test
-    void deserialization_withValidExteriorAndHoles_withBaseTypeGeometry_shouldCreateValidObject() throws IOException {
+    void deserialization_withValidExteriorAndHoles_withBaseTypeGeometry_shouldCreateValidObject() throws Exception {
         Geometry obj = objectMapper.readValue(POLYGON_WITH_HOLES_JSON, Geometry.class);
 
         assertThat(obj).isNotNull()
@@ -84,7 +82,7 @@ class PolygonTest {
     }
 
     @Test
-    void deserialization_withValidExteriorAndHoles_withBaseTypeGeoJson_shouldCreateValidObject() throws IOException {
+    void deserialization_withValidExteriorAndHoles_withBaseTypeGeoJson_shouldCreateValidObject() throws Exception {
         GeoJson obj = objectMapper.readValue(POLYGON_WITH_HOLES_JSON, GeoJson.class);
 
         assertThat(obj).isNotNull()
@@ -103,7 +101,7 @@ class PolygonTest {
             coordinates.longitude.invalid;      { "type": "Polygon", "coordinates": [ [ [100.0, 0.0], [190.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ] ] }
             coordinates.latitude.invalid;       { "type": "Polygon", "coordinates": [ [ [100.0, 0.0], [101.0, 95.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ] ] }
             """)
-    void deserialization_withInvalidJson_shouldCreateObjectWithInvalidState(String expectedErrorKey, String json) throws JsonProcessingException {
+    void deserialization_withInvalidJson_shouldCreateObjectWithInvalidState(String expectedErrorKey, String json) throws Exception {
         assertThat(objectMapper.readValue(json, Polygon.class)).isNotNull()
                 .satisfies(obj -> assertThat(obj.isValid()).isFalse())
                 .satisfies(obj -> assertThat(obj.getCoordinates()).isNotNull())
@@ -249,28 +247,28 @@ class PolygonTest {
 
 
     @Test
-    void serialization_withExterior_shouldCreateValidGeoJson() throws IOException {
+    void serialization_withExterior_shouldCreateValidGeoJson() throws Exception {
         Polygon polygon = Polygon.of(PolygonCoordinates.of(EXTERIOR_RING));
         String jsonContent = objectMapper.writeValueAsString(polygon);
         assertThat(jsonContent).isEqualToIgnoringWhitespace(POLYGON_WITHOUT_HOLES_JSON);
     }
 
     @Test
-    void serialization_withExteriorAndHoles_shouldCreateValidGeoJson() throws IOException {
+    void serialization_withExteriorAndHoles_shouldCreateValidGeoJson() throws Exception {
         Polygon polygon = Polygon.of(PolygonCoordinates.of(EXTERIOR_RING, INTERIOR_RING));
         String jsonContent = objectMapper.writeValueAsString(polygon);
         assertThat(jsonContent).isEqualToIgnoringWhitespace(POLYGON_WITH_HOLES_JSON);
     }
 
     @Test
-    void serialization_withExteriorAndHoles_andWithBaseTypeGeometry_shouldCreateValidGeoJson() throws IOException {
+    void serialization_withExteriorAndHoles_andWithBaseTypeGeometry_shouldCreateValidGeoJson() throws Exception {
         Geometry geometry = Polygon.of(PolygonCoordinates.of(EXTERIOR_RING, INTERIOR_RING));
         String jsonContent = objectMapper.writeValueAsString(geometry);
         assertThat(jsonContent).isEqualToIgnoringWhitespace(POLYGON_WITH_HOLES_JSON);
     }
 
     @Test
-    void serialization_withExteriorAndHoles_andWithBaseTypeGeoJson_shouldCreateValidGeoJson() throws IOException {
+    void serialization_withExteriorAndHoles_andWithBaseTypeGeoJson_shouldCreateValidGeoJson() throws Exception {
         GeoJson geoJson = Polygon.of(PolygonCoordinates.of(EXTERIOR_RING, INTERIOR_RING));
         String jsonContent = objectMapper.writeValueAsString(geoJson);
         assertThat(jsonContent).isEqualToIgnoringWhitespace(POLYGON_WITH_HOLES_JSON);

@@ -15,7 +15,6 @@
  */
 package com.github.nramc.geojson.domain;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.nramc.geojson.constant.GeoJsonType;
 import com.github.nramc.geojson.validator.GeoJsonValidationException;
@@ -26,7 +25,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -37,7 +35,7 @@ class MultiPointTest {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    void serialization_withLongitudeAndLatitude_shouldProvideValidJson() throws IOException {
+    void serialization_withLongitudeAndLatitude_shouldProvideValidJson() throws Exception {
         MultiPoint multiPoint = MultiPoint.of(
                 Position.of(100, 50),
                 Position.of(110, 60),
@@ -54,7 +52,7 @@ class MultiPointTest {
     }
 
     @Test
-    void serialization_withLongitudeAndLatitudeAndAltitude_shouldProvideValidJson() throws IOException {
+    void serialization_withLongitudeAndLatitudeAndAltitude_shouldProvideValidJson() throws Exception {
         MultiPoint multiPoint = MultiPoint.of(
                 Position.of(100, 50, 5),
                 Position.of(110, 60, 5),
@@ -71,7 +69,7 @@ class MultiPointTest {
     }
 
     @Test
-    void deserialization_withValidLongitudeAndLatitude_shouldCreateValidObject() throws IOException {
+    void deserialization_withValidLongitudeAndLatitude_shouldCreateValidObject() throws Exception {
         String json = """
                 { "type": "MultiPoint", "coordinates": [ [100.0, 0.0], [101.0, 1.0] ] }""";
 
@@ -82,7 +80,7 @@ class MultiPointTest {
     }
 
     @Test
-    void deserialization_withValidLongitudeAndLatitude_withGeometryBaseType_shouldCreateValidObject() throws IOException {
+    void deserialization_withValidLongitudeAndLatitude_withGeometryBaseType_shouldCreateValidObject() throws Exception {
         String json = """
                 { "type": "MultiPoint", "coordinates": [ [100.0, 0.0], [101.0, 1.0] ] }""";
 
@@ -94,7 +92,7 @@ class MultiPointTest {
     }
 
     @Test
-    void deserialization_withValidLongitudeAndLatitude_withGeoJsonBaseType_shouldCreateValidObject() throws IOException {
+    void deserialization_withValidLongitudeAndLatitude_withGeoJsonBaseType_shouldCreateValidObject() throws Exception {
         String json = """
                 { "type": "MultiPoint", "coordinates": [ [100.0, 0.0], [101.0, 1.0] ] }""";
 
@@ -106,7 +104,7 @@ class MultiPointTest {
     }
 
     @Test
-    void deserialization_withValidLongitudeAndLatitudeAndAltitude_shouldProvideValidObject() throws IOException {
+    void deserialization_withValidLongitudeAndLatitudeAndAltitude_shouldProvideValidObject() throws Exception {
         String json = """
                 { "type": "MultiPoint", "coordinates": [ [100.0, 0.0, 5.0], [101.0, 1.0, 5.0] ] }""";
 
@@ -117,7 +115,7 @@ class MultiPointTest {
     }
 
     @Test
-    void deserialization_withValidLongitudeAndLatitudeAndAltitude_withGeometryBaseType_shouldProvideValidObject() throws IOException {
+    void deserialization_withValidLongitudeAndLatitudeAndAltitude_withGeometryBaseType_shouldProvideValidObject() throws Exception {
         String json = """
                 { "type": "MultiPoint", "coordinates": [ [100.0, 0.0, 5.0], [101.0, 1.0, 5.0] ] }""";
 
@@ -129,7 +127,7 @@ class MultiPointTest {
     }
 
     @Test
-    void deserialization_withValidLongitudeAndLatitudeAndAltitude_withGeoJsonBaseType_shouldProvideValidObject() throws IOException {
+    void deserialization_withValidLongitudeAndLatitudeAndAltitude_withGeoJsonBaseType_shouldProvideValidObject() throws Exception {
         String json = """
                 { "type": "MultiPoint", "coordinates": [ [100.0, 0.0, 5.0], [101.0, 1.0, 5.0] ] }""";
 
@@ -154,7 +152,7 @@ class MultiPointTest {
             { "type": "MultiPoint", "coordinates": [ [200.0, 0.0, 5.0], [201.0, 1.0, 5.0] ] };      coordinates.longitude.invalid
             { "type": "MultiPoint", "coordinates": [ [100.0, 100.0, 5.0], [101.0, 100.0, 5.0] ] };  coordinates.latitude.invalid
             """)
-    void deserialization_withInvalidJson_shouldCreateObject_withInvalidStatus(String geoJson, String expectedErrorKey) throws JsonProcessingException {
+    void deserialization_withInvalidJson_shouldCreateObject_withInvalidStatus(String geoJson, String expectedErrorKey) throws Exception {
         assertThat(objectMapper.readValue(geoJson, MultiPoint.class))
                 .satisfies(point -> assertThat(point.getType()).isEqualTo("MultiPoint"))
                 .satisfies(point -> assertThat(point.getCoordinates()).isNotNull())
@@ -184,7 +182,7 @@ class MultiPointTest {
             { "type": "MultiPoint", "coordinates": [ [200.0, 0.0, 5.0], [201.0, 1.0, 5.0] ] };      coordinates.longitude.invalid
             { "type": "MultiPoint", "coordinates": [ [100.0, 100.0, 5.0], [101.0, 100.0, 5.0] ] };  coordinates.latitude.invalid
             """)
-    void deserialization_withInvalidJson_withGeometryBaseType_shouldCreateObject_withInvalidStatus(String geoJson, String expectedErrorKey) throws JsonProcessingException {
+    void deserialization_withInvalidJson_withGeometryBaseType_shouldCreateObject_withInvalidStatus(String geoJson, String expectedErrorKey) throws Exception {
         assertThat(objectMapper.readValue(geoJson, Geometry.class))
                 .satisfies(point -> assertThat(point.getType()).isEqualTo("MultiPoint"))
                 .satisfies(point -> assertThat(point.isValid()).isFalse())
@@ -213,7 +211,7 @@ class MultiPointTest {
             { "type": "MultiPoint", "coordinates": [ [200.0, 0.0, 5.0], [201.0, 1.0, 5.0] ] };      coordinates.longitude.invalid
             { "type": "MultiPoint", "coordinates": [ [100.0, 100.0, 5.0], [101.0, 100.0, 5.0] ] };  coordinates.latitude.invalid
             """)
-    void deserialization_withInvalidJson_withGeoJsonBaseType_shouldCreateObject_withInvalidStatus(String geoJson, String expectedErrorKey) throws JsonProcessingException {
+    void deserialization_withInvalidJson_withGeoJsonBaseType_shouldCreateObject_withInvalidStatus(String geoJson, String expectedErrorKey) throws Exception {
         assertThat(objectMapper.readValue(geoJson, GeoJson.class))
                 .satisfies(point -> assertThat(point.getType()).isEqualTo("MultiPoint"))
                 .satisfies(point -> assertThat(point.isValid()).isFalse())

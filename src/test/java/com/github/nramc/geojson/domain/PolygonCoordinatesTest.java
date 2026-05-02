@@ -15,7 +15,6 @@
  */
 package com.github.nramc.geojson.domain;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.nramc.geojson.validator.GeoJsonValidationException;
 import org.assertj.core.api.InstanceOfAssertFactories;
@@ -25,7 +24,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -36,7 +34,7 @@ class PolygonCoordinatesTest {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    void deserialization_withValidExterior_andEmptyHoles_shouldCreateValidObject() throws IOException {
+    void deserialization_withValidExterior_andEmptyHoles_shouldCreateValidObject() throws Exception {
         String jsonContent = """
                 [ [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ] ]""";
         assertThat(objectMapper.readValue(jsonContent, PolygonCoordinates.class)).isNotNull()
@@ -54,7 +52,7 @@ class PolygonCoordinatesTest {
     }
 
     @Test
-    void deserialization_withValidExterior_andWithValidHoles_shouldCreateValidObject() throws IOException {
+    void deserialization_withValidExterior_andWithValidHoles_shouldCreateValidObject() throws Exception {
         String jsonContent = """
                 [
                  [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ],
@@ -91,7 +89,7 @@ class PolygonCoordinatesTest {
             coordinates.longitude.invalid;    [ [ [100.0, 0.0], [200.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ], [ [100.8, 0.8], [100.8, 0.2], [100.2, 0.2], [100.2, 0.8], [100.8, 0.8] ] ]
             coordinates.latitude.invalid;    [ [ [100.0, 0.0], [101.0, 200.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ], [ [100.8, 0.8], [100.8, 0.2], [100.2, 0.2], [100.2, 0.8], [100.8, 0.8] ] ]
             """)
-    void deserialization_withInvalidJson_shouldCreateObjectWithInvalidState(String expectedErrorKey, String json) throws JsonProcessingException {
+    void deserialization_withInvalidJson_shouldCreateObjectWithInvalidState(String expectedErrorKey, String json) throws Exception {
         assertThat(objectMapper.readValue(json, PolygonCoordinates.class)).isNotNull()
                 .satisfies(obj -> assertThat(obj.isValid()).isFalse())
                 .satisfies(obj -> assertThat(obj.getCoordinates()).isNotNull())
@@ -172,7 +170,7 @@ class PolygonCoordinatesTest {
     }
 
     @Test
-    void serialisation_withExterior_andWithoutHoles_shouldCreateValidGeoJson() throws IOException {
+    void serialisation_withExterior_andWithoutHoles_shouldCreateValidGeoJson() throws Exception {
         List<Position> exteriorRing = List.of(
                 Position.of(100, 0),
                 Position.of(101, 0),
@@ -187,7 +185,7 @@ class PolygonCoordinatesTest {
     }
 
     @Test
-    void serialization_withHoles_shouldCreateValidJson() throws IOException {
+    void serialization_withHoles_shouldCreateValidJson() throws Exception {
         List<Position> exteriorRing = List.of(
                 Position.of(100, 0),
                 Position.of(101, 0),

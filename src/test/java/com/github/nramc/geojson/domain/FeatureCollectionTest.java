@@ -18,7 +18,6 @@ package com.github.nramc.geojson.domain;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.List;
@@ -38,7 +37,7 @@ class FeatureCollectionTest {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    void deserialization_withFeatureCollection() throws IOException {
+    void deserialization_withFeatureCollection() throws Exception {
         String json = """
                 {
                   "type": "FeatureCollection",
@@ -193,7 +192,7 @@ class FeatureCollectionTest {
     }
 
     @Test
-    void verifyJsonSerialization() throws IOException {
+    void verifyJsonSerialization() throws Exception {
         Feature feature = Feature.of("test-id", Point.of(10.0, 20.0),
                 Map.of("name", "Test Location"));
         FeatureCollection collection = FeatureCollection.of(feature);
@@ -230,7 +229,7 @@ class FeatureCollectionTest {
     }
 
     @Test
-    void verifyJavaSerialization() throws IOException, ClassNotFoundException {
+    void verifyJavaSerialization() throws Exception {
         Feature feature = Feature.of("test-id", Point.of(10.0, 20.0),
                 Map.of("name", "Test Location"));
         FeatureCollection originalCollection = FeatureCollection.of(feature);
