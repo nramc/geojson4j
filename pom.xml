@@ -371,8 +371,9 @@
                                 <recipe>com.github.nramc.recipes.testing</recipe>
                             </activeRecipes>
                             <activeStyles>
-                                <!-- Custom style mirrors geojson4j_checks.xml: 4-space indent, 8-space continuation, 160 line length -->
-                                <style>org.openrewrite.java.GoogleJavaFormat</style>
+                                <!-- Custom style defined in rewrite.yml: 4-space indent, 8-space continuation,
+                                     static-first import order matching google_checks.xml + .editorconfig -->
+                                <style>com.github.nramc.style.geojson4j</style>
                             </activeStyles>
                         </configuration>
                         <dependencies>

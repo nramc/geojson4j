@@ -75,6 +75,15 @@
             <property name="allowNonPrintableEscapes" value="true"/>
         </module>
         <module name="AvoidStarImport"/>
+        <!-- Import ordering: matches ij_java_imports_layout=$*,|,* in .editorconfig.
+             Google Java Style: static imports first (STATIC group), then all regular imports
+             alphabetically in one block (THIRD_PARTY_PACKAGE, which covers java.* too).
+             Note: OpenRewrite does NOT reliably handle import ordering – see rewrite.yml. -->
+        <module name="CustomImportOrder">
+            <property name="sortImportsInGroupAlphabetically" value="true"/>
+            <property name="separateLineBetweenGroups" value="true"/>
+            <property name="customImportOrderRules" value="STATIC###THIRD_PARTY_PACKAGE"/>
+        </module>
         <module name="OneTopLevelClass"/>
         <module name="NoLineWrap">
             <property name="tokens" value="PACKAGE_DEF, IMPORT, STATIC_IMPORT"/>
