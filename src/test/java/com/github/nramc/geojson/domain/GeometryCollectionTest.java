@@ -15,16 +15,16 @@
  */
 package com.github.nramc.geojson.domain;
 
+import static com.github.nramc.geojson.constant.GeoJsonType.GEOMETRY_COLLECTION;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.util.List;
-
-import static com.github.nramc.geojson.constant.GeoJsonType.GEOMETRY_COLLECTION;
-import static org.assertj.core.api.Assertions.assertThat;
 
 class GeometryCollectionTest {
 

@@ -16,21 +16,20 @@
 
 package com.github.nramc.geojson.domain;
 
+import static com.github.nramc.geojson.constant.GeoJsonType.POLYGON;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.nramc.geojson.validator.ValidationError;
 import com.github.nramc.geojson.validator.ValidationResult;
 import com.github.nramc.geojson.validator.ValidationUtils;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-
 import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-
-import static com.github.nramc.geojson.constant.GeoJsonType.POLYGON;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Represents a GeoJSON Polygon object, which is defined by a series of linear rings, including one exterior

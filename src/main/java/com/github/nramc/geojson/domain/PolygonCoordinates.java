@@ -23,8 +23,6 @@ import com.github.nramc.geojson.validator.Validatable;
 import com.github.nramc.geojson.validator.ValidationError;
 import com.github.nramc.geojson.validator.ValidationResult;
 import com.github.nramc.geojson.validator.ValidationUtils;
-import org.apache.commons.collections4.CollectionUtils;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,6 +31,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import org.apache.commons.collections4.CollectionUtils;
 
 /**
  * Represents the coordinates of a Polygon in GeoJSON format.

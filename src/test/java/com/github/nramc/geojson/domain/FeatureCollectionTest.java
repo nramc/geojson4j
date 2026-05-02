@@ -16,22 +16,21 @@
 
 package com.github.nramc.geojson.domain;
 
+import static com.github.nramc.geojson.constant.GeoJsonType.FEATURE_COLLECTION;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.nramc.geojson.validator.GeoJsonValidationException;
 import com.github.nramc.geojson.validator.ValidationError;
 import com.github.nramc.geojson.validator.ValidationResult;
-import org.junit.jupiter.api.Test;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.Map;
-
-import static com.github.nramc.geojson.constant.GeoJsonType.FEATURE_COLLECTION;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import org.junit.jupiter.api.Test;
 
 class FeatureCollectionTest {
     private static final ObjectMapper objectMapper = new ObjectMapper();

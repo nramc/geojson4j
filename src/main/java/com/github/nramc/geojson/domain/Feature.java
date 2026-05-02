@@ -16,17 +16,15 @@
 
 package com.github.nramc.geojson.domain;
 
+import static com.github.nramc.geojson.constant.GeoJsonType.FEATURE;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.nramc.geojson.constant.GeoJsonType;
 import com.github.nramc.geojson.validator.GeoJsonValidationException;
 import com.github.nramc.geojson.validator.Validatable;
 import com.github.nramc.geojson.validator.ValidationError;
 import com.github.nramc.geojson.validator.ValidationResult;
 import com.github.nramc.geojson.validator.ValidationUtils;
-import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.HashSet;
@@ -34,8 +32,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-
-import static com.github.nramc.geojson.constant.GeoJsonType.FEATURE;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Represents a GeoJSON Feature object, which is a fundamental element in GeoJSON that contains a geometry, an optional identifier (id), and optional
@@ -107,7 +105,7 @@ public non-sealed class Feature extends GeoJson implements Validatable, Serializ
      * @throws GeoJsonValidationException if the Feature is invalid according to GeoJSON validation rules.
      */
     public static Feature of(String id, Geometry geometry, Map<String, Serializable> properties) {
-        return ValidationUtils.validateAndThrowErrorIfInvalid(new Feature(GeoJsonType.FEATURE, id, geometry, MapUtils.emptyIfNull(properties)));
+        return ValidationUtils.validateAndThrowErrorIfInvalid(new Feature(FEATURE, id, geometry, MapUtils.emptyIfNull(properties)));
     }
 
     /**

@@ -24,7 +24,6 @@ import com.github.nramc.geojson.validator.Validatable;
 import com.github.nramc.geojson.validator.ValidationError;
 import com.github.nramc.geojson.validator.ValidationResult;
 import com.github.nramc.geojson.validator.ValidationUtils;
-
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashSet;
