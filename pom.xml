@@ -372,7 +372,7 @@
                             </activeRecipes>
                             <activeStyles>
                                 <!-- Custom style mirrors geojson4j_checks.xml: 4-space indent, 8-space continuation, 160 line length -->
-                                <style>com.github.nramc.style.geojson4j</style>
+                                <style>org.openrewrite.java.GoogleJavaFormat</style>
                             </activeStyles>
                         </configuration>
                         <dependencies>

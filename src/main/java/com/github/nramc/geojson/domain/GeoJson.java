@@ -24,7 +24,6 @@ import com.github.nramc.geojson.validator.Validatable;
 
 import java.io.Serializable;
 
-
 /**
  * Abstract base class for all GeoJSON objects, such as Features, Feature Collections,
  * and different Geometry types. This class provides a common interface and ensures

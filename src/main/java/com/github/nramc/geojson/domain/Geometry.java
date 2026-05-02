@@ -28,7 +28,6 @@ import static com.github.nramc.geojson.constant.GeoJsonType.MULTI_POLYGON;
 import static com.github.nramc.geojson.constant.GeoJsonType.POINT;
 import static com.github.nramc.geojson.constant.GeoJsonType.POLYGON;
 
-
 /**
  * The {@code Geometry} class is an abstract base class representing different geometric shapes that
  * conform to the GeoJSON specification. This class is a direct subclass of {@link GeoJson} and

@@ -34,7 +34,6 @@ import java.util.Set;
 
 import static com.github.nramc.geojson.constant.GeoJsonType.FEATURE_COLLECTION;
 
-
 /**
  * Represents a GeoJSON FeatureCollection object, which is a collection of {@link Feature} objects.
  *
