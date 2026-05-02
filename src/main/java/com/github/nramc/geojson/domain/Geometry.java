@@ -83,10 +83,16 @@ import com.github.nramc.geojson.validator.Validatable;
 public abstract sealed class Geometry extends GeoJson implements Validatable permits
         Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection {
 
+    /** Default constructor for deserialization compatibility. */
     protected Geometry() {
         super();
     }
 
+    /**
+     * Constructs a Geometry with the given GeoJSON type literal.
+     *
+     * @param type the GeoJSON type literal (e.g. {@code "Point"}, {@code "Polygon"})
+     */
     protected Geometry(String type) {
         super(type);
     }

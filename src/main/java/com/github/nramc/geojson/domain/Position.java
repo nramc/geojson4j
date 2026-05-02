@@ -165,7 +165,7 @@ public class Position implements Validatable, Serializable {
     }
 
     private static boolean isLongitudeValid(double longitude) {
-        //Valid longitude values are between -180 and 180, both inclusive.
+        // Valid longitude values are between -180 and 180, both inclusive.
         return longitude >= -180 && longitude <= 180;
     }
 

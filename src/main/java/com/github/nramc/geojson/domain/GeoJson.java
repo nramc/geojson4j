@@ -51,10 +51,16 @@ public abstract sealed class GeoJson implements Serializable, Validatable permit
 
     protected final String type;
 
+    /** Default constructor; initialises the type to {@code Point} for deserialization compatibility. */
     protected GeoJson() {
         this(GeoJsonType.POINT);
     }
 
+    /**
+     * Constructs a GeoJSON object with the given type string.
+     *
+     * @param type the GeoJSON type literal (e.g. {@code "Feature"}, {@code "Point"})
+     */
     protected GeoJson(String type) {
         this.type = type;
     }
