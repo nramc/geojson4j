@@ -21,7 +21,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import java.text.MessageFormat;
 import java.util.Set;
 
-
 /**
  * Represents the result of a validation operation.
  *
