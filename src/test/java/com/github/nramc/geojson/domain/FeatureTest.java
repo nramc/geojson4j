@@ -18,7 +18,6 @@ package com.github.nramc.geojson.domain;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -42,7 +41,7 @@ class FeatureTest {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    void deserialization() throws IOException {
+    void deserialization() throws Exception {
         String json = """
                 {
                   "id": "ID_001",
@@ -61,7 +60,7 @@ class FeatureTest {
     }
 
     @Test
-    void deserialization_withoutId() throws IOException {
+    void deserialization_withoutId() throws Exception {
         String json = """
                 {
                   "type": "Feature",
@@ -130,7 +129,7 @@ class FeatureTest {
     }
 
     @Test
-    void verifyJavaSerializationAndDeserialization() throws IOException, ClassNotFoundException {
+    void verifyJavaSerializationAndDeserialization() throws Exception {
         Feature originalFeature = Feature.of(
                 "test-id-123",
                 Point.of(45.0, 45.0),
@@ -162,7 +161,7 @@ class FeatureTest {
     }
 
     @Test
-    void verifyJsonSerializationAndDeserialization() throws IOException {
+    void verifyJsonSerializationAndDeserialization() throws Exception {
         Feature originalFeature = Feature.of(
                 "test-id-456",
                 Point.of(180.0, 90.0),
@@ -202,7 +201,7 @@ class FeatureTest {
     }
 
     @Test
-    void verifyJsonSerialization_VerifyJsonStructure() throws IOException {
+    void verifyJsonSerialization_VerifyJsonStructure() throws Exception {
         Feature feature = Feature.of(
                 "test-id-789",
                 Point.of(35.0, -75.0),

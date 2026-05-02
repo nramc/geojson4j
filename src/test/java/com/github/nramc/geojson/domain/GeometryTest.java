@@ -18,8 +18,6 @@ package com.github.nramc.geojson.domain;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-
 import static com.github.nramc.geojson.constant.GeoJsonType.GEOMETRY_COLLECTION;
 import static com.github.nramc.geojson.constant.GeoJsonType.LINE_STRING;
 import static com.github.nramc.geojson.constant.GeoJsonType.MULTI_LINE_STRING;
@@ -33,7 +31,7 @@ class GeometryTest {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    void deserialization_withPoint() throws IOException {
+    void deserialization_withPoint() throws Exception {
         String json = """
                 { "type": "Point", "coordinates": [100.0, 0.0] }""";
         Geometry geometry = objectMapper.readValue(json, Geometry.class);
@@ -43,7 +41,7 @@ class GeometryTest {
     }
 
     @Test
-    void deserialization_withMultiPoint() throws IOException {
+    void deserialization_withMultiPoint() throws Exception {
         String json = """
                 { "type": "MultiPoint", "coordinates": [ [100.0, 0.0], [101.0, 1.0] ] }""";
         Geometry geometry = objectMapper.readValue(json, Geometry.class);
@@ -53,7 +51,7 @@ class GeometryTest {
     }
 
     @Test
-    void deserialization_withLineString() throws IOException {
+    void deserialization_withLineString() throws Exception {
         String json = """
                 { "type": "LineString", "coordinates": [ [101.0, 0.0], [102.0, 1.0] ] }""";
         Geometry geometry = objectMapper.readValue(json, Geometry.class);
@@ -63,7 +61,7 @@ class GeometryTest {
     }
 
     @Test
-    void deserialization_withMultiLineString() throws IOException {
+    void deserialization_withMultiLineString() throws Exception {
         String json = """
                 { "type": "MultiLineString", "coordinates": [ [ [100.0, 0.0], [101.0, 1.0] ], [ [102.0, 2.0], [103.0, 3.0] ] ] }""";
         Geometry geometry = objectMapper.readValue(json, Geometry.class);
@@ -73,7 +71,7 @@ class GeometryTest {
     }
 
     @Test
-    void deserialization_withPolygonAndWithoutHoles() throws IOException {
+    void deserialization_withPolygonAndWithoutHoles() throws Exception {
         String json = """
                 {"type": "Polygon", "coordinates": [[[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0]]]}""";
         Geometry geometry = objectMapper.readValue(json, Geometry.class);
@@ -83,7 +81,7 @@ class GeometryTest {
     }
 
     @Test
-    void deserialization_withPolygonAndWithHoles() throws IOException {
+    void deserialization_withPolygonAndWithHoles() throws Exception {
         String json = """
                 { "type": "Polygon", "coordinates": [[[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0]], [[100.8, 0.8], [100.8, 0.2], [100.2, 0.2], [100.2, 0.8], [100.8, 0.8]]] }""";
         Geometry geometry = objectMapper.readValue(json, Geometry.class);
@@ -93,7 +91,7 @@ class GeometryTest {
     }
 
     @Test
-    void deserialization_withMultiPolygon() throws IOException {
+    void deserialization_withMultiPolygon() throws Exception {
         String json = """
                 {"type": "MultiPolygon", "coordinates": [[[[102.0, 2.0], [103.0, 2.0], [103.0, 3.0], [102.0, 3.0], [102.0, 2.0]]], [[[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0]], [[100.2, 0.2], [100.2, 0.8], [100.8, 0.8], [100.8, 0.2], [100.2, 0.2]]]]}""";
         Geometry geometry = objectMapper.readValue(json, Geometry.class);
@@ -103,7 +101,7 @@ class GeometryTest {
     }
 
     @Test
-    void deserialization_withGeometryCollection() throws IOException {
+    void deserialization_withGeometryCollection() throws Exception {
         String json = """
                 {
                   "type": "GeometryCollection",

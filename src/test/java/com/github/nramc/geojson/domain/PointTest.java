@@ -15,14 +15,11 @@
  */
 package com.github.nramc.geojson.domain;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.nramc.geojson.validator.GeoJsonValidationException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -31,21 +28,21 @@ class PointTest {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    void serialisation_withValidLongitudeAndLatitude_shouldProvideValidJson() throws IOException {
+    void serialisation_withValidLongitudeAndLatitude_shouldProvideValidJson() throws Exception {
         String jsonContent = objectMapper.writeValueAsString(Point.of(Position.of(60.8, 20.5)));
         assertThat(jsonContent).isEqualToIgnoringWhitespace("""
                 { "type": "Point", "coordinates": [60.8, 20.5] }""");
     }
 
     @Test
-    void serialisation_withValidLongitudeAndLatitudeAndAltitude_shouldProvideValidJson() throws IOException {
+    void serialisation_withValidLongitudeAndLatitudeAndAltitude_shouldProvideValidJson() throws Exception {
         String jsonContent = objectMapper.writeValueAsString(Point.of(Position.of(60.8, 20.5, 43.2)));
         assertThat(jsonContent).isEqualToIgnoringWhitespace("""
                 { "type": "Point", "coordinates": [60.8, 20.5, 43.2] }""");
     }
 
     @Test
-    void deserialization_withValidLongitudeAndLatitude_shouldCreateValidObject() throws IOException {
+    void deserialization_withValidLongitudeAndLatitude_shouldCreateValidObject() throws Exception {
         String jsonString = """
                 { "type": "Point", "coordinates": [60.8, 20.5] }""";
         assertThat(objectMapper.readValue(jsonString, Point.class))
@@ -60,7 +57,7 @@ class PointTest {
     }
 
     @Test
-    void deserialization_withValidLongitudeAndLatitude_withGeoJsonBaseType_shouldCreateValidObject() throws IOException {
+    void deserialization_withValidLongitudeAndLatitude_withGeoJsonBaseType_shouldCreateValidObject() throws Exception {
         String jsonString = """
                 { "type": "Point", "coordinates": [60.8, 20.5] }""";
         GeoJson geoJson = objectMapper.readValue(jsonString, GeoJson.class);
@@ -74,7 +71,7 @@ class PointTest {
     }
 
     @Test
-    void deserialization_withValidLongitudeAndLatitudeAndAltitude_shouldCreateValidObject() throws IOException {
+    void deserialization_withValidLongitudeAndLatitudeAndAltitude_shouldCreateValidObject() throws Exception {
         String jsonString = """
                 { "type": "Point", "coordinates": [60.8, 20.5, 54.7] }""";
         assertThat(objectMapper.readValue(jsonString, Point.class))
@@ -88,7 +85,7 @@ class PointTest {
     }
 
     @Test
-    void deserialization_withValidLongitudeAndLatitudeAndAltitude_withGeometryBaseType_shouldCreateValidObject() throws IOException {
+    void deserialization_withValidLongitudeAndLatitudeAndAltitude_withGeometryBaseType_shouldCreateValidObject() throws Exception {
         String jsonString = """
                 { "type": "Point", "coordinates": [60.8, 20.5, 54.7] }""";
         Geometry geometry = objectMapper.readValue(jsonString, Geometry.class);
@@ -118,7 +115,7 @@ class PointTest {
             { "type": "Point", "coordinates": [54.7, 95.0] };                   coordinates.latitude.invalid
             { "type": "Point", "coordinates": [54.7, 95.0, 54.7] };             coordinates.latitude.invalid
             """)
-    void deserialization_withInvalidCoordinates_shouldCreateObject_withInvalidStatus(String geoJson, String expectedErrorKey) throws JsonProcessingException {
+    void deserialization_withInvalidCoordinates_shouldCreateObject_withInvalidStatus(String geoJson, String expectedErrorKey) throws Exception {
         assertThat(objectMapper.readValue(geoJson, Point.class))
                 .satisfies(point -> assertThat(point.getType()).isEqualTo("Point"))
                 .satisfies(point -> assertThat(point.getCoordinates()).isNotNull())

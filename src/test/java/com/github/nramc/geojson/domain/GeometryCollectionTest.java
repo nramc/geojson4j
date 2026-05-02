@@ -21,7 +21,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.io.IOException;
 import java.util.List;
 
 import static com.github.nramc.geojson.constant.GeoJsonType.GEOMETRY_COLLECTION;
@@ -59,7 +58,7 @@ class GeometryCollectionTest {
             """;
 
     @Test
-    void deserialize_withValidData_shouldCreateValidObject() throws IOException {
+    void deserialize_withValidData_shouldCreateValidObject() throws Exception {
         GeometryCollection geometryCollection = objectMapper.readValue(GEOMETRY_COLLECTION_WITH_ALL_TYPES, GeometryCollection.class);
 
         assertThat(geometryCollection).isNotNull()
@@ -75,7 +74,7 @@ class GeometryCollectionTest {
             { "type": "GeometryCollection","geometries": []}
             { "type": "GeometryCollection","geometries": null}
             """)
-    void deserialize_withEmptyGeometry_shouldCreateValidObject(String json) throws IOException {
+    void deserialize_withEmptyGeometry_shouldCreateValidObject(String json) throws Exception {
         GeometryCollection geometryCollection = objectMapper.readValue(json, GeometryCollection.class);
 
         assertThat(geometryCollection).isNotNull()
@@ -85,7 +84,7 @@ class GeometryCollectionTest {
     }
 
     @Test
-    void deserialize_withInvalidGeometry_shouldCreateObjectWithInvalidState() throws IOException {
+    void deserialize_withInvalidGeometry_shouldCreateObjectWithInvalidState() throws Exception {
         String json = """
                 { "type": "GeometryCollection","geometries": [ { "type": "Point", "coordinates": [190.0, 100.0]} ] }""";
         GeometryCollection geometryCollection = objectMapper.readValue(json, GeometryCollection.class);
@@ -97,21 +96,21 @@ class GeometryCollectionTest {
     }
 
     @Test
-    void serialize_withValidData_shouldCreateValidObject() throws IOException {
+    void serialize_withValidData_shouldCreateValidObject() throws Exception {
         GeometryCollection geometryCollection = GeometryCollection.of(POINT, LINE_STRING, POLYGON, POLYGON_WITH_HOLES, MULTI_POINT, MULTI_LINE_STRING, MULTI_POLYGON);
         String jsonContent = objectMapper.writeValueAsString(geometryCollection);
         assertThat(jsonContent).isEqualToIgnoringWhitespace(GEOMETRY_COLLECTION_WITH_ALL_TYPES);
     }
 
     @Test
-    void serialize_withValidData_withBaseTypeGeometry_shouldCreateValidObject() throws IOException {
+    void serialize_withValidData_withBaseTypeGeometry_shouldCreateValidObject() throws Exception {
         Geometry geometry = GeometryCollection.of(POINT, LINE_STRING, POLYGON, POLYGON_WITH_HOLES, MULTI_POINT, MULTI_LINE_STRING, MULTI_POLYGON);
         String jsonContent = objectMapper.writeValueAsString(geometry);
         assertThat(jsonContent).isEqualToIgnoringWhitespace(GEOMETRY_COLLECTION_WITH_ALL_TYPES);
     }
 
     @Test
-    void serialize_withValidData_withBaseTypeGeoJson_shouldCreateValidObject() throws IOException {
+    void serialize_withValidData_withBaseTypeGeoJson_shouldCreateValidObject() throws Exception {
         GeoJson geoJson = GeometryCollection.of(POINT, LINE_STRING, POLYGON, POLYGON_WITH_HOLES, MULTI_POINT, MULTI_LINE_STRING, MULTI_POLYGON);
         String jsonContent = objectMapper.writeValueAsString(geoJson);
         assertThat(jsonContent).isEqualToIgnoringWhitespace(GEOMETRY_COLLECTION_WITH_ALL_TYPES);
