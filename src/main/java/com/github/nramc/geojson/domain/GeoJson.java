@@ -16,14 +16,12 @@
 
 package com.github.nramc.geojson.domain;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.github.nramc.geojson.constant.GeoJsonType;
 import com.github.nramc.geojson.validator.Validatable;
-
+import java.io.Serializable;
 
 /**
  * Abstract base class for all GeoJSON objects, such as Features, Feature Collections,
@@ -53,10 +51,16 @@ public abstract sealed class GeoJson implements Serializable, Validatable permit
 
     protected final String type;
 
+    /** Default constructor; initialises the type to {@code Point} for deserialization compatibility. */
     protected GeoJson() {
         this(GeoJsonType.POINT);
     }
 
+    /**
+     * Constructs a GeoJSON object with the given type string.
+     *
+     * @param type the GeoJSON type literal (e.g. {@code "Feature"}, {@code "Point"})
+     */
     protected GeoJson(String type) {
         this.type = type;
     }

@@ -1,0 +1,89 @@
+# EditorConfig: https://editorconfig.org
+# Strategy:
+#   - IntelliJ code style XML (intellij-java-google-style.xml) is kept as STOCK Google Style.
+#     It governs structural rules: brace style, operator wrap, import order, Javadoc format, etc.
+#   - This .editorconfig file owns ALL project-specific deviations from Google defaults for Java:
+#       indent_size / tab_width = 4  (Google default: 2)
+#       max_line_length = 160        (Google default: 100)
+#       continuation indent = 8      (Google default: 4)
+#       wrap_comments = false        (stops IntelliJ reflowing Javadoc at the margin)
+#   - IntelliJ reads ij_java_* keys and applies them on top of the stock Google XML scheme.
+#   - geojson4j_checks.xml and rewrite.yml enforce and auto-fix the same Java values below.
+
+root = true
+
+# Defaults for all files (Google style baseline: 2-space)
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# Java – project override: 4-space indent, 160-char line limit
+# These values deviate from stock Google Style (2-space / 100-char) intentionally.
+# IntelliJ picks these up via EditorConfig and applies them on top of the Google XML scheme.
+# Checkstyle (geojson4j_checks.xml) and OpenRewrite (rewrite.yml) enforce the same values.
+[*.java]
+indent_style = space
+indent_size = 4
+max_line_length = 160
+
+# ── IntelliJ-specific overrides (ij_java_*) ─────────────────────────────────
+# Applied on top of the stock Google XML scheme. Ignored by other editors.
+
+# Right margin: override stock Google XML RIGHT_MARGIN=100 → 160
+# Matches geojson4j_checks.xml LineLength max=160 and max_line_length above
+ij_java_right_margin = 160
+
+# Code continuation indent: override stock Google XML CONTINUATION_INDENT_SIZE=4 → 8
+# Matches geojson4j_checks.xml Indentation.lineWrappingIndentation = 8
+ij_java_continuation_indent_size = 8
+
+# Disable comment wrapping: override stock Google XML WRAP_COMMENTS=true → false
+# Stops IntelliJ from reflowing Javadoc text at the right margin.
+# OpenRewrite AutoFormat also never reflows comment text → both tools agree.
+ij_java_wrap_comments = false
+
+# ── Import ordering ───────────────────────────────────────────────────────────
+# Layout: all static imports → blank line → all regular imports (no sub-grouping).
+# Matches IntelliJ XML IMPORT_LAYOUT_TABLE and rewrite.yml ImportLayoutStyle.
+# $* = all static imports, | = blank line, * = all non-static imports
+ij_java_imports_layout = $*, |, *
+# High threshold = never collapse to star/wildcard imports → matches AvoidStarImport in Checkstyle
+ij_java_class_count_to_use_import_on_demand = 999
+ij_java_names_count_to_use_import_on_demand = 999
+
+# ── Javadoc settings – aligned with geojson4j_checks.xml Javadoc rules ───────
+
+# Keep /** short comment */ on a single line → SingleLineJavadoc check
+ij_java_doc_do_not_wrap_if_one_line_comment = true
+
+# Blank line between description and first @param block → RequireEmptyLineBeforeBlockTagGroup
+ij_java_doc_add_blank_after_description = true
+
+# Do NOT insert <p> tag at empty lines inside Javadoc → JavadocParagraph (allowNewlineParagraph=false)
+ij_java_doc_p_at_empty_lines = false
+
+# No column-alignment of @param / @throws descriptions → avoids artificial whitespace Checkstyle flags
+ij_java_doc_align_param_comments = false
+ij_java_doc_align_exception_comments = false
+
+# Strip empty @param / @throws / @return tags → NonEmptyAtclauseDescription
+ij_java_doc_keep_empty_parameter = false
+ij_java_doc_keep_empty_exception = false
+ij_java_doc_keep_empty_return = false
+
+# XML / Maven POM – keep at 2-space (matches IntelliJ Google XML XML section)
+[*.xml]
+indent_size = 2
+
+# Properties files
+[*.properties]
+indent_size = 2
+
+# Markdown – allow long lines (URLs, tables)
+[*.md]
+trim_trailing_whitespace = false
+max_line_length = off

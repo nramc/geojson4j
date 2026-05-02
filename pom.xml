@@ -66,7 +66,7 @@
         <rewrite-logging-frameworks.version>3.27.2</rewrite-logging-frameworks.version>
         <rewrite-maven-plugin.version>6.38.0</rewrite-maven-plugin.version>
         <rewrite-recommendations.version>1.15.0</rewrite-recommendations.version>
-        <rewrite-static-analysis.version>2.27.0</rewrite-static-analysis.version>
+        <rewrite-static-analysis.version>2.34.0</rewrite-static-analysis.version>
         <rewrite-testing-frameworks.version>3.35.2</rewrite-testing-frameworks.version>
         <maven-surefire-plugin.version>3.5.5</maven-surefire-plugin.version>
         <commons-collections4.version>4.5.0</commons-collections4.version>
@@ -371,7 +371,9 @@
                                 <recipe>com.github.nramc.recipes.testing</recipe>
                             </activeRecipes>
                             <activeStyles>
-                                <style>org.openrewrite.java.IntelliJ</style>
+                                <!-- Custom style defined in rewrite.yml: 4-space indent, 8-space continuation,
+                                     static-first import order matching google_checks.xml + .editorconfig -->
+                                <style>com.github.nramc.style.geojson4j</style>
                             </activeStyles>
                         </configuration>
                         <dependencies>

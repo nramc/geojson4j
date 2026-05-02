@@ -1,4 +1,27 @@
 ---
+# Custom style: stock Google Java rules + project overrides (4-space indent, 8-space continuation).
+# Matches .editorconfig [*.java] and geojson4j_checks.xml Indentation module.
+#
+# NOTE: Only TabsAndIndentsStyle is active here. It is consumed by AutoFormat in the recipe
+#       below to produce 4-space / 8-space-continuation indentation instead of Google's 2-space default.
+#
+# ⚠ IMPORT ORDERING LIMITATION:
+#   OpenRewrite's OrderImports uses auto-detection of the existing file style instead of any
+#   configured ImportLayoutStyle. Import ordering is therefore NOT managed by OpenRewrite.
+#   It is enforced by:
+#     - IntelliJ : ij_java_imports_layout = $*, |, * in .editorconfig  (static first)
+#     - Checkstyle: CustomImportOrder in geojson4j_checks.xml           (static first, alphabetical)
+#   After running OpenRewrite, use IntelliJ "Optimize Imports" (⌥⌘O) to restore correct order.
+type: specs.openrewrite.org/v1beta/style
+name: com.github.nramc.style.geojson4j
+styleConfigs:
+  - org.openrewrite.java.style.TabsAndIndentsStyle:
+      useTabCharacter: false
+      tabSize: 4
+      indentSize: 4
+      continuationIndent: 8
+
+---
 type: specs.openrewrite.org/v1beta/recipe
 name: com.github.nramc.recipes.sources
 recipeList:
@@ -6,12 +29,13 @@ recipeList:
   - org.openrewrite.staticanalysis.CodeCleanup
   - org.openrewrite.java.security.JavaSecurityBestPractices
   - org.openrewrite.java.RemoveUnusedImports
+  - org.openrewrite.java.OrderImports
   - org.openrewrite.recommendations.CodeHealth
   - org.openrewrite.java.logging.slf4j.Slf4jBestPractices
   - org.openrewrite.recommendations.DependencyManagement
   - org.openrewrite.maven.BestPractices
   - org.openrewrite.java.AddApache2LicenseHeader
-#  - org.openrewrite.java.format.AutoFormat
+  - org.openrewrite.java.format.AutoFormat
 
 ---
 type: specs.openrewrite.org/v1beta/recipe

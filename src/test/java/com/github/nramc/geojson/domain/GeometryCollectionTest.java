@@ -15,22 +15,24 @@
  */
 package com.github.nramc.geojson.domain;
 
+import static com.github.nramc.geojson.constant.GeoJsonType.GEOMETRY_COLLECTION;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.util.List;
-
-import static com.github.nramc.geojson.constant.GeoJsonType.GEOMETRY_COLLECTION;
-import static org.assertj.core.api.Assertions.assertThat;
 
 class GeometryCollectionTest {
+
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private static final Point POINT = Point.of(100.0, 0.0);
     private static final LineString LINE_STRING = LineString.of(Position.of(101.0, 0.0), Position.of(102.0, 1.0));
-    private static final Polygon POLYGON = Polygon.of(PolygonCoordinates.of(List.of(Position.of(100.0, 0.0), Position.of(101.0, 0.0), Position.of(101.0, 1.0), Position.of(100.0, 1.0), Position.of(100.0, 0.0))));
+    private static final Polygon POLYGON = Polygon.of(PolygonCoordinates.of(
+            List.of(Position.of(100.0, 0.0), Position.of(101.0, 0.0), Position.of(101.0, 1.0), Position.of(100.0, 1.0), Position.of(100.0, 0.0))));
     private static final Polygon POLYGON_WITH_HOLES = Polygon.of(PolygonCoordinates.of(
             List.of(Position.of(100.0, 0.0), Position.of(101.0, 0.0), Position.of(101.0, 1.0), Position.of(100.0, 1.0), Position.of(100.0, 0.0)),
             List.of(Position.of(100.8, 0.8), Position.of(100.8, 0.2), Position.of(100.2, 0.2), Position.of(100.2, 0.8), Position.of(100.8, 0.8))
@@ -41,8 +43,11 @@ class GeometryCollectionTest {
             List.of(Position.of(102.0, 2.0), Position.of(103.0, 3.0))
     );
     private static final MultiPolygon MULTI_POLYGON = MultiPolygon.of(
-            PolygonCoordinates.of(List.of(Position.of(102.0, 2.0), Position.of(103.0, 2.0), Position.of(103.0, 3.0), Position.of(102.0, 3.0), Position.of(102.0, 2.0))),
-            PolygonCoordinates.of(List.of(Position.of(100.0, 0.0), Position.of(101.0, 0.0), Position.of(101.0, 1.0), Position.of(100.0, 1.0), Position.of(100.0, 0.0)), List.of(Position.of(100.2, 0.2), Position.of(100.2, 0.8), Position.of(100.8, 0.8), Position.of(100.8, 0.2), Position.of(100.2, 0.2)))
+            PolygonCoordinates.of(
+                    List.of(Position.of(102.0, 2.0), Position.of(103.0, 2.0), Position.of(103.0, 3.0), Position.of(102.0, 3.0), Position.of(102.0, 2.0))),
+            PolygonCoordinates.of(
+                    List.of(Position.of(100.0, 0.0), Position.of(101.0, 0.0), Position.of(101.0, 1.0), Position.of(100.0, 1.0), Position.of(100.0, 0.0)),
+                    List.of(Position.of(100.2, 0.2), Position.of(100.2, 0.8), Position.of(100.8, 0.8), Position.of(100.8, 0.2), Position.of(100.2, 0.2)))
     );
     private static final String GEOMETRY_COLLECTION_WITH_ALL_TYPES = """
             { "type": "GeometryCollection","geometries": [
@@ -97,7 +102,8 @@ class GeometryCollectionTest {
 
     @Test
     void serialize_withValidData_shouldCreateValidObject() throws Exception {
-        GeometryCollection geometryCollection = GeometryCollection.of(POINT, LINE_STRING, POLYGON, POLYGON_WITH_HOLES, MULTI_POINT, MULTI_LINE_STRING, MULTI_POLYGON);
+        GeometryCollection geometryCollection = GeometryCollection.of(POINT, LINE_STRING, POLYGON, POLYGON_WITH_HOLES, MULTI_POINT, MULTI_LINE_STRING,
+                MULTI_POLYGON);
         String jsonContent = objectMapper.writeValueAsString(geometryCollection);
         assertThat(jsonContent).isEqualToIgnoringWhitespace(GEOMETRY_COLLECTION_WITH_ALL_TYPES);
     }
@@ -119,7 +125,8 @@ class GeometryCollectionTest {
     @Test
     void toString_shouldProvideFormatedStringWithAllArguments() {
         GeometryCollection geometryCollection = GeometryCollection.of(List.of(POINT, MULTI_POINT));
-        assertThat(geometryCollection).hasToString("GeometryCollection{type='GeometryCollection', geometries=[Point{type='Point', coordinates=[100.0, 0.0]}, MultiPoint{type='MultiPoint', coordinates=[[100.0, 0.0], [101.0, 1.0]]}]}");
+        assertThat(geometryCollection).hasToString(
+                "GeometryCollection{type='GeometryCollection', geometries=[Point{type='Point', coordinates=[100.0, 0.0]}, MultiPoint{type='MultiPoint', coordinates=[[100.0, 0.0], [101.0, 1.0]]}]}");
     }
 
     @Test

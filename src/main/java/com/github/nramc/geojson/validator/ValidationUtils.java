@@ -16,6 +16,11 @@
 
 package com.github.nramc.geojson.validator;
 
+/**
+ * Utility class providing static helper methods for GeoJSON validation.
+ *
+ * <p>This class cannot be instantiated.</p>
+ */
 public final class ValidationUtils {
 
     private ValidationUtils() {

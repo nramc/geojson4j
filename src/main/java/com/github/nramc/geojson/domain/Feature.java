@@ -16,6 +16,15 @@
 
 package com.github.nramc.geojson.domain;
 
+import static com.github.nramc.geojson.constant.GeoJsonType.FEATURE;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.nramc.geojson.validator.GeoJsonValidationException;
+import com.github.nramc.geojson.validator.Validatable;
+import com.github.nramc.geojson.validator.ValidationError;
+import com.github.nramc.geojson.validator.ValidationResult;
+import com.github.nramc.geojson.validator.ValidationUtils;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.HashSet;
@@ -23,28 +32,16 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-
-import static com.github.nramc.geojson.constant.GeoJsonType.FEATURE;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.nramc.geojson.constant.GeoJsonType;
-import com.github.nramc.geojson.validator.GeoJsonValidationException;
-import com.github.nramc.geojson.validator.Validatable;
-import com.github.nramc.geojson.validator.ValidationError;
-import com.github.nramc.geojson.validator.ValidationResult;
-import com.github.nramc.geojson.validator.ValidationUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Represents a GeoJSON Feature object, which is a fundamental element in GeoJSON that contains
- * a geometry, an optional identifier (id), and optional properties.
+ * Represents a GeoJSON Feature object, which is a fundamental element in GeoJSON that contains a geometry, an optional identifier (id), and optional
+ * properties.
  *
  * <p>A Feature in GeoJSON may represent a geographical feature, such as a point, line, or polygon,
- * and can also have properties (metadata) associated with it. The Feature also includes a type
- * and may have a unique identifier. This class implements the {@link Validatable} interface to
- * support validation according to the GeoJSON specification.
+ * and can also have properties (metadata) associated with it. The Feature also includes a type and may have a unique identifier. This class implements the
+ * {@link Validatable} interface to support validation according to the GeoJSON specification.
  * </p>
  *
  * <p>This class is immutable and thread-safe. All collections are unmodifiable.</p>
@@ -54,13 +51,13 @@ import org.apache.commons.lang3.StringUtils;
  * </p>
  */
 public non-sealed class Feature extends GeoJson implements Validatable, Serializable {
+
     private final String id;
     private final Geometry geometry;
     private final Map<String, Serializable> properties;
 
     /**
-     * Default constructor required for frameworks (e.g., ORM frameworks or serialization mechanisms)
-     * that need to instantiate objects without arguments.
+     * Default constructor required for frameworks (e.g., ORM frameworks or serialization mechanisms) that need to instantiate objects without arguments.
      *
      * <p>This constructor does not perform any validation. After using this constructor,
      * it is recommended to call the {@link #validate()} or {@link #isValid()} method to ensure the object is in a valid state.
@@ -108,7 +105,7 @@ public non-sealed class Feature extends GeoJson implements Validatable, Serializ
      * @throws GeoJsonValidationException if the Feature is invalid according to GeoJSON validation rules.
      */
     public static Feature of(String id, Geometry geometry, Map<String, Serializable> properties) {
-        return ValidationUtils.validateAndThrowErrorIfInvalid(new Feature(GeoJsonType.FEATURE, id, geometry, MapUtils.emptyIfNull(properties)));
+        return ValidationUtils.validateAndThrowErrorIfInvalid(new Feature(FEATURE, id, geometry, MapUtils.emptyIfNull(properties)));
     }
 
     /**
@@ -212,8 +209,7 @@ public non-sealed class Feature extends GeoJson implements Validatable, Serializ
      * Returns a string representation of the Feature object.
      *
      * <p>The returned string includes the type, id, geometry, and properties
-     * of the feature in a formatted manner. This can be useful for debugging
-     * or logging purposes.</p>
+     * of the feature in a formatted manner. This can be useful for debugging or logging purposes.</p>
      *
      * @return a string representation of the Feature object, including its type, id, geometry, and properties.
      */
@@ -226,8 +222,7 @@ public non-sealed class Feature extends GeoJson implements Validatable, Serializ
      * Compares this Feature object with another for equality.
      *
      * <p>The comparison checks if the given object is also a Feature and
-     * verifies that the {@code type}, {@code id}, {@code geometry}, and
-     * {@code properties} fields are equal.</p>
+     * verifies that the {@code type}, {@code id}, {@code geometry}, and {@code properties} fields are equal.</p>
      *
      * @param o the object to compare with this Feature.
      * @return {@code true} if the objects are equal, {@code false} otherwise.
@@ -248,8 +243,7 @@ public non-sealed class Feature extends GeoJson implements Validatable, Serializ
      * Computes the hash code for this Feature object.
      *
      * <p>The hash code is calculated using the {@code type}, {@code id},
-     * {@code geometry}, and {@code properties} fields, ensuring consistency
-     * with the {@link #equals(Object)} method.</p>
+     * {@code geometry}, and {@code properties} fields, ensuring consistency with the {@link #equals(Object)} method.</p>
      *
      * @return the computed hash code for this Feature object.
      */

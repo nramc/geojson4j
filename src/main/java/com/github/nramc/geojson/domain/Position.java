@@ -16,11 +16,6 @@
 
 package com.github.nramc.geojson.domain;
 
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -29,6 +24,10 @@ import com.github.nramc.geojson.validator.Validatable;
 import com.github.nramc.geojson.validator.ValidationError;
 import com.github.nramc.geojson.validator.ValidationResult;
 import com.github.nramc.geojson.validator.ValidationUtils;
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Represents a GeoJSON Point, defined by a single geographical position.
@@ -166,7 +165,7 @@ public class Position implements Validatable, Serializable {
     }
 
     private static boolean isLongitudeValid(double longitude) {
-        //Valid longitude values are between -180 and 180, both inclusive.
+        // Valid longitude values are between -180 and 180, both inclusive.
         return longitude >= -180 && longitude <= 180;
     }
 

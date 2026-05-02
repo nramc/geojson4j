@@ -15,9 +15,6 @@
  */
 package com.github.nramc.geojson.domain;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Test;
-
 import static com.github.nramc.geojson.constant.GeoJsonType.GEOMETRY_COLLECTION;
 import static com.github.nramc.geojson.constant.GeoJsonType.LINE_STRING;
 import static com.github.nramc.geojson.constant.GeoJsonType.MULTI_LINE_STRING;
@@ -26,6 +23,9 @@ import static com.github.nramc.geojson.constant.GeoJsonType.MULTI_POLYGON;
 import static com.github.nramc.geojson.constant.GeoJsonType.POINT;
 import static com.github.nramc.geojson.constant.GeoJsonType.POLYGON;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Test;
 
 class GeometryTest {
     private static final ObjectMapper objectMapper = new ObjectMapper();

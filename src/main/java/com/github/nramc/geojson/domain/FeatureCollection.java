@@ -16,12 +16,6 @@
 
 package com.github.nramc.geojson.domain;
 
-import java.text.MessageFormat;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-
 import static com.github.nramc.geojson.constant.GeoJsonType.FEATURE_COLLECTION;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -31,16 +25,19 @@ import com.github.nramc.geojson.validator.Validatable;
 import com.github.nramc.geojson.validator.ValidationError;
 import com.github.nramc.geojson.validator.ValidationResult;
 import com.github.nramc.geojson.validator.ValidationUtils;
+import java.text.MessageFormat;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-
 
 /**
  * Represents a GeoJSON FeatureCollection object, which is a collection of {@link Feature} objects.
  *
  * <p>A FeatureCollection is an object that contains an array of features, each representing a geographic
- * feature with a geometry and properties. The type of the FeatureCollection should always be "FeatureCollection",
- * as specified by the GeoJSON standard.
+ * feature with a geometry and properties. The type of the FeatureCollection should always be "FeatureCollection", as specified by the GeoJSON standard.
  * </p>
  *
  * <p>This class implements the {@link Validatable} interface to support validation of the feature collection
@@ -51,6 +48,7 @@ import org.apache.commons.lang3.StringUtils;
  * <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.3">RFC 7946 - Section 3.3</a></p>
  */
 public final class FeatureCollection extends GeoJson implements Validatable {
+
     private final List<Feature> features;
 
     /**
@@ -70,8 +68,7 @@ public final class FeatureCollection extends GeoJson implements Validatable {
      * <p>The type should be set to "FeatureCollection", as per the GeoJSON specification.</p>
      *
      * @param type     The type of the collection. It should be "FeatureCollection".
-     * @param features A list of {@link Feature} objects that represent the features of this collection.
-     *                 The list can be empty, but it cannot be null.
+     * @param features A list of {@link Feature} objects that represent the features of this collection. The list can be empty, but it cannot be null.
      */
     @JsonCreator
     public FeatureCollection(@JsonProperty("type") String type, @JsonProperty("features") List<Feature> features) {
@@ -86,8 +83,7 @@ public final class FeatureCollection extends GeoJson implements Validatable {
      * If validation fails, it throws a {@link GeoJsonValidationException} with details about the validation errors.
      * </p>
      *
-     * @param features A list of {@link Feature} objects that represent the features of this collection.
-     *                 Cannot be null or empty.
+     * @param features A list of {@link Feature} objects that represent the features of this collection. Cannot be null or empty.
      * @return A validated {@link FeatureCollection} object.
      * @throws GeoJsonValidationException if the FeatureCollection is invalid according to GeoJSON validation rules.
      */
@@ -197,8 +193,7 @@ public final class FeatureCollection extends GeoJson implements Validatable {
      * Computes the hash code for this FeatureCollection.
      *
      * <p>The hash code is calculated using the {@code type} and {@code features}
-     * fields. It ensures consistent hashing for objects that are equal according
-     * to the {@link #equals(Object)} method.</p>
+     * fields. It ensures consistent hashing for objects that are equal according to the {@link #equals(Object)} method.</p>
      *
      * @return the hash code value for this FeatureCollection.
      */
