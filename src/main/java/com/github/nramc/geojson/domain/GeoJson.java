@@ -16,13 +16,13 @@
 
 package com.github.nramc.geojson.domain;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.github.nramc.geojson.constant.GeoJsonType;
 import com.github.nramc.geojson.validator.Validatable;
+
+import java.io.Serializable;
 
 
 /**

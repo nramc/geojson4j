@@ -16,10 +16,10 @@
 
 package com.github.nramc.geojson.validator;
 
+import org.apache.commons.collections4.CollectionUtils;
+
 import java.text.MessageFormat;
 import java.util.Set;
-
-import org.apache.commons.collections4.CollectionUtils;
 
 
 /**

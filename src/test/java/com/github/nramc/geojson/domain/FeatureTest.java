@@ -16,6 +16,13 @@
 
 package com.github.nramc.geojson.domain;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.nramc.geojson.validator.GeoJsonValidationException;
+import com.github.nramc.geojson.validator.ValidationError;
+import com.github.nramc.geojson.validator.ValidationResult;
+import org.junit.jupiter.api.Test;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
@@ -30,14 +37,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.entry;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.nramc.geojson.validator.GeoJsonValidationException;
-import com.github.nramc.geojson.validator.ValidationError;
-import com.github.nramc.geojson.validator.ValidationResult;
-import org.junit.jupiter.api.Test;
-
 class FeatureTest {
+
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test

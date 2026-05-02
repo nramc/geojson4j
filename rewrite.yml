@@ -1,4 +1,30 @@
 ---
+# Custom style: stock Google Java rules + project overrides (4-space indent, 8-space continuation).
+# Matches .editorconfig [*.java] and geojson4j_checks.xml Indentation module.
+#
+# Javadoc note: OpenRewrite AutoFormat normalises Javadoc indentation (/** / * / */) but does
+# NOT reflow comment text. IntelliJ is also set to not reflow (ij_java_wrap_comments=false in
+# .editorconfig). Structural Javadoc rules (blank lines, single-line, @param order) are enforced
+# by Checkstyle (geojson4j_checks.xml: JavadocTagContinuationIndentation, SingleLineJavadoc,
+# RequireEmptyLineBeforeBlockTagGroup, AtclauseOrder, NonEmptyAtclauseDescription).
+type: specs.openrewrite.org/v1beta/style
+name: com.github.nramc.style.geojson4j
+styleConfigs:
+  - org.openrewrite.java.style.TabsAndIndentsStyle:
+      useTabCharacter: false
+      tabSize: 4
+      indentSize: 4
+      continuationIndent: 8
+  - org.openrewrite.java.style.ImportLayoutStyle:
+      classCountToUseStarImport: 999
+      nameCountToUseStarImport: 999
+      layout:
+        - staticImport 'static *'
+        - <blank line>
+        - import *
+  - org.openrewrite.java.style.SpacesStyle: {}
+
+---
 type: specs.openrewrite.org/v1beta/recipe
 name: com.github.nramc.recipes.sources
 recipeList:
@@ -11,7 +37,7 @@ recipeList:
   - org.openrewrite.recommendations.DependencyManagement
   - org.openrewrite.maven.BestPractices
   - org.openrewrite.java.AddApache2LicenseHeader
-#  - org.openrewrite.java.format.AutoFormat
+  - org.openrewrite.java.format.AutoFormat
 
 ---
 type: specs.openrewrite.org/v1beta/recipe

@@ -16,6 +16,10 @@
 
 package com.github.nramc.geojson.domain;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.github.nramc.geojson.validator.Validatable;
+
 import static com.github.nramc.geojson.constant.GeoJsonType.GEOMETRY_COLLECTION;
 import static com.github.nramc.geojson.constant.GeoJsonType.LINE_STRING;
 import static com.github.nramc.geojson.constant.GeoJsonType.MULTI_LINE_STRING;
@@ -24,15 +28,11 @@ import static com.github.nramc.geojson.constant.GeoJsonType.MULTI_POLYGON;
 import static com.github.nramc.geojson.constant.GeoJsonType.POINT;
 import static com.github.nramc.geojson.constant.GeoJsonType.POLYGON;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.github.nramc.geojson.validator.Validatable;
-
 
 /**
- * The {@code Geometry} class is an abstract base class representing different geometric shapes
- * that conform to the GeoJSON specification. This class is a direct subclass of {@link GeoJson}
- * and serves as a parent for various specific geometry types like {@code Point}, {@code MultiPoint},
+ * The {@code Geometry} class is an abstract base class representing different geometric shapes that
+ * conform to the GeoJSON specification. This class is a direct subclass of {@link GeoJson} and
+ * serves as a parent for various specific geometry types like {@code Point}, {@code MultiPoint},
  * {@code LineString}, {@code MultiLineString}, {@code Polygon}, {@code MultiPolygon}, and
  * {@code GeometryCollection}.
  *
