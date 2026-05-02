@@ -64,7 +64,7 @@
         <rewrite-maven-plugin.skip.run-execution>false</rewrite-maven-plugin.skip.run-execution>
         <rewrite-maven-plugin.skip.dry-run-execution>false</rewrite-maven-plugin.skip.dry-run-execution>
         <rewrite-logging-frameworks.version>3.27.2</rewrite-logging-frameworks.version>
-        <rewrite-maven-plugin.version>6.36.0</rewrite-maven-plugin.version>
+        <rewrite-maven-plugin.version>6.38.0</rewrite-maven-plugin.version>
         <rewrite-recommendations.version>1.15.0</rewrite-recommendations.version>
         <rewrite-static-analysis.version>2.27.0</rewrite-static-analysis.version>
         <rewrite-testing-frameworks.version>3.35.2</rewrite-testing-frameworks.version>
@@ -82,6 +82,13 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.fasterxml.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
+                <version>2.21.3</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
             <!-- JUnit 5 BOM -->
             <dependency>
                 <groupId>org.junit</groupId>
@@ -90,45 +97,37 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson</groupId>
-                <artifactId>jackson-bom</artifactId>
-                <version>2.21.3</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
-        <!-- logging framework dependencies -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>2.0.17</version>
-        </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.5.32</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
 
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+        </dependency>
         <!--  Jackson JSON dependencies  -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>${commons-collections4.version}</version>
         </dependency>
 
         <!--  utility dependencies  -->
@@ -137,12 +136,19 @@
             <artifactId>commons-lang3</artifactId>
             <version>${commons-lang3.version}</version>
         </dependency>
+        <!-- logging framework dependencies -->
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-collections4</artifactId>
-            <version>${commons-collections4.version}</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.17</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj-core.version}</version>
+            <scope>test</scope>
+        </dependency>
         <!--  testing framework dependencies  -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -157,12 +163,6 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>${assertj-core.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -377,8 +377,13 @@
                         <dependencies>
                             <dependency>
                                 <groupId>org.openrewrite.recipe</groupId>
-                                <artifactId>rewrite-static-analysis</artifactId>
-                                <version>${rewrite-static-analysis.version}</version>
+                                <artifactId>rewrite-java-security</artifactId>
+                                <version>${rewrite-java-security.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.openrewrite.recipe</groupId>
+                                <artifactId>rewrite-logging-frameworks</artifactId>
+                                <version>${rewrite-logging-frameworks.version}</version>
                             </dependency>
                             <dependency>
                                 <groupId>org.openrewrite.recipe</groupId>
@@ -387,18 +392,13 @@
                             </dependency>
                             <dependency>
                                 <groupId>org.openrewrite.recipe</groupId>
+                                <artifactId>rewrite-static-analysis</artifactId>
+                                <version>${rewrite-static-analysis.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.openrewrite.recipe</groupId>
                                 <artifactId>rewrite-testing-frameworks</artifactId>
                                 <version>${rewrite-testing-frameworks.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.openrewrite.recipe</groupId>
-                                <artifactId>rewrite-java-security</artifactId>
-                                <version>${rewrite-java-security.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.openrewrite.recipe</groupId>
-                                <artifactId>rewrite-logging-frameworks</artifactId>
-                                <version>${rewrite-logging-frameworks.version}</version>
                             </dependency>
                         </dependencies>
                     </plugin>
