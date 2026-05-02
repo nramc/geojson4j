@@ -131,7 +131,7 @@ jobs:
         env:
           CLEAN_CHANGELOG: ${{ steps.changelog.outputs.clean_changelog }}
 
-      - name: Generate AI-Enhanced Release Notes with Gemini
+      - name: Generate Enhanced Release Notes with Gemini
         id: ai_release_notes
         uses: 'google-github-actions/run-gemini-cli@v0'
         env:
