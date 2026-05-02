@@ -33,6 +33,16 @@ max_line_length = 160
 # Matches geojson4j_checks.xml Indentation.lineWrappingIndentation = 8
 ij_java_continuation_indent_size = 8
 
+# ── Import ordering ───────────────────────────────────────────────────────────
+# Layout: all static imports → blank line → all regular imports (no sub-grouping).
+# Matches IntelliJ XML IMPORT_LAYOUT_TABLE and rewrite.yml ImportLayoutStyle.
+# Without this, IntelliJ defaults to its own grouping (static last, java.* in separate block).
+# $* = all static imports, | = blank line, * = all non-static imports
+ij_java_imports_layout = $*, |, *
+# High threshold = never collapse to star/wildcard imports → matches AvoidStarImport in Checkstyle
+ij_java_class_count_to_use_import_on_demand = 999
+ij_java_names_count_to_use_import_on_demand = 999
+
 # ── Javadoc settings – aligned with geojson4j_checks.xml Javadoc rules ───────
 # ij_java_wrap_comments = false
 #   Stops IntelliJ from reflowing Javadoc text at the right margin.
