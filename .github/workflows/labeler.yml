@@ -1,0 +1,29 @@
+# Automatically labels pull requests based on changed file paths.
+# Label definitions map to categories in .github/release.yml for native GitHub release notes.
+
+name: 'PR Labeler'
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  label:
+    name: 'Apply Labels'
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: 'Apply labels based on changed files'
+        uses: actions/labeler@v5
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          configuration-path: '.github/labeler.yml'
+          sync-labels: false
+
