@@ -1,0 +1,48 @@
+feature:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/main/java/**'
+
+bug:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/main/java/**'
+          - 'src/main/resources/**'
+
+test:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/test/**'
+
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/*.md'
+          - 'docs/**'
+
+ci:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.github/**'
+          - '.github/workflows/**'
+
+dependencies:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/pom.xml'
+          - 'renovate.json'
+          - '.mvn/**'
+
+refactoring:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/main/**'
+
+maintenance:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'config/**'
+          - '.editorconfig'
+          - '.gitignore'
+          - 'rewrite.yml'
+
