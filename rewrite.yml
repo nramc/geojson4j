@@ -27,7 +27,6 @@ name: com.github.nramc.recipes.sources
 recipeList:
   - org.openrewrite.staticanalysis.CommonStaticAnalysis
   - org.openrewrite.staticanalysis.CodeCleanup
-  - org.openrewrite.java.security.JavaSecurityBestPractices
   - org.openrewrite.java.RemoveUnusedImports
   - org.openrewrite.java.OrderImports
   - org.openrewrite.recommendations.CodeHealth
@@ -43,5 +42,19 @@ name: com.github.nramc.recipes.testing
 recipeList:
   - org.openrewrite.java.testing.mockito.MockitoBestPractices
   - org.openrewrite.java.testing.junit5.JUnit5BestPractices
-  - org.openrewrite.java.testing.cleanup.BestPractices
+  - org.openrewrite.java.testing.cleanup.BestPractices.customize
   - org.openrewrite.java.testing.testcontainers.TestContainersBestPractices
+
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.java.testing.cleanup.BestPractices.customize
+displayName: Testing best practices
+description: |
+  Applies best practices to tests.
+tags:
+  - testing
+preconditions:
+  - org.openrewrite.Singleton
+recipeList:
+#  - org.openrewrite.java.testing.cleanup.TestsShouldIncludeAssertions
+  - org.openrewrite.java.testing.cleanup.RemoveTestPrefix

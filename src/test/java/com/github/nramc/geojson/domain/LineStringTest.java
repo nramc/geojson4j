@@ -19,7 +19,6 @@ import static com.github.nramc.geojson.constant.GeoJsonType.LINE_STRING;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.nramc.geojson.validator.GeoJsonValidationException;
 import java.util.List;
 import java.util.stream.Stream;
@@ -29,16 +28,17 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
+import tools.jackson.databind.json.JsonMapper;
 
 
 class LineStringTest {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final JsonMapper JSON_MAPPER = new JsonMapper();
 
     @Test
-    void deserialization_withLongitudeAndLatitude_shouldCreateValidObject() throws Exception {
+    void deserialization_withLongitudeAndLatitude_shouldCreateValidObject() {
         String json = """
                 { "type": "LineString", "coordinates": [ [100.0, 0.0], [101.0, 1.0] ] }""";
-        LineString lineString = objectMapper.readValue(json, LineString.class);
+        LineString lineString = JSON_MAPPER.readValue(json, LineString.class);
         assertThat(lineString).isNotNull()
                 .satisfies(obj -> assertThat(obj.getType()).isEqualTo(LINE_STRING))
                 .satisfies(obj -> assertThat(obj.isValid()).isTrue())
@@ -48,10 +48,10 @@ class LineStringTest {
     }
 
     @Test
-    void deserialization_withLongitudeAndLatitudeAndAltitude_shouldCreateValidObject() throws Exception {
+    void deserialization_withLongitudeAndLatitudeAndAltitude_shouldCreateValidObject() {
         String json = """
                 { "type": "LineString", "coordinates": [ [100.0, 0.0, 45.0], [101.0, 1.0, 45.0] ] }""";
-        LineString lineString = objectMapper.readValue(json, LineString.class);
+        LineString lineString = JSON_MAPPER.readValue(json, LineString.class);
         assertThat(lineString).isNotNull()
                 .satisfies(obj -> assertThat(obj.getType()).isEqualTo("LineString"))
                 .satisfies(obj -> assertThat(obj.isValid()).isTrue())
@@ -61,10 +61,10 @@ class LineStringTest {
     }
 
     @Test
-    void deserialization_withLongitudeAndLatitudeAndAltitude_andWithManyCoordinates() throws Exception {
+    void deserialization_withLongitudeAndLatitudeAndAltitude_andWithManyCoordinates() {
         String json = """
                 { "type": "LineString", "coordinates": [ [100.0, 51.0, 45.0], [101.0, 52.0, 45.0], [102.0, 53.0, 45.0], [103.0, 54.0, 45.0], [104.0, 55.0, 45.0], [105.0, 56.0, 45.0], [106.0, 57.0, 45.0], [107.0, 58.0, 45.0], [108.0, 59.0, 45.0], [109.0, 60.0, 45.0], [110.0, 61.0, 45.0] ] }""";
-        LineString lineString = objectMapper.readValue(json, LineString.class);
+        LineString lineString = JSON_MAPPER.readValue(json, LineString.class);
         assertThat(lineString).isNotNull()
                 .satisfies(obj -> assertThat(obj.getType()).isEqualTo(LINE_STRING))
                 .satisfies(obj -> assertThat(obj.isValid()).isTrue())
@@ -95,8 +95,8 @@ class LineStringTest {
                     coordinates;        coordinates.latitude.invalid;       { "type": "LineString", "coordinates": [ [90.0, 90.0, 45.0], [101.0, -91.0, 45.0] ] }
             """
     )
-    void deserialization_withInvalidData_shouldCreateObjectWithInvalidStatus(String expectedErrorField, String expectedErrorKey, String json) throws Exception {
-        assertThat(objectMapper.readValue(json, LineString.class)).isNotNull()
+    void deserialization_withInvalidData_shouldCreateObjectWithInvalidStatus(String expectedErrorField, String expectedErrorKey, String json) {
+        assertThat(JSON_MAPPER.readValue(json, LineString.class)).isNotNull()
                 .satisfies(lineString -> assertThat(lineString.getType()).isEqualTo("LineString"))
                 .satisfies(lineString -> assertThat(lineString.getCoordinates()).isNotNull())
                 .satisfies(lineString -> assertThat(lineString.isValid()).isFalse())
@@ -121,8 +121,8 @@ class LineStringTest {
                     coordinates;        coordinates.latitude.invalid;       { "type": "LineString", "coordinates": [ [90.0, 90.0, 45.0], [101.0, -91.0, 45.0] ] }
             """
     )
-    void deserialization_withInvalidData_andWithBaseTypeGeometry_shouldCreateObjectWithInvalidStatus(String expectedErrorField, String expectedErrorKey, String json) throws Exception {
-        assertThat(objectMapper.readValue(json, Geometry.class)).isNotNull()
+    void deserialization_withInvalidData_andWithBaseTypeGeometry_shouldCreateObjectWithInvalidStatus(String expectedErrorField, String expectedErrorKey, String json) {
+        assertThat(JSON_MAPPER.readValue(json, Geometry.class)).isNotNull()
                 .satisfies(lineString -> assertThat(lineString.getType()).isEqualTo("LineString"))
                 .satisfies(lineString -> assertThat(lineString.isValid()).isFalse())
                 .satisfies(lineString -> assertThat(lineString.validate())
@@ -146,8 +146,8 @@ class LineStringTest {
                     coordinates;        coordinates.latitude.invalid;       { "type": "LineString", "coordinates": [ [90.0, 90.0, 45.0], [101.0, -91.0, 45.0] ] }
             """
     )
-    void deserialization_withInvalidData_andWithBaseTypeGeoJson_shouldCreateObjectWithInvalidStatus(String expectedErrorField, String expectedErrorKey, String json) throws Exception {
-        assertThat(objectMapper.readValue(json, GeoJson.class)).isNotNull()
+    void deserialization_withInvalidData_andWithBaseTypeGeoJson_shouldCreateObjectWithInvalidStatus(String expectedErrorField, String expectedErrorKey, String json) {
+        assertThat(JSON_MAPPER.readValue(json, GeoJson.class)).isNotNull()
                 .satisfies(lineString -> assertThat(lineString.getType()).isEqualTo("LineString"))
                 .satisfies(lineString -> assertThat(lineString.isValid()).isFalse())
                 .satisfies(lineString -> assertThat(lineString.validate())
@@ -162,17 +162,17 @@ class LineStringTest {
     }
 
     @Test
-    void serialisation_withLongitudeAndLatitude_shouldSerializeAndProvideValidGeoJson() throws Exception {
+    void serialisation_withLongitudeAndLatitude_shouldSerializeAndProvideValidGeoJson() {
         LineString lineString = LineString.of(Position.of(180, 90), Position.of(-180, -90));
-        String jsonContent = objectMapper.writeValueAsString(lineString);
+        String jsonContent = JSON_MAPPER.writeValueAsString(lineString);
         assertThat(jsonContent).isEqualToIgnoringWhitespace("""
                 { "type": "LineString", "coordinates": [ [180.0, 90.0], [-180.0, -90.0] ] }""");
     }
 
     @Test
-    void serialisation_withLongitudeLatitudeAndAltitude_shouldSerializeAndProvideValidGeoJson() throws Exception {
+    void serialisation_withLongitudeLatitudeAndAltitude_shouldSerializeAndProvideValidGeoJson() {
         LineString lineString = LineString.of(Position.of(180, 90, 45), Position.of(-180, -90, 45));
-        String jsonContent = objectMapper.writeValueAsString(lineString);
+        String jsonContent = JSON_MAPPER.writeValueAsString(lineString);
         assertThat(jsonContent).isEqualToIgnoringWhitespace("""
                 { "type": "LineString", "coordinates": [ [180.0, 90.0, 45.0], [-180.0, -90.0, 45.0] ] }""");
     }

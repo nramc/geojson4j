@@ -20,7 +20,6 @@ import static com.github.nramc.geojson.constant.GeoJsonType.FEATURE_COLLECTION;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.nramc.geojson.validator.GeoJsonValidationException;
 import com.github.nramc.geojson.validator.ValidationError;
 import com.github.nramc.geojson.validator.ValidationResult;
@@ -31,12 +30,14 @@ import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
+import tools.jackson.databind.json.JsonMapper;
 
 class FeatureCollectionTest {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+
+    private static final JsonMapper JSON_MAPPER = new JsonMapper();
 
     @Test
-    void deserialization_withFeatureCollection() throws Exception {
+    void deserialization_withFeatureCollection() {
         String json = """
                 {
                   "type": "FeatureCollection",
@@ -46,7 +47,7 @@ class FeatureCollectionTest {
                     {"id": "ID_003", "type": "Feature", "properties": {"name": "Hirschgarten", "size": "40 hectares"}, "geometry": {"type": "Polygon", "coordinates": [[[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0]]]}}
                   ]
                 }""";
-        FeatureCollection featureCollection = objectMapper.readValue(json, FeatureCollection.class);
+        FeatureCollection featureCollection = JSON_MAPPER.readValue(json, FeatureCollection.class);
         assertThat(featureCollection).isNotNull()
                 .satisfies(obj -> assertThat(obj.getType()).isEqualTo(FEATURE_COLLECTION))
                 .satisfies(obj -> assertThat(obj.getFeatures()).hasSize(3))
@@ -191,13 +192,13 @@ class FeatureCollectionTest {
     }
 
     @Test
-    void verifyJsonSerialization() throws Exception {
+    void verifyJsonSerialization() {
         Feature feature = Feature.of("test-id", Point.of(10.0, 20.0),
                 Map.of("name", "Test Location"));
         FeatureCollection collection = FeatureCollection.of(feature);
 
         // Serialize to JSON
-        String json = objectMapper.writeValueAsString(collection);
+        String json = JSON_MAPPER.writeValueAsString(collection);
 
         // Verify JSON structure
         String expectedJson = """
@@ -218,10 +219,10 @@ class FeatureCollectionTest {
                   ]
                 }""";
 
-        assertThat(objectMapper.readTree(json)).isEqualTo(objectMapper.readTree(expectedJson));
+        assertThat(JSON_MAPPER.readTree(json)).isEqualTo(JSON_MAPPER.readTree(expectedJson));
 
         // Verify deserialization
-        FeatureCollection deserialized = objectMapper.readValue(json, FeatureCollection.class);
+        FeatureCollection deserialized = JSON_MAPPER.readValue(json, FeatureCollection.class);
         assertThat(deserialized)
                 .isNotNull()
                 .isEqualTo(collection);

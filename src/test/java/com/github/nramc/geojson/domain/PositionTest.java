@@ -18,8 +18,6 @@ package com.github.nramc.geojson.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.nramc.geojson.validator.GeoJsonValidationException;
 import java.util.Arrays;
 import org.assertj.core.api.InstanceOfAssertFactories;
@@ -27,29 +25,31 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.json.JsonMapper;
 
 
 class PositionTest {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final JsonMapper JSON_MAPPER = new JsonMapper();
 
     @Test
-    void serialization_withMandatoryValuesOnly() throws Exception {
+    void serialization_withMandatoryValuesOnly() {
         Position position = Position.of(10.0, 15.0);
-        String jsonContent = objectMapper.writeValueAsString(position);
+        String jsonContent = JSON_MAPPER.writeValueAsString(position);
         assertThat(jsonContent).isEqualToIgnoringWhitespace("[10.0, 15.0]");
     }
 
     @Test
-    void serialization_withMandatoryAndOptionalValues() throws Exception {
+    void serialization_withMandatoryAndOptionalValues() {
         Position position = Position.of(10.0, 15.0, 25.0);
-        String jsonContent = objectMapper.writeValueAsString(position);
+        String jsonContent = JSON_MAPPER.writeValueAsString(position);
         assertThat(jsonContent).isEqualToIgnoringWhitespace("[10.0, 15.0, 25.0]");
     }
 
     @Test
-    void deserialization_withAllValues() throws Exception {
+    void deserialization_withAllValues() {
         String jsonString = "[18.5, 23.9, 30.2]";
-        Position objectContent = objectMapper.readValue(jsonString, Position.class);
+        Position objectContent = JSON_MAPPER.readValue(jsonString, Position.class);
         assertThat(objectContent).isNotNull()
                 .satisfies(obj -> assertThat(obj.getLongitude()).isEqualTo(18.5))
                 .satisfies(obj -> assertThat(obj.getLatitude()).isEqualTo(23.9))
@@ -57,9 +57,9 @@ class PositionTest {
     }
 
     @Test
-    void deserialization_withMandatoryValues() throws Exception {
+    void deserialization_withMandatoryValues() {
         String jsonString = "[24.1, 56.3]";
-        Position objectContent = objectMapper.readValue(jsonString, Position.class);
+        Position objectContent = JSON_MAPPER.readValue(jsonString, Position.class);
         assertThat(objectContent).isNotNull()
                 .satisfies(obj -> assertThat(obj.getLongitude()).isEqualTo(24.1))
                 .satisfies(obj -> assertThat(obj.getLatitude()).isEqualTo(56.3))
@@ -68,15 +68,15 @@ class PositionTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"[24.1]", "[]", "[1, 2, 3, 4]", "[-190, 90]", "[100.0, -180]", "[190, 74]", "[80.0, 98.0]"})
-    void deserialization_withInvalidValues_shouldThrowSerializationError(String jsonString) throws Exception {
-        Position position = objectMapper.readValue(jsonString, Position.class);
+    void deserialization_withInvalidValues_shouldThrowSerializationError(String jsonString) {
+        Position position = JSON_MAPPER.readValue(jsonString, Position.class);
         assertThat(position).isNotNull().extracting(Position::isValid).isEqualTo(false);
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"[invalid]", "0", "c", "", " "})
     void deserialization_withInvalidValues_shouldBeDeserializable_withInvalidStatus(String jsonString) {
-        assertThrows(JsonProcessingException.class, () -> objectMapper.readValue(jsonString, Position.class));
+        assertThrows(JacksonException.class, () -> JSON_MAPPER.readValue(jsonString, Position.class));
     }
 
     @ParameterizedTest
