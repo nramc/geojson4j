@@ -9,7 +9,7 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=nramc_geojson4j&metric=coverage)](https://sonarcloud.io/summary/new_code?id=nramc_geojson4j)
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.nramc/geojson4j?style=flat&logo=apachemaven&logoColor=%23C71A36&color=%2303C75A)](https://mvnrepository.com/artifact/io.github.nramc/geojson4j)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Java](https://img.shields.io/badge/Java-21-orange?logo=openjdk)](https://openjdk.org/projects/jdk/21/)
+[![Java](https://img.shields.io/badge/Java-25-orange?logo=openjdk)](https://openjdk.org/projects/jdk/21/)
 
 [Getting Started](#installation) · [Usage](#usage) · [API Reference](#api-reference) · [Contributing](#contributing)
 
@@ -51,7 +51,7 @@ serialize all standard GeoJSON types using a fluent, type-safe API built on top 
 
 ## Installation
 
-**Requirements:** Java 21+, Maven or Gradle
+**Requirements:** Java 25+, Maven or Gradle
 
 ### Maven
 
