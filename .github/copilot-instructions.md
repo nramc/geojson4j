@@ -1,7 +1,7 @@
 # Copilot Instructions for `geojson4j`
 
 ## Scope
-- This repository is a Java 25 GeoJSON (RFC 7946) domain library.
+- This repository is a Java 21 GeoJSON (RFC 7946) domain library.
 - Prioritize correctness of GeoJSON modeling, validation behavior, and Jackson compatibility over broad refactors.
 
 ## Architecture Rules

@@ -1,7 +1,7 @@
 # AGENTS.md
 
 ## Purpose
-- `geojson4j` is a Java 25 library that models RFC 7946 GeoJSON objects and validates them.
+- `geojson4j` is a Java 21 library that models RFC 7946 GeoJSON objects and validates them.
 - AI agent rule files in this repo: `.github/copilot-instructions.md` (Copilot-specific), `AGENTS.md` (this file).
 ## Architecture (Read This First)
 - Core model lives in `src/main/java/com/github/nramc/geojson/domain`.
