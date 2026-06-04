@@ -24,84 +24,84 @@ import static com.github.nramc.geojson.constant.GeoJsonType.POINT;
 import static com.github.nramc.geojson.constant.GeoJsonType.POLYGON;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import tools.jackson.databind.json.JsonMapper;
 
 class GeometryTest {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final JsonMapper JSON_MAPPER = new JsonMapper();
 
     @Test
-    void deserialization_withPoint() throws Exception {
+    void deserialization_withPoint() {
         String json = """
                 { "type": "Point", "coordinates": [100.0, 0.0] }""";
-        Geometry geometry = objectMapper.readValue(json, Geometry.class);
+        Geometry geometry = JSON_MAPPER.readValue(json, Geometry.class);
         assertThat(geometry).isNotNull()
                 .satisfies(obj -> assertThat(obj.getType()).isEqualTo(POINT))
                 .isInstanceOf(Point.class);
     }
 
     @Test
-    void deserialization_withMultiPoint() throws Exception {
+    void deserialization_withMultiPoint() {
         String json = """
                 { "type": "MultiPoint", "coordinates": [ [100.0, 0.0], [101.0, 1.0] ] }""";
-        Geometry geometry = objectMapper.readValue(json, Geometry.class);
+        Geometry geometry = JSON_MAPPER.readValue(json, Geometry.class);
         assertThat(geometry).isNotNull()
                 .satisfies(obj -> assertThat(obj.getType()).isEqualTo(MULTI_POINT))
                 .isInstanceOf(MultiPoint.class);
     }
 
     @Test
-    void deserialization_withLineString() throws Exception {
+    void deserialization_withLineString() {
         String json = """
                 { "type": "LineString", "coordinates": [ [101.0, 0.0], [102.0, 1.0] ] }""";
-        Geometry geometry = objectMapper.readValue(json, Geometry.class);
+        Geometry geometry = JSON_MAPPER.readValue(json, Geometry.class);
         assertThat(geometry).isNotNull()
                 .satisfies(obj -> assertThat(obj.getType()).isEqualTo(LINE_STRING))
                 .isInstanceOf(LineString.class);
     }
 
     @Test
-    void deserialization_withMultiLineString() throws Exception {
+    void deserialization_withMultiLineString() {
         String json = """
                 { "type": "MultiLineString", "coordinates": [ [ [100.0, 0.0], [101.0, 1.0] ], [ [102.0, 2.0], [103.0, 3.0] ] ] }""";
-        Geometry geometry = objectMapper.readValue(json, Geometry.class);
+        Geometry geometry = JSON_MAPPER.readValue(json, Geometry.class);
         assertThat(geometry).isNotNull()
                 .satisfies(obj -> assertThat(obj.getType()).isEqualTo(MULTI_LINE_STRING))
                 .isInstanceOf(MultiLineString.class);
     }
 
     @Test
-    void deserialization_withPolygonAndWithoutHoles() throws Exception {
+    void deserialization_withPolygonAndWithoutHoles() {
         String json = """
                 {"type": "Polygon", "coordinates": [[[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0]]]}""";
-        Geometry geometry = objectMapper.readValue(json, Geometry.class);
+        Geometry geometry = JSON_MAPPER.readValue(json, Geometry.class);
         assertThat(geometry).isNotNull()
                 .satisfies(obj -> assertThat(obj.getType()).isEqualTo(POLYGON))
                 .isInstanceOf(Polygon.class);
     }
 
     @Test
-    void deserialization_withPolygonAndWithHoles() throws Exception {
+    void deserialization_withPolygonAndWithHoles() {
         String json = """
                 { "type": "Polygon", "coordinates": [[[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0]], [[100.8, 0.8], [100.8, 0.2], [100.2, 0.2], [100.2, 0.8], [100.8, 0.8]]] }""";
-        Geometry geometry = objectMapper.readValue(json, Geometry.class);
+        Geometry geometry = JSON_MAPPER.readValue(json, Geometry.class);
         assertThat(geometry).isNotNull()
                 .satisfies(obj -> assertThat(obj.getType()).isEqualTo(POLYGON))
                 .isInstanceOf(Polygon.class);
     }
 
     @Test
-    void deserialization_withMultiPolygon() throws Exception {
+    void deserialization_withMultiPolygon() {
         String json = """
                 {"type": "MultiPolygon", "coordinates": [[[[102.0, 2.0], [103.0, 2.0], [103.0, 3.0], [102.0, 3.0], [102.0, 2.0]]], [[[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0]], [[100.2, 0.2], [100.2, 0.8], [100.8, 0.8], [100.8, 0.2], [100.2, 0.2]]]]}""";
-        Geometry geometry = objectMapper.readValue(json, Geometry.class);
+        Geometry geometry = JSON_MAPPER.readValue(json, Geometry.class);
         assertThat(geometry).isNotNull()
                 .satisfies(obj -> assertThat(obj.getType()).isEqualTo(MULTI_POLYGON))
                 .isInstanceOf(MultiPolygon.class);
     }
 
     @Test
-    void deserialization_withGeometryCollection() throws Exception {
+    void deserialization_withGeometryCollection() {
         String json = """
                 {
                   "type": "GeometryCollection",
@@ -115,7 +115,7 @@ class GeometryTest {
                     {"type": "MultiPolygon", "coordinates": [[[[102.0, 2.0], [103.0, 2.0], [103.0, 3.0], [102.0, 3.0], [102.0, 2.0]]], [[[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0]], [[100.2, 0.2], [100.2, 0.8], [100.8, 0.8], [100.8, 0.2], [100.2, 0.2]]]]}
                   ]
                 }""";
-        Geometry geometry = objectMapper.readValue(json, Geometry.class);
+        Geometry geometry = JSON_MAPPER.readValue(json, Geometry.class);
         assertThat(geometry).isNotNull()
                 .satisfies(obj -> assertThat(obj.getType()).isEqualTo(GEOMETRY_COLLECTION))
                 .isInstanceOf(GeometryCollection.class);

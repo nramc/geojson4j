@@ -19,7 +19,6 @@ import static com.github.nramc.geojson.constant.GeoJsonType.MULTI_LINE_STRING;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.nramc.geojson.validator.GeoJsonValidationException;
 import java.util.List;
 import java.util.stream.Stream;
@@ -29,16 +28,17 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
+import tools.jackson.databind.json.JsonMapper;
 
 
 class MultiLineStringTest {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final JsonMapper JSON_MAPPER = new JsonMapper();
 
     @Test
-    void deserialization_withValidLongitudeAndLatitude_shouldCreateValidObject() throws Exception {
+    void deserialization_withValidLongitudeAndLatitude_shouldCreateValidObject() {
         String json = """
                 { "type": "MultiLineString", "coordinates": [ [ [100.0, 0.0], [101.0, 1.0] ], [ [102.0, 2.0], [103.0, 3.0] ], [ [104.0, 4.0], [105.0, 5.0] ], [ [106.0, 6.0], [107.0, 7.0] ], [ [108.0, 8.0], [109.0, 9.0] ] ] }""";
-        assertThat(objectMapper.readValue(json, MultiLineString.class))
+        assertThat(JSON_MAPPER.readValue(json, MultiLineString.class))
                 .isNotNull()
                 .satisfies(obj -> assertThat(obj.getType()).isEqualTo(MULTI_LINE_STRING))
                 .satisfies(obj -> assertThat(obj.isValid()).isTrue())
@@ -54,10 +54,10 @@ class MultiLineStringTest {
     }
 
     @Test
-    void deserialization_withValidLongitudeAndLatitudeAndAltitude_shouldCreateValidObject() throws Exception {
+    void deserialization_withValidLongitudeAndLatitudeAndAltitude_shouldCreateValidObject() {
         String json = """
                 { "type": "MultiLineString", "coordinates": [ [ [100.0, 0.0, 0], [101.0, 1.0, 1] ], [ [102.0, 2.0, 2], [103.0, 3.0, 3] ], [ [104.0, 4.0, 4], [105.0, 5.0, 5] ], [ [106.0, 6.0, 6], [107.0, 7.0, 7] ], [ [108.0, 8.0, 8], [109.0, 9.0, 9] ] ] }""";
-        assertThat(objectMapper.readValue(json, MultiLineString.class))
+        assertThat(JSON_MAPPER.readValue(json, MultiLineString.class))
                 .isNotNull()
                 .satisfies(obj -> assertThat(obj.getType()).isEqualTo(MULTI_LINE_STRING))
                 .satisfies(obj -> assertThat(obj.isValid()).isTrue())
@@ -82,8 +82,8 @@ class MultiLineStringTest {
                     coordinates;        coordinates.latitude.invalid;       { "type": "MultiLineString", "coordinates": [ [ [100.0, -95.0, 1000], [101.0, 1.0, 1000] ], [ [102.0, 2.0, 1000], [103.0, 3.0, 1000] ], [ [104.0, 4.0, 1000], [105.0, 5.0, 1000] ], [ [106.0, 6.0, 1000], [107.0, 7.0, 1000] ], [ [108.0, 8.0, 1000], [109.0, 9.0, 1000] ] ] }
             """
     )
-    void deserialization_withInvalidData_shouldCreateObjectWithInvalidStatus(String expectedErrorField, String expectedErrorKey, String json) throws Exception {
-        assertThat(objectMapper.readValue(json, MultiLineString.class)).isNotNull()
+    void deserialization_withInvalidData_shouldCreateObjectWithInvalidStatus(String expectedErrorField, String expectedErrorKey, String json) {
+        assertThat(JSON_MAPPER.readValue(json, MultiLineString.class)).isNotNull()
                 .satisfies(multiLineString -> assertThat(multiLineString.getType()).isEqualTo("MultiLineString"))
                 .satisfies(multiLineString -> assertThat(multiLineString.getCoordinates()).isNotNull())
                 .satisfies(multiLineString -> assertThat(multiLineString.isValid()).isFalse())
@@ -108,8 +108,8 @@ class MultiLineStringTest {
                     coordinates;        coordinates.latitude.invalid;       { "type": "MultiLineString", "coordinates": [ [ [100.0, -95.0, 1000], [101.0, 1.0, 1000] ], [ [102.0, 2.0, 1000], [103.0, 3.0, 1000] ], [ [104.0, 4.0, 1000], [105.0, 5.0, 1000] ], [ [106.0, 6.0, 1000], [107.0, 7.0, 1000] ], [ [108.0, 8.0, 1000], [109.0, 9.0, 1000] ] ] }
             """
     )
-    void deserialization_withInvalidData_andWithBaseTypeGeometry_shouldCreateObjectWithInvalidStatus(String expectedErrorField, String expectedErrorKey, String json) throws Exception {
-        assertThat(objectMapper.readValue(json, Geometry.class)).isNotNull()
+    void deserialization_withInvalidData_andWithBaseTypeGeometry_shouldCreateObjectWithInvalidStatus(String expectedErrorField, String expectedErrorKey, String json) {
+        assertThat(JSON_MAPPER.readValue(json, Geometry.class)).isNotNull()
                 .satisfies(multiLineString -> assertThat(multiLineString.getType()).isEqualTo("MultiLineString"))
                 .satisfies(multiLineString -> assertThat(multiLineString.isValid()).isFalse())
                 .satisfies(multiLineString -> assertThat(multiLineString.validate())
@@ -133,8 +133,8 @@ class MultiLineStringTest {
                     coordinates;        coordinates.latitude.invalid;       { "type": "MultiLineString", "coordinates": [ [ [100.0, -95.0, 1000], [101.0, 1.0, 1000] ], [ [102.0, 2.0, 1000], [103.0, 3.0, 1000] ], [ [104.0, 4.0, 1000], [105.0, 5.0, 1000] ], [ [106.0, 6.0, 1000], [107.0, 7.0, 1000] ], [ [108.0, 8.0, 1000], [109.0, 9.0, 1000] ] ] }
             """
     )
-    void deserialization_withInvalidData_withBaseTypeGeoJson_shouldCreateObjectWithInvalidStatus(String expectedErrorField, String expectedErrorKey, String json) throws Exception {
-        assertThat(objectMapper.readValue(json, GeoJson.class)).isNotNull()
+    void deserialization_withInvalidData_withBaseTypeGeoJson_shouldCreateObjectWithInvalidStatus(String expectedErrorField, String expectedErrorKey, String json) {
+        assertThat(JSON_MAPPER.readValue(json, GeoJson.class)).isNotNull()
                 .satisfies(multiLineString -> assertThat(multiLineString.getType()).isEqualTo("MultiLineString"))
                 .satisfies(multiLineString -> assertThat(multiLineString.isValid()).isFalse())
                 .satisfies(multiLineString -> assertThat(multiLineString.validate())
@@ -248,7 +248,7 @@ class MultiLineStringTest {
     }
 
     @Test
-    void serialization_withValidLongitudeAndLatitudeAndAltitude_shouldCreateValidGeoJson() throws Exception {
+    void serialization_withValidLongitudeAndLatitudeAndAltitude_shouldCreateValidGeoJson() {
         MultiLineString multiLineString = MultiLineString.of(
                 List.of(Position.of(100, 0, 0), Position.of(101, 1, 1)),
                 List.of(Position.of(102, 2, 2), Position.of(103, 3, 3)),
@@ -257,13 +257,13 @@ class MultiLineStringTest {
                 List.of(Position.of(108, 8, 8), Position.of(109, 9, 9))
         );
 
-        String jsonContent = objectMapper.writeValueAsString(multiLineString);
+        String jsonContent = JSON_MAPPER.writeValueAsString(multiLineString);
         assertThat(jsonContent).isEqualToIgnoringWhitespace("""
                 { "type": "MultiLineString", "coordinates": [ [ [100.0, 0.0, 0.0], [101.0, 1.0, 1.0] ], [ [102.0, 2.0, 2.0], [103.0, 3.0, 3.0] ], [ [104.0, 4.0, 4.0], [105.0, 5.0, 5.0] ], [ [106.0, 6.0, 6.0], [107.0, 7.0, 7.0] ], [ [108.0, 8.0, 8.0], [109.0, 9.0, 9.0] ] ] }""");
     }
 
     @Test
-    void serialization_withValidLongitudeAndLatitude_shouldCreateValidGeoJso() throws Exception {
+    void serialization_withValidLongitudeAndLatitude_shouldCreateValidGeoJso() {
         MultiLineString multiLineString = MultiLineString.of(
                 List.of(Position.of(100, 0), Position.of(101, 1)),
                 List.of(Position.of(102, 2), Position.of(103, 3)),
@@ -272,7 +272,7 @@ class MultiLineStringTest {
                 List.of(Position.of(108, 8), Position.of(109, 9))
         );
 
-        String jsonContent = objectMapper.writeValueAsString(multiLineString);
+        String jsonContent = JSON_MAPPER.writeValueAsString(multiLineString);
         assertThat(jsonContent).isEqualToIgnoringWhitespace("""
                 { "type": "MultiLineString", "coordinates": [ [ [100.0, 0.0], [101.0, 1.0] ], [ [102.0, 2.0], [103.0, 3.0] ], [ [104.0, 4.0], [105.0, 5.0] ], [ [106.0, 6.0], [107.0, 7.0] ], [ [108.0, 8.0], [109.0, 9.0] ] ] }""");
     }

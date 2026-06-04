@@ -18,7 +18,6 @@ package com.github.nramc.geojson.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.nramc.geojson.validator.GeoJsonValidationException;
 import java.util.List;
 import java.util.stream.Stream;
@@ -28,16 +27,17 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
+import tools.jackson.databind.json.JsonMapper;
 
 
 class PolygonCoordinatesTest {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final JsonMapper JSON_MAPPER = new JsonMapper();
 
     @Test
-    void deserialization_withValidExterior_andEmptyHoles_shouldCreateValidObject() throws Exception {
+    void deserialization_withValidExterior_andEmptyHoles_shouldCreateValidObject() {
         String jsonContent = """
                 [ [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ] ]""";
-        assertThat(objectMapper.readValue(jsonContent, PolygonCoordinates.class)).isNotNull()
+        assertThat(JSON_MAPPER.readValue(jsonContent, PolygonCoordinates.class)).isNotNull()
                 .satisfies(obj -> assertThat(obj.isValid()).isTrue())
                 .satisfies(obj -> assertThat(obj.getExterior()).isNotNull().asInstanceOf(InstanceOfAssertFactories.LIST).hasSize(5)
                         .containsExactly(
@@ -52,13 +52,13 @@ class PolygonCoordinatesTest {
     }
 
     @Test
-    void deserialization_withValidExterior_andWithValidHoles_shouldCreateValidObject() throws Exception {
+    void deserialization_withValidExterior_andWithValidHoles_shouldCreateValidObject() {
         String jsonContent = """
                 [
                  [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ],
                  [ [100.8, 0.8], [100.8, 0.2], [100.2, 0.2], [100.2, 0.8], [100.8, 0.8] ]
                 ]""";
-        assertThat(objectMapper.readValue(jsonContent, PolygonCoordinates.class)).isNotNull()
+        assertThat(JSON_MAPPER.readValue(jsonContent, PolygonCoordinates.class)).isNotNull()
                 .satisfies(obj -> assertThat(obj.isValid()).isTrue())
                 .satisfies(obj -> assertThat(obj.getExterior()).isNotNull().asInstanceOf(InstanceOfAssertFactories.LIST).hasSize(5)
                         .containsExactly(
@@ -89,8 +89,8 @@ class PolygonCoordinatesTest {
             coordinates.longitude.invalid;    [ [ [100.0, 0.0], [200.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ], [ [100.8, 0.8], [100.8, 0.2], [100.2, 0.2], [100.2, 0.8], [100.8, 0.8] ] ]
             coordinates.latitude.invalid;    [ [ [100.0, 0.0], [101.0, 200.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ], [ [100.8, 0.8], [100.8, 0.2], [100.2, 0.2], [100.2, 0.8], [100.8, 0.8] ] ]
             """)
-    void deserialization_withInvalidJson_shouldCreateObjectWithInvalidState(String expectedErrorKey, String json) throws Exception {
-        assertThat(objectMapper.readValue(json, PolygonCoordinates.class)).isNotNull()
+    void deserialization_withInvalidJson_shouldCreateObjectWithInvalidState(String expectedErrorKey, String json) {
+        assertThat(JSON_MAPPER.readValue(json, PolygonCoordinates.class)).isNotNull()
                 .satisfies(obj -> assertThat(obj.isValid()).isFalse())
                 .satisfies(obj -> assertThat(obj.getCoordinates()).isNotNull())
                 .satisfies(obj -> assertThat(obj.validate()).isNotNull()
@@ -170,7 +170,7 @@ class PolygonCoordinatesTest {
     }
 
     @Test
-    void serialisation_withExterior_andWithoutHoles_shouldCreateValidGeoJson() throws Exception {
+    void serialisation_withExterior_andWithoutHoles_shouldCreateValidGeoJson() {
         List<Position> exteriorRing = List.of(
                 Position.of(100, 0),
                 Position.of(101, 0),
@@ -179,13 +179,13 @@ class PolygonCoordinatesTest {
                 Position.of(100, 0)
         );
         PolygonCoordinates coordinates = PolygonCoordinates.of(exteriorRing);
-        String jsonContent = objectMapper.writeValueAsString(coordinates);
+        String jsonContent = JSON_MAPPER.writeValueAsString(coordinates);
         assertThat(jsonContent).isEqualToIgnoringWhitespace("""
                 [ [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ] ]""");
     }
 
     @Test
-    void serialization_withHoles_shouldCreateValidJson() throws Exception {
+    void serialization_withHoles_shouldCreateValidJson() {
         List<Position> exteriorRing = List.of(
                 Position.of(100, 0),
                 Position.of(101, 0),
@@ -202,7 +202,7 @@ class PolygonCoordinatesTest {
         );
 
         PolygonCoordinates polygonCoordinates = PolygonCoordinates.of(exteriorRing, hole);
-        String jsonContent = objectMapper.writeValueAsString(polygonCoordinates);
+        String jsonContent = JSON_MAPPER.writeValueAsString(polygonCoordinates);
 
         assertThat(jsonContent).isEqualToIgnoringWhitespace("""
                 [
